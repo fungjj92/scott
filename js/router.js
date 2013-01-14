@@ -11,7 +11,7 @@ define([
       'applications': 'applications',
 
       // Everything about one application
-      'applications/:permitApplicationNumber': 'application'
+      'applications/:permitApplicationNumber': 'application',
 
       // Homepage/dashboard for everything else
       '*actions': 'defaultAction'
