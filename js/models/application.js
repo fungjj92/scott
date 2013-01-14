@@ -3,8 +3,11 @@ define([
   'backbone'
 ], function(_, Backbone) {
   var applicationModel = Backbone.Model.extend({
-    defaults: {
-      score: 10
+    urlRoot: '/applications',
+    validate: function( attributes ){
+      if( attributes.acreage < 0 ){
+        return "The acreage must be positive.";
+      }
     },
     initialize: function(){
     }
