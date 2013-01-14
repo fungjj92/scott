@@ -2,7 +2,7 @@ define([
   'lodash',
   'backbone'
 ], function(_, Backbone) {
-  var applicationsModel = Backbone.Model.extend({
+  var applicationModel = Backbone.Model.extend({
     defaults: {
       score: 10
     },
@@ -10,6 +10,5 @@ define([
     }
 
   });
-  return applicationsModel;
-
+  return applicationModel;
 });
