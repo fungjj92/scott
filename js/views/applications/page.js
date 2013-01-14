@@ -2,13 +2,13 @@ define([
   'jquery',
   'lodash',
   'backbone',
-  'text!templates/optimize/page.html'
-], function($, _, Backbone, optimizePageTemplate){
-  var OptimizePage = Backbone.View.extend({
+  'text!templates/applications/page.html'
+], function($, _, Backbone, applicationsPageTemplate){
+  var ApplicationsPage = Backbone.View.extend({
     el: '.page',
     render: function () {
-      this.$el.html(optimizePageTemplate);
+      this.$el.html(applicationsPageTemplate);
     }
   });
-  return OptimizePage;
+  return ApplicationsPage;
 });

@@ -3,21 +3,21 @@ define([
   'lodash',
   'backbone',
   'vm',
-  'text!templates/backbone/page.html',
-  'views/backbone/sidemenu',
-  'views/backbone/section'
-], function($, _, Backbone, Vm, backbonePageTemplate, SidemenuView, SectionView){
-  var BackbonePage = Backbone.View.extend({
+  'text!templates/application/page.html',
+  'views/application/sidemenu',
+  'views/application/section'
+], function($, _, Backbone, Vm, applicationPageTemplate, SidemenuView, SectionView){
+  var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
-      this.$el.html(backbonePageTemplate);
+      this.$el.html(applicationPageTemplate);
       
-      var sidemenuView = Vm.create(this, 'BackboneSideMenuView', SidemenuView);
+      var sidemenuView = Vm.create(this, 'ApplicationSideMenuView', SidemenuView);
       sidemenuView.render();
       
-      var sectionView = Vm.create(this, 'BackboneSectionView', SectionView, {section: this.options.section});
+      var sectionView = Vm.create(this, 'ApplicationSectionView', SectionView, {permitApplicationNumber: this.options.permitApplicationNumber});
       sectionView.render();
     }
   });
-  return BackbonePage;
+  return ApplicationPage;
 });
