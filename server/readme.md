@@ -7,6 +7,7 @@ The paths are explained in some drawing.
 
 Copy `test.db` to `/tmp/wetlands.db`, run the migrations, then run the tests.
 
-    cp test.db /tmp/wetlands.db
-    sqlite3 /tmp/wetlands.db < migrate.sql
+    rm -f /tmp/wetlands.db
+    sqlite3 /tmp/wetlands.db < schema.sql
+    sqlite3 /tmp/wetlands.db < fixture.sql
     vows test.coffee
