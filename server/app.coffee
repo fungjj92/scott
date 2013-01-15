@@ -9,19 +9,21 @@ server = restify.createServer()
 # SELECT * FROM application WHERE permitApplicationNumber = ?;
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
-  db = new sqlite3.Database '/tmp/wetlands.db'
-    statement =
-    db.run "UPDATE application SET '%(key)s' = '%(value)s' WHERE permitApplicationNumber = ?", (err, row) ->
-      console.log row
-      res.send 200
-      return next()
+  return next()
+
+# db = new sqlite3.Database '/tmp/wetlands.db'
+#   db.run "UPDATE application SET '%(key)s' = '%(value)s' WHERE permitApplicationNumber = ?", (err, row) ->
+#     console.log row
+#     res.send 200
+#     return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
-    db.each "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1", (err, row) ->
-      console.log row
-      res.send 200
-      return next()
+  sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1"
+  db.get sql, req.params.permitApplicationNumber, (err, row) ->
+    console.log row
+    res.send 200
+    return next()
 
 # Convert this into a list of json dicts.
 # SELECT * FROM application;
