@@ -4,19 +4,19 @@ define([
   'backbone',
   'vm',
   'text!templates/application/page.html',
-  'views/application/sidemenu',
-  'views/application/section'
-], function($, _, Backbone, Vm, applicationPageTemplate, SidemenuView, SectionView){
+  'views/application/location',
+  'views/application/acreage'
+], function($, _, Backbone, Vm, applicationPageTemplate, LocationView, AcreageView){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
       this.$el.html(applicationPageTemplate);
       
-      var sidemenuView = Vm.create(this, 'ApplicationSideMenuView', SidemenuView);
-      sidemenuView.render();
+      var locationView = Vm.create(this, 'ApplicationLocationView', LocationView);
+      locationView.render();
       
-      var sectionView = Vm.create(this, 'ApplicationSectionView', SectionView, {permitApplicationNumber: this.options.permitApplicationNumber});
-      sectionView.render();
+      var acreageView = Vm.create(this, 'ApplicationAcreageView', AcreageView, {permitApplicationNumber: this.options.permitApplicationNumber});
+      acreageView.render();
     }
   });
   return ApplicationPage;
