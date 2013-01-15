@@ -12,7 +12,8 @@
     "node": "~0.8.16"
   },
   "dependencies": {
-    "restify": "~2.0.4"
+    "restify": "~2.0.4",
+    "sqlite": "1.0.4"
   },
   "devDependencies": {},
   "optionalDependencies": {}
