@@ -8,7 +8,7 @@ suite.discuss('When I request the applications list,')
 
   .get('/applications/MVN-2012-1266-CU', { test: 'data' })
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
-    assert.equal (JSON.parse body), {
+    expectation = {
       # Bookkeeping
       'permitApplicationNumber': "MVN-2012-1266-CU",
       'pdfParsed': 1,
@@ -33,6 +33,8 @@ suite.discuss('When I request the applications list,')
       'flagged': 0,
       'acreage': null
     }
+    for key in expectation
+      assert.equal (JSON.parse body)[key], expectation[key]
   )
 
   .export module
