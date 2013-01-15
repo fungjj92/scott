@@ -26,7 +26,7 @@ KEYS = [
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   # Validation
 
-  KEYS.map (key) ->
+  for key in KEYS
     # The second thing is always a regular expression.
     if req.query[key[0]] && req.query[key[0]].match key[1]
       console.log req.query[key[0]]
