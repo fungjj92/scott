@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "restify": "~2.0.4",
-    "sqlite": "1.0.4"
+    "sqlite3": "~2.1.5"
   },
   "devDependencies": {},
   "optionalDependencies": {}
