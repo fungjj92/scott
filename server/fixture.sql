@@ -20,9 +20,9 @@ INSERT INTO application VALUES (
   -- Manual
   NULL,
   NULL,
+  NULL,
   '',
   '',
-  0,
-  NULL
+  0
 );
 
