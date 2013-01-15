@@ -6,22 +6,20 @@ suite.discuss('When I request the applications list,')
   .use('localhost', 8080)
   .setHeader('Content-Type', 'application/json')
 
-  # Slash versions
-  .get('/applications/', { test: 'data' })
-  .expect(200, { ok: true })
+# # Slash versions
+# .get('/applications/', { test: 'data' })
+# .expect(200, { ok: true })
 
-  .get('/applications/MVN-2012-1266-CU/', { test: 'data' })
-  .expect(200, { ok: true })
+# .get('/applications/MVN-2012-1266-CU/', { test: 'data' })
+# .expect(200, { ok: true })
 
   # Non-slash versions
   .get('/applications', { test: 'data' })
-  .expect(200, { ok: true })
   .expect('should respond with a 1-record JSON list', (err, res, body) ->
     assert.equal (JSON.parse body).length, 1
   )
 
   .get('/applications/MVN-2012-1266-CU', { test: 'data' })
-  .expect(200, { ok: true })
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
     assert.equal (JSON.parse body), {
       # Bookkeeping
@@ -48,12 +46,10 @@ suite.discuss('When I request the applications list,')
     }
   )
 
-  .put('/applications/MVN-2012-1266-CU',
-    {projectManagerName: "Tom Levine", acreage: 0.4 },
-    { test: 'data' })
-  .expect(204, { ok: true })
-  .get('/applications/MVN-2012-1266-CU', { test: 'data' })
-  .expect(200, { ok: true })
+  .put('/applications/MVN-2012-1266-CU', {projectManagerName: "Tom Levine", acreage: 0.4 })
+  .expect(204)
+  .get('/applications/MVN-2012-1266-CU')
+  .expect(200)
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
     assert.equal (JSON.parse body), {
       # Bookkeeping
