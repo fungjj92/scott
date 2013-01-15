@@ -24,18 +24,20 @@ KEYS = [
 ]
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
-  # Validation
+  db = new sqlite3.Database '/tmp/wetlands.db'
 
+  # Maybe this should be a reduce that passes the db along.
   for key in KEYS
+    # Validation
     # The second thing is always a regular expression.
     if req.query[key[0]] && req.query[key[0]].match key[1]
       console.log req.query[key[0]]
+      sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+      db.run sql, req.query[key[0]], req.params.permitApplicationNumber
 
   res.send 200
   return next()
 
-# db = new sqlite3.Database '/tmp/wetlands.db'
-#   db.run "UPDATE application SET '%(key)s' = '%(value)s' WHERE permitApplicationNumber = ?", (err, row) ->
 #     console.log row
 #     res.send 200
 #     return next()
