@@ -21,7 +21,10 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1"
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
-    console.log row
+    if (row)
+      console.log row
+    else
+      console.log 'no permit with this number'
     res.send 200
     return next()
 
