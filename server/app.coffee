@@ -19,9 +19,9 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
-  sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1"
+  sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
-    if (row)
+    if row
       console.log row
     else
       console.log 'no permit with this number'
@@ -36,7 +36,11 @@ server.put '/applications', (req, res, next) ->
   return next()
 
 server.get '/applications', (req, res, next) ->
-  res.send 200
-  return next()
+  db = new sqlite3.Database '/tmp/wetlands.db'
+  sql = "SELECT * FROM application;"
+  db.all sql, (err, rows) ->
+    console.log rows
+    res.send 200
+    return next()
 
 server.listen 8080
