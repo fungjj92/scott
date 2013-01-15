@@ -9,7 +9,7 @@ server.use (restify.queryParser { mapParams: false })
 
 # ORM alternative
 KEYS = [
-  ["applicant", /^.*$/,
+  ["applicant", /^.*$/],
   ["projectDescription", /^.*$/],
   ["projectManagerPhone", /^.*$/],
   ["projectManagerEmail", /^.*$/],
