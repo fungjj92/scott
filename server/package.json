@@ -1,0 +1,19 @@
+{
+  "author": "Thomas Levine (thomaslevine.com)",
+  "name": "scott-server",
+  "description": "Wetlands permit application data",
+  "version": "0.0.0",
+  "homepage": "http://thomaslevine.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tlevine/scott.git"
+  },
+  "engines": {
+    "node": "~0.8.16"
+  },
+  "dependencies": {
+    "restify": "~2.0.4"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
