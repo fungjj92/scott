@@ -34,7 +34,8 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       console.log req.query[key[0]]
       sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
       db.run sql, req.query[key[0]], req.params.permitApplicationNumber
-  res.status(204)
+
+  res.send 204
   return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
