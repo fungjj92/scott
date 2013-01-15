@@ -34,8 +34,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       console.log req.query[key[0]]
       sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
       db.run sql, req.query[key[0]], req.params.permitApplicationNumber
-
-  res.send 200
+  res.status(204)
   return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
@@ -43,18 +42,16 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
     if row
-      console.log row
+      res.send row
+      return next()
     else
-      console.log 'no permit with this number'
-    res.send 200
-    return next()
+      return next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
 server.get '/applications', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
-    console.log rows
-    res.send 200
+    res.send rows
     return next()
 
 server.listen 8080
