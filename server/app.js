@@ -13,6 +13,8 @@ server.get('/applications/:permitApplicationNumber', function (req, res, next) {
     return next()
 })
 
+// Convert this into a json dict.
+// SELECT * FROM application;
 server.put('/applications', function (req, res, next) {
     res.send(200)
     return next()
