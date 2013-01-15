@@ -9,18 +9,18 @@ server.use (restify.queryParser { mapParams: false })
 
 # ORM alternative
 KEYS = [
-  ["applicant", /./],
-  ["projectDescription", /./],
-  ["projectManagerPhone", /./],
-  ["projectManagerEmail", /./],
-  ["projectManagerName", /./],
-  ["acreage", /./],
-  ["CUP", /./],
-  ["WQC", /./],
-  ["parish", /./],
-  ["expirationDate", /./],
-  ["longitude", /./],
-  ["latitude", /./]
+  ["applicant", /^.*$/,
+  ["projectDescription", /^.*$/],
+  ["projectManagerPhone", /^.*$/],
+  ["projectManagerEmail", /^.*$/],
+  ["projectManagerName", /^.*$/],
+  ["acreage", /^[0-9.]*$/],
+  ["CUP", /^.*$/],
+  ["WQC", /^.*$/],
+  ["parish", /^(list|of|parishes)$/],
+  ["expirationDate", /^.*$/],
+  ["longitude", /^[0-9.]*$/],
+  ["latitude", /^[0-9.]*$/]
 ]
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
