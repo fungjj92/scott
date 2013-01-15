@@ -10,17 +10,17 @@ suite.discuss('When I request the applications list,')
   .get('/applications/', { test: 'data' })
   .expect(200, { ok: true })
 
-  .get('/applications/MVN-2012-00423-WII/', { test: 'data' })
+  .get('/applications/MVN-2012-1266-CU/', { test: 'data' })
   .expect(200, { ok: true })
 
   # Non-slash versions
   .get('/applications', { test: 'data' })
   .expect(200, { ok: true })
-  .expect('should respond with a 226-record JSON list', (err, res, body) ->
-    assert.equal (JSON.parse body).length, 226
+  .expect('should respond with a 1-record JSON list', (err, res, body) ->
+    assert.equal (JSON.parse body).length, 1
   )
 
-  .get('/applications/MVN-2012-00423-WII', { test: 'data' })
+  .get('/applications/MVN-2012-1266-CU', { test: 'data' })
   .expect(200, { ok: true })
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
     assert.equal (JSON.parse body), {
@@ -48,11 +48,11 @@ suite.discuss('When I request the applications list,')
     }
   )
 
-  .put('/applications/MVN-2012-00423-WII',
+  .put('/applications/MVN-2012-1266-CU',
     {projectManagerName: "Tom Levine", acreage: 0.4 },
     { test: 'data' })
   .expect(204, { ok: true })
-  .get('/applications/MVN-2012-00423-WII', { test: 'data' })
+  .get('/applications/MVN-2012-1266-CU', { test: 'data' })
   .expect(200, { ok: true })
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
     assert.equal (JSON.parse body), {
