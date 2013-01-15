@@ -22,6 +22,8 @@ suite.discuss('When I request the applications list,')
       'publicNoticeDate': "2012-08-06",
       'expirationDate': "2012-09-05",
       'parish': "Ascension",
+      'CUP': '',
+      'WQC': '',
 
       # Manual
       'longitude': null,
