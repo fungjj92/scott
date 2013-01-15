@@ -1,4 +1,32 @@
-<div class="info automatic"></div>
+<hgroup>
+    <h2><%= projectDescription %></h2>
+    <p><%= permitApplicationNumber %></p>
+</hgroup>
+<div class="identifiers automatic">
+    <label for="permitApplicationNumber">Permit Application Number</label>
+    <input type="text" name="permitApplicationNumber" readonly><%= permitApplicationNumber %></input>
+    <label for="CUP">CUP</label>
+    <input type="text" name="CUP" readonly><%= CUP %></input>
+    <label for="WQC">WQC</label>
+    <input type="text" name="WQC" readonly><%= WQC %></input>
+</div>
+<div class="projectManager automatic">
+    <h3>Project Manager</h3>
+    <label for="projectManagerName">Name</label>
+    <input type="text" name="projectManagerName" readonly><%= projectManagerPhone %></input>
+    <label for="projectManagerPhone">Phone</label>
+    <input type="text" name="projectManagerPhone" readonly><%= projectManagerPhone %></input>
+    <label for="projectManagerEmail">Email</label>
+    <input type="text" name="projectManagerEmail" readonly><%= projectManagerPhone %></input>
+</div>
+<div class="projectManager automatic">
+    <!-- "Says..Section.10.","Says..Section.404.","Says..Drill.","Says..Road.","Says..Mitigation.Bank.","Parish" -->
+    <label for="section10">Says "Section 10"</label>
+    <options>
+    </options>
+</div>
+<div class="info automatic">
+</div>
 <div class="notes manual"></div>
 <div class="location manual"></div>
 <div class="acreage manual"></div>
