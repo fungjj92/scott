@@ -1,6 +1,7 @@
 restify = require 'restify'
 sqlite3 = require 'sqlite3'
 # https://github.com/developmentseed/node-sqlite3/wiki/API
+async = require 'async'
 
 server = restify.createServer()
 
@@ -23,19 +24,23 @@ KEYS = [
   ["latitude", /^[0-9.]*$/]
 ]
 
+#alidate
+#   # Validation
+#   # The second thing is always a regular expression.
+#   if req.query[key[0]] && req.query[key[0]].match key[1]
+#     console.log req.query[key[0]]
+#     sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+#     db.run sql, req.query[key[0]], req.params.permitApplicationNumber
+
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
-  db = new sqlite3.Database '/tmp/wetlands.db'
+# db = new sqlite3.Database '/tmp/wetlands.db'
 
   # Maybe this should be a reduce that passes the db along.
-  for key in KEYS
-    # Validation
-    # The second thing is always a regular expression.
-    if req.query[key[0]] && req.query[key[0]].match key[1]
-      console.log req.query[key[0]]
-      sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-      db.run sql, req.query[key[0]], req.params.permitApplicationNumber
+  console.log req.params
+  console.log req.query
 
   res.send 204
+  res.send 'aoeu'
   return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
