@@ -54,4 +54,7 @@ server.get '/applications', (req, res, next) ->
     res.send rows
     return next()
 
+# Serve the client
+server.get /\/.*/, restify.serveStatic { directory: '../client' }
+
 server.listen 8080
