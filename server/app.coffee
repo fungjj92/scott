@@ -4,6 +4,10 @@ sqlite3 = require 'sqlite3'
 fs = require 'fs'
 node_static = require 'node-static'
 
+SETTINGS =
+  cache: 0
+  port: 8080
+
 server = restify.createServer()
 
 # Parse the body string to req.body
@@ -57,7 +61,7 @@ server.get '/applications', (req, res, next) ->
     return next()
 
 # Serve the client
-file = new node_static.Server('../client')
+file = new node_static.Server '../client', { cache: SETTINGS.cache }
 server.get /^.*$/, (a, b, c) ->
   file.serve a, b, c
-server.listen 8080
+server.listen SETTINGS.port
