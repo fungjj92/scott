@@ -13,6 +13,16 @@ server = restify.createServer()
 # Parse the body string to req.body
 server.use (restify.bodyParser { mapParams: false })
 
+logParams =
+  properties:
+    serializers:
+      req: (req) ->
+        method: req.method
+        url: req.url
+        headers: req.headers
+
+server.use (restify.requestLogger logParams)
+
 # ORM alternative
 KEYS = [
   ["applicant", /^.*$/],
