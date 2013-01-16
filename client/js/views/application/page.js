@@ -16,14 +16,14 @@ define([
       this.$model.fetch({
         success: function (collection, response, options) {
           page.$el.html(_.template(applicationPageTemplate, { application: page.$model }))
+
+          var locationView = Vm.create(this, 'ApplicationLocationView', LocationView, {permitApplicationNumber: page.options.permitApplicationNumber})
+          locationView.render()
+          
+          var acreageView = Vm.create(this, 'ApplicationAcreageView', AcreageView, {permitApplicationNumber: page.options.permitApplicationNumber})
+          acreageView.render()
         }
       })
-
-      var locationView = Vm.create(this, 'ApplicationLocationView', LocationView);
-      locationView.render();
-      
-      var acreageView = Vm.create(this, 'ApplicationAcreageView', AcreageView, {permitApplicationNumber: this.options.permitApplicationNumber});
-      acreageView.render();
     },
     update: function (e) {
       this.$model.set(e.currentTarget.name, e.currentTarget.value)
