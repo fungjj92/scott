@@ -32,19 +32,21 @@
     <a href="#" class="dnr">DNR</a>
 </div>
 <div class="notes">
-    <label for="status">Status</label>
-    <radiogroup name="status">
-        <radio value="toRead" label="To read"
-            selected=<%= application.get('status') == 'toRead' ? 'true' : 'false' %> />
-        <radio value="toComment" label="To comment"
-            selected=<%= application.get('status') == 'toComment' ? 'true' : 'false' %> />
-        <radio value="waiting" label="Waiting"
-            selected=<%= application.get('status') == 'waiting' ? 'true' : 'false' %> />
-        <radio value="toFOI" label="To FOI"
-            selected=<%= application.get('status') == 'toFOI' ? 'true' : 'false' %> />
-        <radio value="done" label="Done"
-            selected=<%= application.get('status') == 'done' ? 'true' : 'false' %> />
-    </radiogroup>
+    <label for="toRead">To read</label>
+    <input type="radio" name="status" value="" label="To read"
+        <%= application.get('status') == undefined ? 'checked' : '' %> />
+    <label for="toComment">To comment</label>
+    <input type="radio" name="status" value="toComment" label="To comment"
+        <%= application.get('status') == 'toComment' ? 'checked' : '' %> />
+    <label for="waiting">Waiting</label>
+    <input type="radio" name="status" value="waiting" label="Waiting"
+        <%= application.get('status') == 'waiting' ? 'checked' : '' %> />
+    <label for="toFOI">To FOI</label>
+    <input type="radio" name="status" value="toFOI" label="To FOI"
+        <%= application.get('status') == 'toFOI' ? 'checked' : '' %> />
+    <label for="done">Done</label>
+    <input type="radio" name="status" value="done" label="Done"
+        <%= application.get('status') == 'done' ? 'checked' : '' %> />
     <label for="flagged">Flagged</label>
     <input type="checkbox" name="flagged" />
     <label for="notes">Notes</label>
