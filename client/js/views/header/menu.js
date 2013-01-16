@@ -2,8 +2,9 @@ define([
   'jquery',
   'lodash',
   'backbone',
+  'models/session',
   'text!templates/header/menu.html'
-], function($, _, Backbone, headerMenuTemplate){
+], function($, _, Backbone, SessionModel, headerMenuTemplate){
   var HeaderMenuView = Backbone.View.extend({
     el: '.main-menu-container',
     initialize: function () {
