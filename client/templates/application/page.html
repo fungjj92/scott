@@ -10,6 +10,10 @@
     <input type="text" name="CUP" value="<%= application.get('CUP') %>" />
     <label for="WQC">WQC</label>
     <input type="text" name="WQC" value="<%= application.get('WQC') %>" />
+    <label for="publicNoticeDate">Public Notice Date</label>
+    <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" />
+    <label for="expirationDate">Expiration Date</label>
+    <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" />
 </div>
 <div class="projectManager">
     <h3>Project Manager</h3>
@@ -18,7 +22,7 @@
     <label for="projectManagerPhone">Phone</label>
     <input type="text" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" />
     <label for="projectManagerEmail">Email</label>
-    <input type="text" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" />
+    <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" />
 </div>
 <div class="documents">
     <h3>Documents</h3>
@@ -28,6 +32,8 @@
     <a href="#" class="dnr">DNR</a>
 </div>
 <div class="notes">
+    Status
+    Flagged
     <label for="notes">Notes</label>
     <input type="text" name="notes" value="<%= application.get('notes') %>" />
 </div>
@@ -52,5 +58,6 @@
     <label for="abstractDescription">Description</label>
     <textarea name="abstractDescription"><%= application.get('abstractDescription') %></textarea>
     <label for="acreage">Acreage</label>
-    <input type="text" name="acreage" value="<%= application.get('acreage') %>" />
+    <input type="number" name="acreage" value="<%= application.get('acreage') %>"
+        min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
 </div>

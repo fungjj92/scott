@@ -26,7 +26,7 @@ define([
       this.$model.save()
     },
     events: {
-      "change input[type=text]": "update",
+      "change input": "update",
       "change textarea": "update",
       "change select": "update"
     }
