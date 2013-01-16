@@ -21,6 +21,8 @@ server = restify.createServer()
 server.use (restify.bodyParser { mapParams: false })
 # server.use restify.gzipResponse()
 
+server.use (restify.authorizationParser())
+
 server.on 'after', restify.auditLogger
   log: bunyan.createLogger
     name: 'audit'
@@ -43,6 +45,9 @@ KEYS = [
 ]
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
+  if !req.authorization.basic || req.authorization.basic.password != 'chainsaw'
+    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
   db = new sqlite3.Database '/tmp/wetlands.db'
 
   # Maybe this should be a reduce that passes the db along.
