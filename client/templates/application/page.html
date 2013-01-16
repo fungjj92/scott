@@ -52,9 +52,10 @@
     <label for="flagged">Flagged</label>
     <input type="checkbox" name="flagged" />
     <label for="notes">Notes</label>
-    <input type="text" name="notes" value="<%= application.get('notes') %>" />
+    <textarea name="nates"><%= application.get('notes') %></textarea>
 </div>
-<div class="coordinates">
+<div class="where">
+    <h3>Where is it?</h3>
     <label for="parish">Parish</label>
     <select name="parish">
         <% _.each(parishes, function(parish) { %>
@@ -66,13 +67,14 @@
             Other/multiple/none
         </option>
     </select>
-    <label for="abstactLocation">Location</label>
+    <label for="abstactLocation">Location from the public notice</label>
     <textarea name="abstractLocation"><%= application.get('abstractLocation') %></textarea>
     <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
     <p>Click the map to mark the proposed development.</p>
 </div>
 <div class="acreage">
-    <label for="abstractDescription">Description</label>
+    <h3>Acreage</h3>
+    <label for="abstractDescription">Description from the public notice</label>
     <textarea name="abstractDescription"><%= application.get('abstractDescription') %></textarea>
     <label for="acreage">Acreage</label>
     <input type="number" name="acreage" value="<%= application.get('acreage') %>"
