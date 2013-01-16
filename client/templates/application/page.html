@@ -2,7 +2,8 @@
     <h2><%= application.get('projectDescription') %></h2>
     <p><%= application.get('permitApplicationNumber') %></p>
 </hgroup>
-<div class="identifiers automatic">
+<div class="identifiers">
+    <h3>Identity numbers</h3>
     <label for="permitApplicationNumber">Permit Application Number</label>
     <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
     <label for="CUP">CUP</label>
@@ -10,7 +11,7 @@
     <label for="WQC">WQC</label>
     <input type="text" name="WQC" value="<%= application.get('WQC') %>" />
 </div>
-<div class="projectManager automatic">
+<div class="projectManager">
     <h3>Project Manager</h3>
     <label for="projectManagerName">Name</label>
     <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" />
@@ -19,12 +20,13 @@
     <label for="projectManagerEmail">Email</label>
     <input type="text" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" />
 </div>
-<div class="automatic">
-    <options>
-    </options>
+<div class="documents">
+    <h3>Documents</h3>
+    <a href="#" class="public_notice">Public Notice</a>
+    <a href="#" class="drawings">Drawings</a>
+    <a href="#" class="deq">DEQ</a>
+    <a href="#" class="dnr">DNR</a>
 </div>
-<div class="info automatic">
-</div>
-<div class="notes manual"></div>
-<div class="location manual"></div>
-<div class="acreage manual"></div>
+<div class="notes"></div>
+<div class="location"></div>
+<div class="acreage"></div>
