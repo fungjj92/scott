@@ -11,15 +11,15 @@ define([
     initialize: function () {
     },
     render: function () {
-      var that = this;
+      var appView = this;
       $(this.el).html(layoutTemplate);
       require(['views/header/menu'], function (HeaderMenuView) {
-        var headerMenuView = Vm.create(that, 'HeaderMenuView', HeaderMenuView);
+        var headerMenuView = Vm.create(appView, 'HeaderMenuView', HeaderMenuView);
         headerMenuView.render();
       });
       require(['views/footer/footer'], function (FooterView) {
         // Pass the appView down into the footer so we can render the visualisation
-        var footerView = Vm.create(that, 'FooterView', FooterView, {appView: that});
+        var footerView = Vm.create(appView, 'FooterView', FooterView, {appView: appView});
         footerView.render();
       });
     

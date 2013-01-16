@@ -9,7 +9,7 @@ define([
     initialize: function () {
     },
     render: function () {
-      $(this.el).html(headerMenuTemplate);
+      $(this.el).html(_.template(headerMenuTemplate, {session: true}))
       $('a[href="' + window.location.hash + '"]').addClass('active');
     },
     events: {
