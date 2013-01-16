@@ -4,8 +4,8 @@ sqlite3 = require 'sqlite3'
 
 server = restify.createServer()
 
-# Parse the query string to req.query
-server.use (restify.queryParser { mapParams: false })
+# Parse the body string to req.body
+server.use (restify.bodyParser { mapParams: false })
 
 # ORM alternative
 KEYS = [
@@ -30,10 +30,9 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   for key in KEYS
     # Validation
     # The second thing is always a regular expression.
-    if req.query[key[0]] && req.query[key[0]].match key[1]
-      console.log req.query[key[0]]
+    if req.body[key[0]] && ('' + req.body[key[0]]).match key[1]
       sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-      db.run sql, req.query[key[0]], req.params.permitApplicationNumber
+      db.run sql, req.body[key[0]], req.params.permitApplicationNumber
 
   res.send 204
   return next()
