@@ -10,14 +10,15 @@ define([
     el: '.page',
     render: function () {
       var applicationsCollection = new ApplicationsCollection;
-      applicationsCollection.fetch()
-
-      this.$el.html(_.template(applicationsPageTemplate, {
-        applications: applicationsCollection,
-        record: applicationsRecordTemplate
-      }))
-
-      console.log(applicationsCollection)
+      var page = this;
+      applicationsCollection.fetch({
+        success: function (collection, response, options) {
+          page.$el.html(_.template(applicationsPageTemplate, {
+            applications: applicationsCollection.models,
+            record_template: _.template(applicationsRecordTemplate)
+          }))
+        }
+      })
     }
   });
 

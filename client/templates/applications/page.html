@@ -2,6 +2,6 @@
 <p>This is a bunch of permit applications</p>
 <ul>
     <% _.each(applications, function(application){ %>
-    <%= record({ application: application }) %>
+    <%= record_template({ application: application }) %>
     <% }); %>
 </ul>
