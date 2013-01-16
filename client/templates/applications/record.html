@@ -1,5 +1,7 @@
-<li>
-    <a href="#/applications/<%= application.get('permitApplicationNumber') %>">
-        <%= application.get('permitApplicationNumber') %>
-    </a>
-</li>
+<div class="application">
+    <hgroup>
+        <h3 class="projectDescription"><a href="#/applications/<%= application.get('permitApplicationNumber') %>"><%= application.get('projectDescription') %></a></h3>
+        <h4 class="permitApplicationNumber"><%= application.get('permitApplicationNumber') %></h4>
+    </hgroup>
+    <span class="expirationDate">Expires on <%= application.get('expirationDate') %></span>
+</div>
