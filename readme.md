@@ -10,6 +10,9 @@ the client files. Serve the site like so
 
     ./serve
 
+It expects a database to be in /tmp/wetlands.db. This
+often ram, so you might need to put one there.
+
 ## Useful stuff
 
 * [Automatic permit application data](http://wetlands.thomaslevine.com)
