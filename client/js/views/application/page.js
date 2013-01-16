@@ -4,17 +4,18 @@ define([
   'backbone',
   'vm',
   'text!templates/application/page.html',
-  'views/application/info',
   'views/application/location',
-  'views/application/acreage'
-], function($, _, Backbone, Vm, applicationPageTemplate, InfoView, LocationView, AcreageView){
+  'views/application/acreage',
+  'models/application'
+], function($, _, Backbone, Vm, applicationPageTemplate, LocationView, AcreageView, ApplicationModel){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
       this.$el.html(applicationPageTemplate);
-      
-      var locationView = Vm.create(this, 'ApplicationInfoView', InfoView);
-      infoView.render();
+
+      var applicationModel = new ApplicationModel({id: this.options.permitApplicationNumber});
+      applicationModel.initialize()
+      alert(applicationModel.url())
       
       var locationView = Vm.create(this, 'ApplicationLocationView', LocationView);
       locationView.render();
