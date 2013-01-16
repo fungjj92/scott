@@ -1,0 +1,11 @@
+<% if (session.loggedIn()) { %>
+<ul class="nav pull-right">
+<li><a href="" id="logout">Log out</a></li>
+</ul>
+<% } else { %>
+<form class="navbar-form pull-right">
+  <input type="text" name="username" placeholder="Username" />
+  <input type="password" name="password" placeholder="Password" />
+  <input type="submit" name="submit" value="Log in" />
+</form>
+<% } %>

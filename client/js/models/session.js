@@ -18,6 +18,12 @@ define([
       // The authentication token
       return this.get('username') + ':' + this.get('password') 
     },
+    logIn: function(username, password) {
+      this.save({'username': username, 'password': password})
+    },
+    logOut: function(username, password) {
+      this.save({'username': '', 'password': ''})
+    },
     loggedIn: function() {
       return this.get('username') != '' && this.get('password') != ''
     }

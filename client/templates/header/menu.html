@@ -8,17 +8,7 @@
       <ul class="nav pull-left">
         <li><a href="#/applications">List</a></li>
       </ul>
-      <% if (session.loggedIn()) { %>
-      <ul class="nav pull-right">
-        <li><a href="#/logout">Log out</a></li>
-      </ul>
-      <% } else { %>
-      <form class="navbar-form pull-right">
-          <input type="text" name="username" placeholder="Username" />
-          <input type="password" name="password" placeholder="Password" />
-          <input type="submit" name="submit" value="Log in" />
-      </form>
-      <% } %>
+      <div id="session"></div>
     </div>
   </div>
 </div>

@@ -2,21 +2,19 @@ define([
   'jquery',
   'lodash',
   'backbone',
-  'models/session',
+  'views/header/session',
   'text!templates/header/menu.html'
-], function($, _, Backbone, SessionModel, headerMenuTemplate){
+], function($, _, Backbone, SessionView, headerMenuTemplate){
   var HeaderMenuView = Backbone.View.extend({
     el: '.main-menu-container',
     initialize: function () {
     },
     render: function () {
-
-      // Load any existing session
-      var sessionModel = new SessionModel()
-      sessionModel.fetch()
-
-      $(this.el).html(_.template(headerMenuTemplate, {session: sessionModel}))
+      $(this.el).html(headerMenuTemplate)
       $('a[href="' + window.location.hash + '"]').addClass('active');
+
+      var sessionView = new SessionView()
+      sessionView.render()
     },
     events: {
       'click a': 'highlightMenuItem'
