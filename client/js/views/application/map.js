@@ -2,13 +2,13 @@ define([
   'jquery',
   'lodash',
   'backbone',
-  'text!templates/application/location.html',
-], function($, _, Backbone, locationTemplate){
-  var Location = Backbone.View.extend({
-    el: '.location',
+  'text!templates/application/map.html',
+], function($, _, Backbone, mapTemplate){
+  var Map = Backbone.View.extend({
+    el: '.map',
     render: function () {
-      $(this.el).html(locationTemplate);
+      $(this.el).html(mapTemplate);
     }
   });
-  return Location;
+  return Map;
 });
