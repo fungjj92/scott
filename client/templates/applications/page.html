@@ -1,3 +1,7 @@
 <h3>Permit Applications</h3>
 <p>This is a bunch of permit applications</p>
-<table>It's probably a table.</table>
+<ul>
+    <% _.each(applications, function(application){ %>
+    <%= record({ application: application }) %>
+    <% }); %>
+</ul>

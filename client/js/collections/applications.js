@@ -2,7 +2,7 @@ define([
   'jquery',
   'lodash',
   'backbone',
-  'models/applications'
+  'models/application'
 ], function($, _, Backbone, applicationsModel){
   var applicationsCollection = Backbone.Collection.extend({
     model: applicationsModel,
