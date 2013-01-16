@@ -3,6 +3,7 @@ sqlite3 = require 'sqlite3'
 # https://github.com/developmentseed/node-sqlite3/wiki/API
 fs = require 'fs'
 node_static = require 'node-static'
+async = require 'async'
 
 SETTINGS =
   cache: 0
@@ -33,15 +34,21 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
 
   # Maybe this should be a reduce that passes the db along.
-  for key in KEYS
-    # Validation
-    # The second thing is always a regular expression.
-    if req.body[key[0]] && ('' + req.body[key[0]]).match key[1]
-      sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-      db.run sql, req.body[key[0]], req.params.permitApplicationNumber
+  edits = KEYS.map (key) ->
+    # Validation (The second thing is always a regular expression.)
+    return (db, callback) ->
+      if req.body[key[0]] && ('' + req.body[key[0]]).match key[1]
+        sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+        db.run sql, req.body[key[0]], req.params.permitApplicationNumber, callback
+      else
+        callback(null)
 
-  res.send 204
-  return next()
+  db.run 'BEGIN transaction;', (err) ->
+    async.waterfall(edits, (err, db) ->
+      db.run 'COMMIT;', (err) ->
+        res.send 204
+        return next()
+    )
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
