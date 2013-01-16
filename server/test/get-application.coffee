@@ -13,7 +13,7 @@ createRecord = () ->
 # Move this to another file eventually.
 
 suite = APIeasy.describe '/applications'
-suite.discuss('When I request the applications list,')
+suite.discuss('When I request a specific application,')
   .use('localhost', 8080)
   .setHeader('Content-Type', 'application/json')
   .addBatch(createRecord)

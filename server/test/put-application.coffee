@@ -26,5 +26,9 @@ suite.discuss('When I alter a permit application,')
     assert.equal doc.projectManagerName, 'Tom Levine'
     assert.equal doc.acreage, 0.4
   )
+  .next()
+  .discuss('When I submit fields that don\'t exist,')
+  .put('/applications/MVN-2012-1266-CU', {foobar: 1})
+  .expect(400)
 
   .export module
