@@ -7,6 +7,7 @@ require.config({
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
     lodash: 'libs/lodash/lodash', // alternative to underscore
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
+    localstorage: 'libs/backbone.localStorage/backbone.localStorage-min', // https://github.com/jeromegn/Backbone.localStorage
     sinon: 'libs/sinon/sinon.js',
 
     // Require.js plugins
