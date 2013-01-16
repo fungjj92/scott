@@ -1,6 +1,5 @@
 APIeasy = require 'api-easy'
 assert = require 'assert'
-sqlite3 = require 'sqlite3'
 
 suite = APIeasy.describe '/application/:id'
 suite.discuss('When I alter a permit application,')
