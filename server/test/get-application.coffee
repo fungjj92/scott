@@ -1,19 +1,12 @@
 APIeasy = require 'api-easy'
 assert = require 'assert'
-sqlite3 = require 'sqlite3'
-fs = require 'fs'
-
-createRecord = () ->
-  db = new sqlite3.Database '/tmp/wetlands.db'
-  db.run "DROP TABLE IF EXISTS application", ->
-    db.run (fs.readFileSync 'schema.sql', 'utf8'), ->
-      db.run (fs.readFileSync 'fixture.sql', 'utf8')
+helpers = require './helpers'
 
 suite = APIeasy.describe '/applications'
 suite.discuss('When I request the applications list,')
   .use('localhost', 8080)
   .setHeader('Content-Type', 'application/json')
-  .addBatch(createRecord())
+  .addBatch(helpers.createRecord())
   .get('/applications/MVN-2012-1266-CU')
   .expect('should respond with the appropriate JSON dict', (err, res, body) ->
     expectation =
