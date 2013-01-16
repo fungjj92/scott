@@ -1,6 +1,7 @@
 restify = require 'restify'
 sqlite3 = require 'sqlite3'
 # https://github.com/developmentseed/node-sqlite3/wiki/API
+fs = require 'fs'
 
 server = restify.createServer()
 
@@ -54,7 +55,19 @@ server.get '/applications', (req, res, next) ->
     res.send rows
     return next()
 
-# Serve the client
-server.get /\/.*/, restify.serveStatic { directory: '../client' }
+# Serve the index page.
+#erver.get /^\/?$/, (req, res, next) ->
+server.get '/', (req, res, next) ->
+  fs.readFile '../client/index.html', 'utf8', (err, file) ->
+    res.setHeader('content-type', 'text/html');
+    if err
+      return next(new restify.InternalError err)
+    else
+      res.write file
+      res.end()
+      return next()
+
+# Serve the rest of the client.
+server.get /\/?.*/, restify.serveStatic { directory: '../client' }
 
 server.listen 8080
