@@ -11,11 +11,14 @@ define([
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
-      this.$el.html(applicationPageTemplate);
-
       var applicationModel = new ApplicationModel({id: this.options.permitApplicationNumber});
-      applicationModel.fetch()
-      
+      var page = this
+      applicationModel.fetch({
+        success: function (collection, response, options) {
+          page.$el.html(_.template(applicationPageTemplate, { application: applicationModel }))
+        }
+      })
+
       var locationView = Vm.create(this, 'ApplicationLocationView', LocationView);
       locationView.render();
       
