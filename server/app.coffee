@@ -7,6 +7,7 @@ sqlite3 = require 'sqlite3'
 # https://github.com/developmentseed/node-sqlite3/wiki/API
 
 node_static = require 'node-static'
+# https://github.com/cloudhead/node-static
 
 bunyan = require 'bunyan'
 # https://github.com/trentm/node-bunyan
