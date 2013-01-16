@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Serve the website
+(
+  cd server
+  coffee app.coffee
+)
