@@ -11,11 +11,11 @@ define([
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
-      var applicationModel = new ApplicationModel({id: this.options.permitApplicationNumber});
+      this.$model = new ApplicationModel({id: this.options.permitApplicationNumber})
       var page = this
-      applicationModel.fetch({
+      this.$model.fetch({
         success: function (collection, response, options) {
-          page.$el.html(_.template(applicationPageTemplate, { application: applicationModel }))
+          page.$el.html(_.template(applicationPageTemplate, { application: page.$model }))
         }
       })
 
@@ -24,6 +24,13 @@ define([
       
       var acreageView = Vm.create(this, 'ApplicationAcreageView', AcreageView, {permitApplicationNumber: this.options.permitApplicationNumber});
       acreageView.render();
+    },
+    update: function (e) {
+      this.$model.set(e.currentTarget.name, e.currentTarget.value)
+      this.$model.save()
+    },
+    events: {
+      "change input[type=text]": "update"
     }
   });
   return ApplicationPage;
