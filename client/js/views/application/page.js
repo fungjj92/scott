@@ -4,8 +4,9 @@ define([
   'backbone',
   'vm',
   'text!templates/application/page.html',
-  'models/application'
-], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel){
+  'models/application',
+  'views/application/parishes'
+], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
@@ -13,7 +14,10 @@ define([
       var page = this
       this.$model.fetch({
         success: function (collection, response, options) {
-          page.$el.html(_.template(applicationPageTemplate, { application: page.$model }))
+          page.$el.html(_.template(applicationPageTemplate, {
+            application: page.$model,
+            parishes: parishes
+          }))
         }
       })
     },
