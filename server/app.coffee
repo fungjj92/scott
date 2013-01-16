@@ -1,8 +1,15 @@
+fs = require 'fs'
+
 restify = require 'restify'
+# http://mcavage.github.com/node-restify/
+
 sqlite3 = require 'sqlite3'
 # https://github.com/developmentseed/node-sqlite3/wiki/API
-fs = require 'fs'
+
 node_static = require 'node-static'
+
+bunyan = require 'bunyan'
+# https://github.com/trentm/node-bunyan
 
 SETTINGS =
   cache: 0
@@ -10,10 +17,13 @@ SETTINGS =
 
 server = restify.createServer()
 
-# Parse the body string to req.body
 server.use (restify.bodyParser { mapParams: false })
+# server.use restify.gzipResponse()
 
-# server.use (restify.requestLogger())
+server.on 'after', restify.auditLogger
+  log: bunyan.createLogger
+    name: 'audit'
+    stream: process.stdout
 
 # ORM alternative
 KEYS = [

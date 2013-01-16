@@ -14,7 +14,8 @@
   "dependencies": {
     "restify": "~2.0.4",
     "sqlite3": "~2.1.5",
-    "node-static": "~0.6.7"
+    "node-static": "~0.6.7",
+    "bunyan": "~0.17.0"
   },
   "devDependencies": {
     "api-easy": "~0.3.7"
