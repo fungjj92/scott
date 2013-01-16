@@ -5,9 +5,8 @@ define([
   'vm',
   'text!templates/application/page.html',
   'views/application/location',
-  'views/application/acreage',
   'models/application'
-], function($, _, Backbone, Vm, applicationPageTemplate, LocationView, AcreageView, ApplicationModel){
+], function($, _, Backbone, Vm, applicationPageTemplate, LocationView, ApplicationModel){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
@@ -19,9 +18,6 @@ define([
 
           var locationView = Vm.create(this, 'ApplicationLocationView', LocationView, {permitApplicationNumber: page.options.permitApplicationNumber})
           locationView.render()
-          
-          var acreageView = Vm.create(this, 'ApplicationAcreageView', AcreageView, {permitApplicationNumber: page.options.permitApplicationNumber})
-          acreageView.render()
         }
       })
     },
