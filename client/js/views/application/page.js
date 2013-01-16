@@ -14,8 +14,8 @@ define([
       this.$el.html(applicationPageTemplate);
 
       var applicationModel = new ApplicationModel({id: this.options.permitApplicationNumber});
-      applicationModel.initialize()
       alert(applicationModel.url())
+      applicationModel.fetch()
       
       var locationView = Vm.create(this, 'ApplicationLocationView', LocationView);
       locationView.render();
