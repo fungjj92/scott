@@ -28,13 +28,13 @@
     <a href="#" class="dnr">DNR</a>
 </div>
 <div class="notes">
-    <label for="notes"></label>
+    <label for="notes">Notes</label>
     <input type="text" name="notes" value="<%= application.get('notes') %>" />
 </div>
 <div class="map"></div>
 <div class="acreage">
-    <label for="characterOfWork"></label>
-    <input type="text" name="characterOfWork" value="<%= application.get('characterOfWork') %>" />
-    <label for="acreage"></label>
+    <label for="characterOfWork">Character of work</label>
+    <textarea name="characterOfWork"><%= application.get('characterOfWork') %></textarea>
+    <label for="acreage">Acreage</label>
     <input type="text" name="acreage" value="<%= application.get('acreage') %>" />
 </div>
