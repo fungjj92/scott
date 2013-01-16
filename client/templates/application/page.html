@@ -27,6 +27,14 @@
     <a href="#" class="deq">DEQ</a>
     <a href="#" class="dnr">DNR</a>
 </div>
-<div class="notes"></div>
-<div class="location"></div>
-<div class="acreage"></div>
+<div class="notes">
+    <label for="notes"></label>
+    <input type="text" name="notes" value="<%= application.get('notes') %>" />
+</div>
+<div class="map"></div>
+<div class="acreage">
+    <label for="characterOfWork"></label>
+    <input type="text" name="characterOfWork" value="<%= application.get('characterOfWork') %>" />
+    <label for="acreage"></label>
+    <input type="text" name="acreage" value="<%= application.get('acreage') %>" />
+</div>
