@@ -10,7 +10,12 @@ define([
     initialize: function () {
     },
     render: function () {
-      $(this.el).html(_.template(headerMenuTemplate, {session: true}))
+
+      // Load any existing session
+      var sessionModel = new SessionModel()
+      sessionModel.fetch()
+
+      $(this.el).html(_.template(headerMenuTemplate, {session: sessionModel}))
       $('a[href="' + window.location.hash + '"]').addClass('active');
     },
     events: {

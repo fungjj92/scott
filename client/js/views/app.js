@@ -12,10 +12,11 @@ define([
     },
     render: function () {
       var appView = this;
+
       $(this.el).html(layoutTemplate);
       require(['views/header/menu'], function (HeaderMenuView) {
         var headerMenuView = Vm.create(appView, 'HeaderMenuView', HeaderMenuView);
-        headerMenuView.render();
+        headerMenuView.render()
       });
       require(['views/footer/footer'], function (FooterView) {
         // Pass the appView down into the footer so we can render the visualisation
