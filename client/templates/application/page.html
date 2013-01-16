@@ -31,15 +31,15 @@
     <label for="notes">Notes</label>
     <input type="text" name="notes" value="<%= application.get('notes') %>" />
 </div>
-<div class="location">
-    <label for="location">Location</label>
-    <textarea name="location"><%= application.get('location') %></textarea>
+<div class="coordinates">
+    <label for="abstactLocation">Location</label>
+    <textarea name="abstractLocation"><%= application.get('abstractLocation') %></textarea>
     <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
     <p>Click the map to mark the proposed development.</p>
 </div>
 <div class="acreage">
-    <label for="characterOfWork">Character of work</label>
-    <textarea name="characterOfWork"><%= application.get('characterOfWork') %></textarea>
+    <label for="abstractDescription">Description</label>
+    <textarea name="abstractDescription"><%= application.get('abstractDescription') %></textarea>
     <label for="acreage">Acreage</label>
     <input type="text" name="acreage" value="<%= application.get('acreage') %>" />
 </div>
