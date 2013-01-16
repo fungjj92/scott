@@ -5,8 +5,9 @@ define([
   'vm',
   'text!templates/application/page.html',
   'models/application',
+  'models/session',
   'views/application/parishes'
-], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, parishes){
+], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, SessionModel, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
@@ -22,8 +23,19 @@ define([
       })
     },
     update: function (e) {
-      this.$model.set(e.currentTarget.name, e.currentTarget.value)
-      this.$model.save()
+      // this.$model.set(e.currentTarget.name, e.currentTarget.value)
+
+      var attributes = {}
+      attributes[e.currentTarget.name] = e.currentTarget.value
+
+      var beforeSend = function(xhr) {
+        sessionModel = new SessionModel()
+        sessionModel.fetch()
+        var token = sessionModel.token()
+        xhr.setRequestHeader('Authorization', ("Basic ".concat(btoa(token))))
+      }
+
+      this.$model.save(attributes, { beforeSend: beforeSend })
     },
     events: {
       "change input": "update",

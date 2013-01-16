@@ -14,6 +14,10 @@ define([
         localStorage.setItem('password', '')
       }
     },
+    token: function() {
+      // The authentication token
+      return this.get('username') + ':' + this.get('password') 
+    },
     loggedIn: function() {
       return this.get('username') != '' && this.get('password') != ''
     }
