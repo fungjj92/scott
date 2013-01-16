@@ -4,9 +4,8 @@ define([
   'backbone',
   'vm',
   'text!templates/application/page.html',
-  'views/application/map',
   'models/application'
-], function($, _, Backbone, Vm, applicationPageTemplate, MapView, ApplicationModel){
+], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
@@ -15,9 +14,6 @@ define([
       this.$model.fetch({
         success: function (collection, response, options) {
           page.$el.html(_.template(applicationPageTemplate, { application: page.$model }))
-
-          var mapView = Vm.create(this, 'ApplicationMapView', MapView, {permitApplicationNumber: page.options.permitApplicationNumber})
-          mapView.render()
         }
       })
     },
