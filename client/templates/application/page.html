@@ -21,8 +21,11 @@
     <h3>Project Manager</h3>
     <label for="projectManagerName">Name</label>
     <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
+
     <label for="projectManagerPhone">Phone</label>
     <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
+    <a href="tel:<%= '+' + application.get('projectManagerPhone').replace(/[^0-9]/g, '') %>">Call</a>
+
     <label for="projectManagerEmail">Email</label>
     <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
     <% var emailAddress = encodeURIComponent( application.get('projectManagerName') + ' <' + application.get('projectManagerEmail') + '>' ) %>
