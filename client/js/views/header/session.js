@@ -16,7 +16,7 @@ define([
       e.preventDefault()
       var username = $(e.currentTarget).children('input[name=username]').val()
       var password = $(e.currentTarget).children('input[name=password]').val()
-      page = this
+      var page = this
       this.sessionModel.logIn(username, password, function() {
         page.render()
       })

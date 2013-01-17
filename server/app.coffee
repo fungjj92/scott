@@ -51,7 +51,7 @@ server.post '/login', (req, res, next) ->
   console.log req.body
   console.log '---------'
 
-  if req.body && req.body.password == 'chainsaw'
+  if req.body && req.body.username != '' && req.body.password == 'chainsaw'
     # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
     res.send 200, req.body
     return next()
@@ -59,7 +59,7 @@ server.post '/login', (req, res, next) ->
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
-  if !req.authorization.basic || req.authorization.basic.password != 'chainsaw'
+  if !req.authorization.basic || req.body.username == '' || req.authorization.basic.password != 'chainsaw'
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
   db = new sqlite3.Database '/tmp/wetlands.db'
