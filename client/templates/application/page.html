@@ -1,6 +1,7 @@
 <hgroup>
     <h2><%= application.get('projectDescription') %></h2>
     <p><%= application.get('permitApplicationNumber') %></p>
+    <%= loggedIn ? 'yes' : 'no' %>
 </hgroup>
 <div class="identifiers">
     <h3>Identity numbers</h3>

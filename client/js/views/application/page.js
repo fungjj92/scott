@@ -15,9 +15,12 @@ define([
       var page = this
       this.$model.fetch({
         success: function (collection, response, options) {
+          var sessionModel = new SessionModel
+          sessionModel.fetch()
           page.$el.html(_.template(applicationPageTemplate, {
             application: page.$model,
-            parishes: parishes
+            parishes: parishes,
+            loggedIn: sessionModel.loggedIn()
           }))
         }
       })

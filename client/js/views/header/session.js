@@ -16,16 +16,15 @@ define([
       e.preventDefault()
       var username = $(e.currentTarget).children('input[name=username]').val()
       var password = $(e.currentTarget).children('input[name=password]').val()
-      var page = this
       this.sessionModel.logIn(username, password, function() {
-        page.render()
+        window.location.reload()
       })
       return false
     },
     logout: function(e) {
       e.preventDefault()
       this.sessionModel.logOut()
-      this.render()
+      window.location.reload()
       return false;
     },
     events: {
