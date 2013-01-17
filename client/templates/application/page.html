@@ -1,29 +1,28 @@
 <hgroup>
     <h2><%= application.get('projectDescription') %></h2>
     <p><%= application.get('permitApplicationNumber') %></p>
-    <%= loggedIn ? 'yes' : 'no' %>
 </hgroup>
 <div class="identifiers">
     <h3>Identity numbers</h3>
     <label for="permitApplicationNumber">Permit Application Number</label>
     <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
     <label for="CUP">CUP</label>
-    <input type="text" name="CUP" value="<%= application.get('CUP') %>" />
+    <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="WQC">WQC</label>
-    <input type="text" name="WQC" value="<%= application.get('WQC') %>" />
+    <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="publicNoticeDate">Public Notice Date</label>
-    <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" />
+    <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="expirationDate">Expiration Date</label>
-    <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" />
+    <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
 </div>
 <div class="projectManager">
     <h3>Project Manager</h3>
     <label for="projectManagerName">Name</label>
-    <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" />
+    <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="projectManagerPhone">Phone</label>
-    <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" />
+    <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="projectManagerEmail">Email</label>
-    <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" />
+    <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
 </div>
 <div class="documents">
     <h3>Documents</h3>
@@ -37,28 +36,28 @@
 <div class="notes">
     <label for="toRead">To read</label>
     <input type="radio" name="status" value="" label="To read"
-        <%= application.get('status') == undefined ? 'checked' : '' %> />
+        <%= application.get('status') == undefined ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="toComment">To comment</label>
     <input type="radio" name="status" value="toComment" label="To comment"
-        <%= application.get('status') == 'toComment' ? 'checked' : '' %> />
+        <%= application.get('status') == 'toComment' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="waiting">Waiting</label>
     <input type="radio" name="status" value="waiting" label="Waiting"
-        <%= application.get('status') == 'waiting' ? 'checked' : '' %> />
+        <%= application.get('status') == 'waiting' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="toFOI">To FOI</label>
     <input type="radio" name="status" value="toFOI" label="To FOI"
-        <%= application.get('status') == 'toFOI' ? 'checked' : '' %> />
+        <%= application.get('status') == 'toFOI' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="done">Done</label>
     <input type="radio" name="status" value="done" label="Done"
-        <%= application.get('status') == 'done' ? 'checked' : '' %> />
+        <%= application.get('status') == 'done' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="flagged">Flagged</label>
     <input type="checkbox" name="flagged" />
     <label for="notes">Notes</label>
-    <textarea name="nates"><%= application.get('notes') %></textarea>
+    <textarea name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
 </div>
 <div class="where">
     <h3>Where is it?</h3>
     <label for="parish">Parish</label>
-    <select name="parish">
+    <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
         <% _.each(parishes, function(parish) { %>
         <option value="" <%= application.get('parish') == parish ? 'selected' : '' %>>
             <%= parish %>
@@ -69,15 +68,15 @@
         </option>
     </select>
     <label for="abstactLocation">Location from the public notice</label>
-    <textarea name="abstractLocation"><%= application.get('abstractLocation') %></textarea>
+    <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
     <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
     <p>Click the map to mark the proposed development.</p>
 </div>
 <div class="acreage">
     <h3>Acreage</h3>
-    <label for="abstractDescription">Description from the public notice</label>
-    <textarea name="abstractDescription"><%= application.get('abstractDescription') %></textarea>
+    <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+    <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
     <label for="acreage">Acreage</label>
-    <input type="number" name="acreage" value="<%= application.get('acreage') %>"
+    <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
         min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
 </div>
