@@ -1,6 +1,5 @@
 <hgroup>
     <h2><%= application.get('projectDescription') %></h2>
-    <p><%= application.get('permitApplicationNumber') %></p>
 </hgroup>
 <div class="identifiers">
     <h3>Identity numbers</h3>
@@ -10,6 +9,9 @@
     <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="WQC">WQC</label>
     <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+</div>
+<div class="dates">
+    <h3>Dates</h3>
     <label for="publicNoticeDate">Public Notice Date</label>
     <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="expirationDate">Expiration Date</label>
