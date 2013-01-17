@@ -25,6 +25,9 @@
     <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
     <label for="projectManagerEmail">Email</label>
     <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
+    <% var emailSubject = encodeURIComponent('Concern over ' + application.get('permitApplicationNumber') + ' ' + application.get('projectDescription') ) %>
+    <% var emailBody = encodeURIComponent('') %>
+    <a href="mailto:<%= application.get('projectManagerEmail') %>?subject=<%= emailSubject %>&body=<%= emailBody %>">Send Email</a>
 </div>
 <div class="documents">
     <h3>Documents</h3>
