@@ -1,6 +1,7 @@
 define([
+  'jquery',
   'backbone'
-], function(Backbone) {
+], function($, Backbone) {
   var SessionModel = Backbone.Model.extend({
     sync: function(method, model, options){
       if (method == 'create' || method == 'update') {
@@ -18,8 +19,24 @@ define([
       // The authentication token
       return this.get('username') + ':' + this.get('password') 
     },
-    logIn: function(username, password) {
-      this.save({'username': username, 'password': password})
+    logIn: function(username, password, callback) {
+      sessionModel = this
+      $.ajax({
+        type: "POST",
+        url: '/login',
+        data: {
+          username: username,
+          password: password
+        },
+        dataType: 'json',
+        success: function() {
+          sessionModel.save({'username': username, 'password': password})
+          callback()
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+          alert('Incorrect username or password')
+        }
+      })
     },
     logOut: function(username, password) {
       this.save({'username': '', 'password': ''})

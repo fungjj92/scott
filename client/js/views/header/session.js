@@ -13,14 +13,17 @@ define([
       $(this.el).html(_.template(sessionTemplate, {session: this.sessionModel}))
     },
     login: function(e) {
-      window.e = e
-      var username = $(e.currentTarget).children('input[name=username]')
-      var password = $(e.currentTarget).children('input[name=password]')
-      this.sessionModel.logIn(username, password)
-      this.render()
-      return false;
+      e.preventDefault()
+      var username = $(e.currentTarget).children('input[name=username]').val()
+      var password = $(e.currentTarget).children('input[name=password]').val()
+      page = this
+      this.sessionModel.logIn(username, password, function() {
+        page.render()
+      })
+      return false
     },
     logout: function(e) {
+      e.preventDefault()
       this.sessionModel.logOut()
       this.render()
       return false;

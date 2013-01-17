@@ -44,6 +44,20 @@ KEYS = [
   ["latitude", /^[0-9.]*$/]
 ]
 
+# Check whether the password is correct
+server.post '/login', (req, res, next) ->
+
+  console.log '---------'
+  console.log req.body
+  console.log '---------'
+
+  if req.body && req.body.password == 'chainsaw'
+    # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
+    res.send 200, req.body
+    return next()
+  else
+    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   if !req.authorization.basic || req.authorization.basic.password != 'chainsaw'
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
