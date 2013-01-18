@@ -65,6 +65,7 @@ ACCOUNTS =
   scott: 'chainsaw'
   bot: 'h%r9hr23(uo'
 
+# Check whether a username and password combination corresponds to an account.
 isUser = (username, password) ->
   username != undefined and password != undefined and username in ACCOUNTS and password == ACCOUNTS[username]
 
@@ -98,6 +99,7 @@ server.post '/login', (req, res, next) ->
   else
     next(new restify.NotAuthorizedError('Incorrect username or password'))
 
+# Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   validateDocumentEdit req, res, next, (req, res, next) ->
 
@@ -117,6 +119,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
       res.send 204
       next()
 
+# Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   validateDocumentEdit req, res, next, (req, res, next) ->
     # Lines of SQL
@@ -137,6 +140,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       res.send 204
       next()
 
+# View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
@@ -147,6 +151,7 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
     else
       next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
+# List the applications
 server.get '/applications', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
   sql = "SELECT * FROM application;"
