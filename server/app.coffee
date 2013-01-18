@@ -75,9 +75,9 @@ server.post '/login', (req, res, next) ->
   if req.body and isUser req.body.username, req.body.password
     # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
     res.send 200, req.body
-    return next()
+    next()
   else
-    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+    next(new restify.NotAuthorizedError('Incorrect username or password'))
 
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   validateDocumentEdit req, res, next, (req, res, next) ->
@@ -96,7 +96,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
     db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
-      return next()
+      next()
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   validateDocumentEdit req, res, next, (req, res, next) ->
@@ -116,7 +116,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
-      return next()
+      next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
@@ -124,16 +124,16 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
     if row
       res.send row
-      return next()
+      next()
     else
-      return next(new restify.ResourceNotFoundError 'There is no permit with this number.')
+      next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
 server.get '/applications', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
     res.send rows
-    return next()
+    next()
 
 # Serve the client
 file = new node_static.Server '../client', { cache: SETTINGS.cache }
