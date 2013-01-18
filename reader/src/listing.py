@@ -233,7 +233,6 @@ def main():
     f = open(listings_file)
     data = listing_parse(f.read())
     f.close()
-    print listings_file
     for row in data:
         print row
 
