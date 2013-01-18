@@ -238,8 +238,14 @@ def main():
     import os
     import sys
     import requests
-    usage = 'USAGE: %s [filename]' % sys.argv[0]
-    if len(sys.argv) != 2:
+    usage = 'USAGE: %s [filename] [web|terminal]' % sys.argv[0]
+    if len(sys.argv) != 3:
+        print usage
+        exit(1)
+
+    web = sys.argv[2] == 'web'
+    terminal = sys.argv[2] == 'terminal'
+    if not (web or terminal):
         print usage
         exit(1)
 
@@ -252,9 +258,12 @@ def main():
     data = listing_parse(f.read())
     f.close()
     for doc in data:
-        url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
-        response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
-        print(response.text)
+        if web:
+            url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
+            response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+            print(response.text)
+        elif terminal:
+            print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
 
 if __name__== "__main__":
     main()
