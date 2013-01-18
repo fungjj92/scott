@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -e
+
+FILE="$1"
+
+# Extract images.
+# Use jpeg so we don't have to determine whether ppm or pbm is used.
+pdfimages "$FILE" "$FILE"
+
+# Extract text to `echo $FILE|sed s/pdf$/txt/`
+pdftotext "$FILE"
+mv "`echo \"$FILE\"|sed s/pdf$/txt/`" "$FILE.txt"
+
+# OCR
+for extension in pbm ppm
+  do
+  for file in "$FILE"-[0-9][0-9][0-9]."${extension}"
+    do
+
+    # In case no files match this glob
+    [ -e $file ] || continue
+
+    echo $file
+
+    # Raise OCR errors at the end; try other files if one fails.
+    tesseract "$file" "$file" &&
+      cat "$file.txt" >> "$FILE.txt" ||
+      ocr_error=true
+
+  done
+done
+
+# Raise OCR errors at the end.
+[ $ocr_error ] &&  exit 1
