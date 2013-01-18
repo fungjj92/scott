@@ -41,9 +41,9 @@ KEYS = [
   ["projectManagerName", /^.*$/],
   ["publicNoticeDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
   ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
-  ["publicNoticeUrl", /^http.*$/ ], # On the Army Corps site
-  ["drawingsUrl", /^http.*$/ ],     # On the Army Corps site
-  ["parish", /^(Acadia|Allen|Ascension|Assumption|Avoyelles|Beauregard|Bienville|Bossier|Caddo|Calcasieu|Caldwell|Cameron|Catahoula|Claiborne|Concordia|De Soto|East Baton Rouge|East Carroll|East Feliciana|Evangeline|Franklin|Grant|Iberia|Iberville|Jackson|Jefferson|Jefferson Davis|Lafayette|Lafourche|La Salle|Lincoln|Livingston|Madison|Morehouse|Natchitoches|Orleans|Ouachita|Plaquemines|Pointe Coupee|Rapides|Red River|Richland|Sabine|Saint Bernard|Saint Charles|Saint Helena|Saint James|Saint John the Baptist|Saint Landry|Saint Martin|Saint Mary|Saint Tammany|Tangipahoa|Tensas|Terrebonne|Union|Vermilion|Vernon|Washington|Webster|West Baton Rouge|West Carroll|West Feliciana|Winn)$/]
+  ["publicNoticeUrl", /^pdf\/.*$/ ], # On the Army Corps site
+  ["drawingsUrl", /^pdf\/.*$/ ],     # On the Army Corps site
+  ["parish", /^(acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/]
 
   # Automatically taken from the public notice
   ["CUP", /^.*$/],
@@ -107,22 +107,26 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
   # All keys must exist
   for key in KEYS
-    if not req.body[key[0]]
+    if req.body[key[0]] == undefined
       return next(new restify.MissingParameterError "You need to pass the #{key[0]}.")
 
-  keys = (KEYS.map (key)-> key[0]).join ','
-  questionMarks = (KEYS.map (key) -> '?').join ','
-  sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks})"
-  values = KEYS.map (key)-> req.body[key[0]]
+  keys = 'permitApplicationNumber,' + (KEYS.map (key)-> key[0]).join ','
+  questionMarks = '?,' + (KEYS.map (key) -> '?').join ','
+  sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks});"
+  values = [req.body.permitApplicationNumber].concat (KEYS.map (key)-> req.body[key[0]])
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
-  db.run sql, values, (err) ->
-    console.log err
-    if err == null
-      next(new restify.InternalError err)
-    else
-      next()
+  db.get "SELECT count(*) AS 'c' FROM application WHERE permitApplicationNumber = ?", req.body.permitApplicationNumber, (err, row) ->
+    if row.c == 1
+      next(new restify.BadMethodError "There is already a permit application with number #{req.body.permitApplicationNumber}")
+
+    db.run sql, values, (status) ->
+      if status
+        next(new restify.InvalidContentError status)
+      else
+        res.send 200
+        next()
 
 # Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
@@ -154,10 +158,11 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
-  db.run sql, values, () ->
-    # To do: Catch the error.
-    res.send 204
-    next()
+  db.run sql, values, (status) ->
+    if status
+      next(new restify.InvalidContentError status)
+    else
+      next()
 
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->

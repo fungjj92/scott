@@ -44,8 +44,8 @@ def listing_parse(rawtext):
         row['PermitApplication No.'] = _clean_permit_application_number(row['PermitApplication No.'])
 
         # Dates
-        row['Public Notice Date'] = _parsedate(row['Public Notice Date'])
-        row['Expiration Date'] = _parsedate(row['Expiration Date'])
+        row['Public Notice Date'] = _parsedate(row['Public Notice Date']).strftime('%Y-%m-%d')
+        row['Expiration Date'] = _parsedate(row['Expiration Date']).strftime('%Y-%m-%d')
 
         # PDF download links
         del(row['View or Download'])
@@ -107,6 +107,14 @@ def listing_parse(rawtext):
         for k, v in row2.items():
             if type(v) in {lxml.etree._ElementStringResult, str}:
                 row2[k] = unicode(v)
+        row2['parish'] = _extract_parish(row2['location']).lower()
+        for k in [
+            'longitude', 'latitude', 'acreage',
+            'CUP', 'WQC',
+            'notes', 'flagged', 'type', 'status',
+        ]:
+            row2[k] = ''
+
         data2.append(row2)
 
     return data2
@@ -214,7 +222,7 @@ def _extract_parish(location):
     if re.match(r'.+ Parish$', location):
         return re.sub(r' Parish$', '', location)
     else:
-        return None
+        return ''
 
 def main():
     import os
@@ -236,7 +244,6 @@ def main():
     for doc in data:
         url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
         response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
-        print(response.status_code)
         print(response.text)
 
 if __name__== "__main__":
