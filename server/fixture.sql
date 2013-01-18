@@ -18,6 +18,7 @@ INSERT INTO application VALUES (
   '',
 
   -- Manual
+  '',
   NULL,
   NULL,
   NULL,
