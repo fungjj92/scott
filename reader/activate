@@ -1,2 +1,30 @@
+# Run this from the root directory of the reader
 export READER_ROOT="$PWD"
-export PATH="$PATH:$PWD/wsync"
+
+# Set path.
+OLD_PATH=$PATH
+OLD_PYTHONPATH=$PYTHONPATH
+PATH="$READER_ROOT/bin:$PATH"
+
+# Add code directory to PYTHONPATH, adding a separating ':' if PYTHONPATH is already set.
+# See http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_02
+export PYTHONPATH="${READER_ROOT}/src${PYTHONPATH+:}${PYTHONPATH}"
+
+# Indicate that we've activated.
+OLD_PS1=$PS1
+PS1="[reader]$PS1"
+
+# Run nosetests in the appropriate directory.
+nosetests() {
+  (
+    builtin cd "$READER_ROOT/nose"
+    env nosetests $@
+  ) || return 1
+}
+
+deactivate () {
+  export PATH=$OLD_PATH
+  PS1=$OLD_PS1
+  export PYTHONPATH=$OLD_PYTHONPATH
+  unset -f deactivate
+}
