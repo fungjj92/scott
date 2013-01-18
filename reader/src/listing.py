@@ -223,17 +223,19 @@ def main():
     usage = 'USAGE: %s [filename]' % sys.argv[0]
     if len(sys.argv) != 2:
         print usage
-    else
-        listings_file = sys.argv[1]
+        exit(1)
 
-        if 'html' not in listing:
-            continue
-        f = open(os.path.join(listings_dir, listing))
-        print listing
-        data = listing_parse(f.read())
-        f.close()
-        print data
+    listings_file = sys.argv[1]
+    if not os.path.isfile(listings_file):
+        print(usage)
+        exit(1)
 
+    f = open(listings_file)
+    data = listing_parse(f.read())
+    f.close()
+    print listings_file
+    for row in data:
+        print row
 
 if __name__== "__main__":
     main()
