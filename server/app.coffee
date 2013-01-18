@@ -59,18 +59,40 @@ server.post '/login', (req, res, next) ->
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
+
+  # Must be authenticatied
   if !req.authorization.basic || req.body.username == '' || req.authorization.basic.password != 'chainsaw'
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
-  db = new sqlite3.Database '/tmp/wetlands.db'
-
-  # Maybe this should be a reduce that passes the db along.
+  # All keys must exist
   for key in KEYS
-    # Validation
-    # The second thing is always a regular expression.
-    if req.body[key[0]] && ('' + req.body[key[0]]).match key[1]
-      sql = "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-      db.run sql, req.body[key[0]], req.params.permitApplicationNumber
+    if not req.body[key[0]]
+      send 123
+      return next()
+    if not ('' + req.body[key[0]]).match key[1]
+      send 123
+      return next()
+
+  sqlLines = KEYS.map (key) ->
+    "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+
+  # Text for a transaction
+  sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
+
+  questionMarks = (KEYS.map
+      (key) -> [req.body[key[0]], req.body.permitApplicationNumber]
+    ).reduce(
+      (a, b) -> a.concat b
+    )
+
+    # Validation (key[1] is always a regular expression.)
+    [sqlLine,
+  # Question marks
+  ((sqlLines.map (sqlLine, value) -> sqlLine).join '')
+
+    db.run sql, req.body[key[0]], req.params.permitApplicationNumber
+
+  db = new sqlite3.Database '/tmp/wetlands.db'
 
   res.send 204
   return next()
