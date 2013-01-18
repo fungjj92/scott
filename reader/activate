@@ -1,1 +1,2 @@
+export READER_ROOT="$PWD"
 export PATH="$PATH:$PWD/wsync"

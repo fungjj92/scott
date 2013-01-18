@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
+
+# Download the listing
+(
+  cd "$READER_ROOT/listings"
+  wsync "$URL" publicnotices.asp html
+)
+
+# Parse the listing
+
+
+# Download the public notices and drawings
+(
+  cd "$READER_ROOT/documents"
+  wsync "$public_notice_url" public_notice pdf
+  wsync "$drawings_url" drawings pdf
+)
+
+# Parse the public notice
