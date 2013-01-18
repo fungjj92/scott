@@ -4,6 +4,10 @@ job so that he has time to do the important parts.
 
 ## How to
 
+Clone with submodules
+
+    git clone git@github.com:tlevine/scott.git --recursive
+
 `server` contains a restify web server, and `client`
 contains a Backbone application. The server also serves
 the client files. Serve the site like so
