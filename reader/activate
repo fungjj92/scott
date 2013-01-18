@@ -1,6 +1,9 @@
 # Run this from the root directory of the reader
 export READER_ROOT="$PWD"
 
+# Port of the server
+export PORT=8080
+
 # Set path.
 OLD_PATH=$PATH
 OLD_PYTHONPATH=$PYTHONPATH

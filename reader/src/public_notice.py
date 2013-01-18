@@ -4,28 +4,34 @@ import json
 import dumptruck
 
 def main():
+    import os
     import sys
+    import requests
+
     # Read input
     permit = sys.argv[1]
     text = sys.stdin.read()
 
     # Parse
+    doc = parse(permit, text)
+
+    # Upload
+    url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permit
+    data = {}
+    headers = {}
+    requests.put(url, data, headers)
+
+def parse(permitApplicationNumber, text):
+    # Parse
     doc = read_public_notice(text)
-    doc['permitApplicationNumber'] = permit
-    doc['pdfParsed'] = 1
+    doc['permitApplicationNumber'] = permitApplicationNumber
 
     # Clean up
     doc['CUP'] = list(doc['CUP'])[0] if len(doc['CUP']) > 0 else ''
     doc['Coords'] = json.dumps(doc['Coords'])
     doc['Acres'] = json.dumps(doc['Acres'])
 
-    # Connect to database
-    db = dumptruck.DumpTruck(dbname = '/tmp/wetlands.db')
-
-    # Update the document; upsert updates the specified columns
-    db.upsert(doc, 'application')
-
-    # print doc
+    return doc
 
 def read_public_notice(rawtext):
     "Get everything from the notice."
