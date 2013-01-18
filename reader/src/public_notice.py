@@ -1,4 +1,6 @@
+#!/usr/bin/env python2
 # -*- encoding: utf-8 -*-
+
 import re
 import json
 import dumptruck
@@ -8,16 +10,23 @@ def main():
     import sys
     import requests
 
+    if len(sys.argv) != 3:
+        print('USAGE: %s [permit application number] [public notice document text]')
+        exit(1)
+
     # Read input
     permitApplicationNumber = sys.argv[1]
-    text = sys.stdin.read()
+    f = open(sys.argv[2])
+    text = f.read()
+    f.close()
 
     # Parse
-    doc = parse(permit, text)
+    doc = parse(text)
 
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
-    requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    #requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    print doc
 
 def parse(text):
     # Parse
