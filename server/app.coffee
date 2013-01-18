@@ -68,12 +68,12 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
     # All keys must exist
     if not req.body[key[0]]
-      send 123
+      res.send 123
       return next()
 
     # Validation (key[1] is always a regular expression.)
     if not ('' + req.body[key[0]]).match key[1]
-      send 123
+      res.send 123
       return next()
 
   # Lines of SQL
@@ -84,11 +84,8 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
 
   # Escaped values for the SQL
-  questionMarks = (KEYS.map
-      (key) -> [req.body[key[0]], req.params.permitApplicationNumber]
-    ).reduce(
-      (a, b) -> a.concat b
-    )
+  questionMarks = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
+  .reduce((a, b) -> a.concat b)
 
   # Run the query
   db = new sqlite3.Database '/tmp/wetlands.db'
