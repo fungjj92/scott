@@ -32,19 +32,41 @@ if SETTINGS.log
 
 # ORM alternative
 KEYS = [
-  ["applicant", /^.*$/],
+  # Automatically taken from the listings page
   ["projectDescription", /^.*$/],
+  ["applicant", /^.*$/],
   ["projectManagerPhone", /^.*$/],
   ["projectManagerEmail", /^.*$/],
   ["projectManagerName", /^.*$/],
-  ["acreage", /^[0-9.]*$/],
+  ["publicNoticeDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
+  ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
+  ["publicNoticeUrl", /^http.*$/ ], # On the Army Corps site
+  ["drawingsUrl", /^http.*$/ ],     # On the Army Corps site
+  ["parish", /^(list|of|parishes)$/],
+
+  # Automatically taken from the public notice
   ["CUP", /^.*$/],
   ["WQC", /^.*$/],
-  ["parish", /^(list|of|parishes)$/],
-  ["expirationDate", /^.*$/],
+
+  ["acreage", /^[0-9.]*$/],
   ["longitude", /^[0-9.]*$/],
   ["latitude", /^[0-9.]*$/]
 ]
+
+  -- Automatically taken from the public notice
+  "CUP" TEXT NOT NULL,
+  "WQC" TEXT NOT NULL,
+
+  -- Manually taken from the listings page
+  "longitude" FLOAT,
+  "latitude" FLOAT,
+  "acreage" FLOAT,
+
+  -- Notes
+  "type" TEXT NOT NULL,             -- impact mitigation restoration other
+  "notes" TEXT NOT NULL,            -- Whatever
+  "status" TEXT NOT NULL,           -- toRead,  toComment, waiting, toFOI or done
+  "flagged" INTEGER NOT NULL,       -- Either 0 or 1
 
 # Account database
 ACCOUNTS =
