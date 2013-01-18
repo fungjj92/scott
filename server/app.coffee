@@ -71,17 +71,16 @@ isUser = (username, password) ->
   username != undefined and password != undefined and password == ACCOUNTS[username]
 
 # Check that an edit is allowed
-isAuthorized = (req, res, next) ->
+isAuthorized = (req, res) ->
   # Must be authenticatied
-  if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
-    return false
+  return req.authorization.basic and (isUser req.authorization.basic.username, req.authorization.basic.password)
 
+notValid = (req, res) ->
   for key in KEYS
 
     # Validation (key[1] is always a regular expression.)
     if req.body[key[0]] and not ('' + req.body[key[0]]).match key[1]
-      res.send 400, "#{key[0]} must match #{key[1]}"
-      return false
+      return "#{key[0]} must match #{key[1]}"
 
   return true
 
@@ -99,8 +98,13 @@ server.post '/login', (req, res, next) ->
 # Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
-  if not (isAuthorized req, res, next)
+  if not (isAuthorized req, res)
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
+  notValidMsg = notValid req, res
+  if notValidMsg
+    return next(new restify.MissingParameterError(notValidMsg))
+
 
   # All keys must exist
   for key in KEYS
@@ -123,8 +127,12 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 # Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
-  if not isAuthorized req, res, next
+  if not isAuthorized req, res
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
+  notValidMsg = notValid req, res
+  if notValidMsg
+    return next(new restify.MissingParameterError(notValidMsg))
 
   # Lines of SQL
   sqlLines = KEYS.map (key) ->
