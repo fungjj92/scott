@@ -1,7 +1,6 @@
 INSERT INTO application VALUES (
-  -- Bookkeeping
+  -- Identifier
   'MVN-2012-1266-CU',
-  1,
 
   -- Automatic
   'Barge fleeting operation in Mississippi River, Mile176 in ASCENSION PARISH',

@@ -1,7 +1,6 @@
 CREATE TABLE application (
-  -- Bookkeeping
+  -- Identifier
   "permitApplicationNumber" TEXT NOT NULL,
-  "pdfParsed" INTEGER,
 
   -- Automatically taken from the listings page
   "projectDescription" TEXT NOT NULL,
@@ -9,10 +8,10 @@ CREATE TABLE application (
   "projectManagerName" TEXT NOT NULL,
   "projectManagerPhone" TEXT NOT NULL,
   "projectManagerEmail" TEXT NOT NULL,
-  "publicNoticeDate" TEXT NOT NULL,
-  "expirationDate" TEXT NOT NULL,
-  "publicNoticeUrl" TEXT NOT NULL,
-  "drawingsUrl" TEXT NOT NULL,
+  "publicNoticeDate" TEXT NOT NULL, -- yyyy-mm-dd
+  "expirationDate" TEXT NOT NULL,   -- yyyy-mm-dd
+  "publicNoticeUrl" TEXT NOT NULL,  -- On the Army Corps site
+  "drawingsUrl" TEXT NOT NULL,      -- On the Army Corps site
   "parish" TEXT NOT NULL,
 
   -- Automatically taken from the public notice
@@ -25,10 +24,10 @@ CREATE TABLE application (
   "acreage" FLOAT,
 
   -- Notes
-  "type" TEXT NOT NULL,
-  "notes" TEXT NOT NULL,
-  "status" TEXT NOT NULL,
-  "flagged" INTEGER NOT NULL,
+  "type" TEXT NOT NULL,             -- impact mitigation restoration other
+  "notes" TEXT NOT NULL,            -- Whatever
+  "status" TEXT NOT NULL,           -- toRead,  toComment, waiting, toFOI or done 
+  "flagged" INTEGER NOT NULL,       -- Either 0 or 1
 
   -- Key
   UNIQUE("permitApplicationNumber")
