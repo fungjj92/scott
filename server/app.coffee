@@ -82,7 +82,7 @@ notValid = (req, res) ->
     if req.body[key[0]] and not ('' + req.body[key[0]]).match key[1]
       return "#{key[0]} must match #{key[1]}"
 
-  return true
+  return false
 
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
@@ -105,7 +105,6 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   if notValidMsg
     return next(new restify.InvalidContentError notValidMsg)
 
-
   # All keys must exist
   for key in KEYS
     if not req.body[key[0]]
@@ -119,7 +118,8 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
-    if err
+    console.log err
+    if err == null
       next(new restify.InternalError err)
     else
       next()
