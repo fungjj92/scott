@@ -46,6 +46,12 @@ KEYS = [
   ["latitude", /^[0-9.]*$/]
 ]
 
+# Account database
+ACCOUNTS =
+  tom: 'chainsaw'
+  scott: 'chainsaw'
+  bot: 'h%r9hr23(uo'
+
 isUser = (username, password) ->
   username != undefined and password != undefined and username in ACCOUNTS and password == ACCOUNTS[username]
 
