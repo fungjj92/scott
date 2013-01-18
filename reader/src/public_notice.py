@@ -23,19 +23,26 @@ def main():
     # Parse
     doc = parse(text)
 
+    if doc == {}:
+        return
+
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
-    #requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
-    print doc
+    requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
 
 def parse(text):
     # Parse
-    doc = read_public_notice(text)
+    guess = read_public_notice(text)
+    doc = {}
 
-    # Clean up
-    doc['CUP'] = list(doc['CUP'])[0] if len(doc['CUP']) > 0 else ''
-    doc['Coords'] = json.dumps(doc['Coords'])
-    doc['Acres'] = json.dumps(doc['Acres'])
+    if guess['WQC'] != '':
+        doc['WQC'] = guess['WQC']
+
+    if len(guess['CUP']) > 0:
+        doc['CUP'] = guess['CUP']
+
+    if len(guess['Coords']) > 0:
+        doc['latitude'], doc['longitude'] = guess['Coords'][0]
 
     return doc
 

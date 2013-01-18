@@ -15,7 +15,8 @@ bunyan = require 'bunyan'
 SETTINGS =
   cache: 0
   port: 8080
-  log: false
+# log: false
+  log: true
   dbfile: '/tmp/wetlands.db'
 
 server = restify.createServer()
@@ -139,11 +140,8 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     return next(new restify.MissingParameterError notValidMsg)
 
   # Lines of SQL
-  sqlExprs = KEYS.map (key) ->
-    if req.body[key[0]] == undefined
-      ""
-    else
-      "#{key[0]} = ?"
+  sqlExprs = ("#{key[0]} = ?" for key in KEYS when req.body[key[0]] != undefined)
+
 
   # Text for a transaction
   sql = "UPDATE application SET #{sqlExprs.join ','} WHERE permitApplicationNumber = ?;"
@@ -157,6 +155,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   )).reduce((a, b) -> a.concat b).concat([req.body.permitApplicationNumber])
 
   # Run the query
+  console.log sql
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
     if err
