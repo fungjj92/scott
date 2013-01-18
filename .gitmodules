@@ -4,3 +4,6 @@
 [submodule "documents"]
 	path = documents
 	url = git@github.com:tlevine/scott-documents.git
+[submodule "reader/wsync"]
+	path = reader/wsync
+	url = git@github.com:tlevine/wsync.git
