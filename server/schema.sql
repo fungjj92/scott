@@ -18,7 +18,7 @@ CREATE TABLE application (
   "CUP" TEXT NOT NULL,
   "WQC" TEXT NOT NULL,
 
-  -- Manually taken from the listings page
+  -- Manually taken from the public notice
   "longitude" FLOAT,
   "latitude" FLOAT,
   "acreage" FLOAT,

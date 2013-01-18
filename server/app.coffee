@@ -42,33 +42,24 @@ KEYS = [
   ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
   ["publicNoticeUrl", /^http.*$/ ], # On the Army Corps site
   ["drawingsUrl", /^http.*$/ ],     # On the Army Corps site
-  ["parish", /^(list|of|parishes)$/],
+  ["parish", /^(Acadia|Allen|Ascension|Assumption|Avoyelles|Beauregard|Bienville|Bossier|Caddo|Calcasieu|Caldwell|Cameron|Catahoula|Claiborne|Concordia|De Soto|East Baton Rouge|East Carroll|East Feliciana|Evangeline|Franklin|Grant|Iberia|Iberville|Jackson|Jefferson|Jefferson Davis|Lafayette|Lafourche|La Salle|Lincoln|Livingston|Madison|Morehouse|Natchitoches|Orleans|Ouachita|Plaquemines|Pointe Coupee|Rapides|Red River|Richland|Sabine|Saint Bernard|Saint Charles|Saint Helena|Saint James|Saint John the Baptist|Saint Landry|Saint Martin|Saint Mary|Saint Tammany|Tangipahoa|Tensas|Terrebonne|Union|Vermilion|Vernon|Washington|Webster|West Baton Rouge|West Carroll|West Feliciana|Winn)$/]
 
   # Automatically taken from the public notice
   ["CUP", /^.*$/],
   ["WQC", /^.*$/],
 
-  ["acreage", /^[0-9.]*$/],
+  # Manually taken from the public notice
   ["longitude", /^[0-9.]*$/],
   ["latitude", /^[0-9.]*$/]
+  ["acreage", /^[0-9.]*$/],
+
+  # Notes
+  ["type", /^(|impact|mitigation|restoration|other)$/],
+  ["notes", /^.*$/],
+  ["status", /^(toRead|toComment|waiting|toFOI|done)$/],
+  ["flagged", /^[01]$/]
 ]
 
-  -- Automatically taken from the public notice
-  "CUP" TEXT NOT NULL,
-  "WQC" TEXT NOT NULL,
-
-  -- Manually taken from the listings page
-  "longitude" FLOAT,
-  "latitude" FLOAT,
-  "acreage" FLOAT,
-
-  -- Notes
-  "type" TEXT NOT NULL,             -- impact mitigation restoration other
-  "notes" TEXT NOT NULL,            -- Whatever
-  "status" TEXT NOT NULL,           -- toRead,  toComment, waiting, toFOI or done
-  "flagged" INTEGER NOT NULL,       -- Either 0 or 1
-
-# Account database
 ACCOUNTS =
   tom: 'chainsaw'
   scott: 'chainsaw'
