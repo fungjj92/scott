@@ -17,8 +17,7 @@ def main():
 
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
-    headers = {}
-    requests.put(url, doc, headers, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
 
 def parse(text):
     # Parse
