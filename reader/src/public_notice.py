@@ -9,22 +9,20 @@ def main():
     import requests
 
     # Read input
-    permit = sys.argv[1]
+    permitApplicationNumber = sys.argv[1]
     text = sys.stdin.read()
 
     # Parse
     doc = parse(permit, text)
 
     # Upload
-    url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permit
-    data = {}
+    url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
     headers = {}
-    requests.put(url, data, headers)
+    requests.put(url, doc, headers)
 
-def parse(permitApplicationNumber, text):
+def parse(text):
     # Parse
     doc = read_public_notice(text)
-    doc['permitApplicationNumber'] = permitApplicationNumber
 
     # Clean up
     doc['CUP'] = list(doc['CUP'])[0] if len(doc['CUP']) > 0 else ''
