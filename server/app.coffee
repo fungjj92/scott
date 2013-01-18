@@ -43,7 +43,7 @@ KEYS = [
   ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
   ["publicNoticeUrl", /^pdf\/.*$/ ], # On the Army Corps site
   ["drawingsUrl", /^pdf\/.*$/ ],     # On the Army Corps site
-  ["parish", /^(acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/]
+  ["parish", /^(|acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/]
 
   # Automatically taken from the public notice
   ["CUP", /^.*$/],
@@ -58,7 +58,7 @@ KEYS = [
   ["type", /^(|impact|mitigation|restoration|other)$/],
   ["notes", /^.*$/],
   ["status", /^(|toRead|toComment|waiting|toFOI|done|other)$/],
-  ["flagged", /^1?$/]
+  ["flagged", /^[01]?$/]
 ]
 
 ACCOUNTS =

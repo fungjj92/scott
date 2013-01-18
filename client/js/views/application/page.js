@@ -28,7 +28,11 @@ define([
     },
     update: function (e) {
       var attributes = {}
-      attributes[e.currentTarget.name] = e.currentTarget.value
+      if (e.currentTarget.type == 'checkbox') {
+        attributes[e.currentTarget.name] = e.currentTarget.checked + 0
+      } else {
+        attributes[e.currentTarget.name] = e.currentTarget.value
+      }
       this.$model.save(attributes, { beforeSend: auth })
     },
     events: {

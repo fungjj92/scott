@@ -1,7 +1,7 @@
 <h2><%= application.get('projectDescription') %></h2>
 <div class="planning">
     <label for="flagged">Flagged</label>
-    <input type="checkbox" name="flagged" value="1" />
+    <input type="checkbox" name="flagged" <%= application.get('flagged') == '1' ? 'checked' : '' %> />
 </div>
 <div class="acreage">
     <h3>Acreage</h3>
