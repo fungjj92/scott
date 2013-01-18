@@ -107,7 +107,7 @@ def listing_parse(rawtext):
         for k, v in row2.items():
             if type(v) in {lxml.etree._ElementStringResult, str}:
                 row2[k] = unicode(v)
-        row2['parish'] = _extract_parish(row2['location']).lower()
+        row2['parish'] = _extract_parish(row2['location'])
         for k in [
             'longitude', 'latitude', 'acreage',
             'CUP', 'WQC',
@@ -153,6 +153,8 @@ MANUAL_REPLACEMENTS = {
     'MVN 2010-1080 WLL/ MVN 2010 1032 WLL B': 'MVN-2010-1080-WLL_MVN-2010-1032-WLLB',
     'MVN-2010-1080-WLL/ MVN-2010-1032-WLL-A': 'MVN-2010-1080-WLL_MVN-2010-1032-WLL-A',
 }
+
+PARISH = re.compile(r'^(acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|lasalle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$')
 
 def _parsedate(rawdate):
     return datetime.datetime.strptime(rawdate, '%m/%d/%Y')
@@ -220,8 +222,16 @@ def _onenode(html, xpath):
 def _extract_parish(location):
     'Extract the parish name if it\'s a parish. Otherwise, return None.'
     if re.match(r'.+ Parish$', location):
-        return re.sub(r' Parish$', '', location)
+        parish = re.sub(r' Parish$', '', location)
     else:
+        parish = ''
+
+    parish = parish.lower().replace('st.', 'saint')
+
+    if re.match(PARISH, parish):
+        return parish
+    else:
+        print(parish)
         return ''
 
 def main():
