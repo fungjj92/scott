@@ -16,7 +16,7 @@ fi
 # Parse the listing
 (
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html web
+# listing publicnotices.asp.html web
 )
 
 
@@ -24,29 +24,30 @@ fi
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  permits=listing publicnotices.asp.html terminal > $tmp
+  permits=$(listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp)
 
-  while $(( $(wc -l $tmp) > 0 )); do
-    tmprow=$(head -n1 $tmp)
-    sed -i 1d $tmp
-
-    permitApplicaitonNumber=$(echo $tmprow | cut -d '\t' -f1)
-    publicNoticeUrl=$(echo $tmprow | cut -d '\t' -f2)
-    drawingsUrl=$(echo $tmprow | cut -d '\t' -f3)
+  while [ $(( $(cat $tmp | wc -l))) > 0 ] ; do
+    permitApplicaitonNumber=$(head -n1 $tmp | cut -f1)
+    publicNoticeUrl=$(head -n1 $tmp | cut -f2)
+    drawingsUrl=$(head -n1 $tmp | cut -f3)
 
     cd "$READER_ROOT/../documents/$permitApplicationNumber"
-    wsync "$publicNoticeUrl" public_notice pdf
-    wsync "$drawingsUrl" drawings pdf
+    ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
+    wsync "${ARMY}${publicNoticeUrl}" public_notice pdf
+    sleep 1s
+    wsync "${ARMY}${drawingsUrl}" drawings pdf
+    sleep 1s
+    sed -i 1d $tmp
   done
 )
 
 # Parse the public notice
 (
   cd "$READER_ROOT/../documents"
-  for permitApplicationNumber in *; do
-    (
-      cd $permitApplicationNumber
-      ls
-    )
-  done
+# for permitApplicationNumber in *; do
+#   (
+#     cd $permitApplicationNumber
+#     ls
+#   )
+# done
 )
