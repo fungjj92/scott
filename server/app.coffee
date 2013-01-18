@@ -93,24 +93,23 @@ server.post '/login', (req, res, next) ->
     next()
 
   else
-    next(new restify.NotAuthorizedError('Incorrect username or password'))
+    next(new restify.NotAuthorizedError 'Incorrect username or password')
 
 # Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
   if not (isAuthorized req, res)
-    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+    return next(new restify.NotAuthorizedError 'Incorrect username or password')
 
   notValidMsg = notValid req, res
   if notValidMsg
-    return next(new restify.MissingParameterError(notValidMsg))
+    return next(new restify.InvalidContentError notValidMsg)
 
 
   # All keys must exist
   for key in KEYS
     if not req.body[key[0]]
-      res.send 400, "You need to pass the #{key[0]}."
-      return next()
+      return next(new restify.MissingParameterError "You need to pass the #{key[0]}.")
 
   keys = (KEYS.map (key)-> key[0]).join ','
   questionMarks = (KEYS.map (key) -> '?').join ','
@@ -119,20 +118,21 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
-  db.run sql, values, () ->
-    # To do: Catch the error.
-    res.send 204
-    next()
+  db.run sql, values, (err) ->
+    if err
+      next(new restify.InternalError err)
+    else
+      next()
 
 # Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
   if not isAuthorized req, res
-    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+    return next(new restify.NotAuthorizedError 'Incorrect username or password')
 
   notValidMsg = notValid req, res
   if notValidMsg
-    return next(new restify.MissingParameterError(notValidMsg))
+    return next(new restify.MissingParameterError notValidMsg)
 
   # Lines of SQL
   sqlLines = KEYS.map (key) ->
