@@ -71,82 +71,85 @@ isUser = (username, password) ->
   username != undefined and password != undefined and password == ACCOUNTS[username]
 
 # Check that an edit is allowed
-validateDocumentEdit = (req, res, next, callback) ->
+isAuthorized = (req, res, next) ->
   # Must be authenticatied
   if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
-    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+    return false
 
   for key in KEYS
 
     # Validation (key[1] is always a regular expression.)
     if req.body[key[0]] and not ('' + req.body[key[0]]).match key[1]
       res.send 400, "#{key[0]} must match #{key[1]}"
-      return next()
+      return false
 
-  callback req, res, next
+  return true
 
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
+
   if req.body and isUser req.body.username, req.body.password
     # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
     res.send 200, req.body
     next()
+
   else
     next(new restify.NotAuthorizedError('Incorrect username or password'))
 
 # Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
-  validateDocumentEdit req, res, next, (req, res, next) ->
 
-    # Must be authenticatied
-    if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
-      return next(new restify.NotAuthorizedError('Incorrect username or password'))
+  if not isAuthorized req, res, next
+    return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
-    # All keys must exist
-    for key in KEYS
-      if not req.body[key[0]]
-        res.send 400, "You need to pass the #{key[0]}."
-        return next()
+  # All keys must exist
+  for key in KEYS
+    if not req.body[key[0]]
+      res.send 400, "You need to pass the #{key[0]}."
+      return next()
 
-    keys = (KEYS.map (key)-> key[0]).join ','
-    questionMarks = (KEYS.map (key) -> '?').join ','
-    sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks})"
-    values = KEYS.map (key)-> req.body[key[0]]
+  keys = (KEYS.map (key)-> key[0]).join ','
+  questionMarks = (KEYS.map (key) -> '?').join ','
+  sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks})"
+  values = KEYS.map (key)-> req.body[key[0]]
 
-    # Run the query
-    db = new sqlite3.Database SETTINGS.dbfile
-    db.run sql, values, () ->
-      # To do: Catch the error.
-      res.send 204
-      next()
+  # Run the query
+  db = new sqlite3.Database SETTINGS.dbfile
+  db.run sql, values, () ->
+    # To do: Catch the error.
+    res.send 204
+    next()
 
 # Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
-  validateDocumentEdit req, res, next, (req, res, next) ->
-    # Lines of SQL
-    sqlLines = KEYS.map (key) ->
-      if req.body[key[0]]
-        "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-      else
-        ""
 
-    # Text for a transaction
-    sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
+  if not isAuthorized req, res, next
+    return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
-    # Escaped values for the SQL
-    values = (KEYS.map(key) ->
-      if req.body[key[0]]
-        [req.body[key[0]], req.params.permitApplicationNumber]
-      else
-        [req.body[key[0]]]
-    ).reduce((a, b) -> a.concat b)
+  # Lines of SQL
+  sqlLines = KEYS.map (key) ->
+    if req.body[key[0]]
+      "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+    else
+      ""
 
-    # Run the query
-    db = new sqlite3.Database SETTINGS.dbfile
-    db.run sql, values, () ->
-      # To do: Catch the error.
-      res.send 204
-      next()
+  # Text for a transaction
+  sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
+
+  # Escaped values for the SQL
+  values = (KEYS.map(key) ->
+    if req.body[key[0]]
+      [req.body[key[0]], req.params.permitApplicationNumber]
+    else
+      [req.body[key[0]]]
+  ).reduce((a, b) -> a.concat b)
+
+  # Run the query
+  db = new sqlite3.Database SETTINGS.dbfile
+  db.run sql, values, () ->
+    # To do: Catch the error.
+    res.send 204
+    next()
 
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
