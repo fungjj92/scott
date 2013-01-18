@@ -46,19 +46,14 @@ KEYS = [
   ["latitude", /^[0-9.]*$/]
 ]
 
-# Check whether the password is correct
-server.post '/login', (req, res, next) ->
-  if req.body && req.body.username != '' && req.body.password == 'chainsaw'
-    # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
-    res.send 200, req.body
-    return next()
-  else
-    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+isUser = (username, password) ->
+  username != undefined and password != undefined and username in ACCOUNTS and password == ACCOUNTS[username]
 
-server.put '/applications/:permitApplicationNumber', (req, res, next) ->
+# Check that an edit is allowed
+validateDocumentEdit = (req, res, next, callback)
 
   # Must be authenticatied
-  if !req.authorization.basic || req.body.username == '' || req.authorization.basic.password != 'chainsaw'
+  if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
   for key in KEYS
@@ -73,25 +68,56 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       res.send 400, "#{key[0]} must match #{key[1]}"
       return next()
 
-  console.log 2
-  # Lines of SQL
-  sqlLines = KEYS.map (key) ->
-    "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+  callback req, res, next
 
-  # Text for a transaction
-  sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
-
-  console.log 3
-  # Escaped values for the SQL
-  questionMarks = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
-  .reduce((a, b) -> a.concat b)
-
-  # Run the query
-  db = new sqlite3.Database '/tmp/wetlands.db'
-  db.run sql, questionMarks, () ->
-    # To do: Catch the error.
-    res.send 204
+# Check whether the password is correct
+server.post '/login', (req, res, next) ->
+  if req.body and isUser req.body.username, req.body.password
+    # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
+    res.send 200, req.body
     return next()
+  else
+    return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
+server.post '/applications/:permitApplicationNumber', (req, res, next) ->
+  validateDocumentEdit req, res, next, (req, res, next) ->
+
+    # Must be authenticatied
+    if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
+      return next(new restify.NotAuthorizedError('Incorrect username or password'))
+
+    keys = (KEYS.map (key)-> key[0]).join ','
+    questionMarks = (KEYS.map (key) -> '?').join ','
+    values = KEYS.map (key)-> req.body[key[0]]
+
+    "INSERT INTO application (#{keys}) VALUES (#{questionMarks})", values
+
+    # Run the query
+    db = new sqlite3.Database '/tmp/wetlands.db'
+    db.run sql, questionMarks, () ->
+      # To do: Catch the error.
+      res.send 204
+      return next()
+
+server.put '/applications/:permitApplicationNumber', (req, res, next) ->
+  validateDocumentEdit req, res, next, (req, res, next) ->
+    # Lines of SQL
+    sqlLines = KEYS.map (key) ->
+      "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+
+    # Text for a transaction
+    sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
+
+    # Escaped values for the SQL
+    questionMarks = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
+    .reduce((a, b) -> a.concat b)
+
+    # Run the query
+    db = new sqlite3.Database '/tmp/wetlands.db'
+    db.run sql, questionMarks, () ->
+      # To do: Catch the error.
+      res.send 204
+      return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
