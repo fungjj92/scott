@@ -235,7 +235,8 @@ def main():
     f.close()
     for doc in data:
         url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
-        requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+        response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+        print(response.status_code)
 
 if __name__== "__main__":
     main()

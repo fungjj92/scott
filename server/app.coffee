@@ -99,7 +99,7 @@ server.post '/login', (req, res, next) ->
 # Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
-  if not isAuthorized req, res, next
+  if not (isAuthorized req, res, next)
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
   # All keys must exist
