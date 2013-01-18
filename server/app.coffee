@@ -15,6 +15,7 @@ bunyan = require 'bunyan'
 SETTINGS =
   cache: 0
   port: 8080
+  log: false
 
 server = restify.createServer()
 
@@ -23,10 +24,11 @@ server.use (restify.bodyParser { mapParams: false })
 
 server.use (restify.authorizationParser())
 
-server.on 'after', restify.auditLogger
-  log: bunyan.createLogger
-    name: 'audit'
-    stream: process.stdout
+if SETTINGS.log
+  server.on 'after', restify.auditLogger
+    log: bunyan.createLogger
+      name: 'audit'
+      stream: process.stdout
 
 # ORM alternative
 KEYS = [
@@ -46,11 +48,6 @@ KEYS = [
 
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
-
-  console.log '---------'
-  console.log req.body
-  console.log '---------'
-
   if req.body && req.body.username != '' && req.body.password == 'chainsaw'
     # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
     res.send 200, req.body
@@ -68,14 +65,15 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
     # All keys must exist
     if not req.body[key[0]]
-      res.send 123
+      res.send 400, "You need to pass the #{key[0]}."
       return next()
 
     # Validation (key[1] is always a regular expression.)
     if not ('' + req.body[key[0]]).match key[1]
-      res.send 123
+      res.send 400, "#{key[0]} must match #{key[1]}"
       return next()
 
+  console.log 2
   # Lines of SQL
   sqlLines = KEYS.map (key) ->
     "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
@@ -83,6 +81,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   # Text for a transaction
   sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
 
+  console.log 3
   # Escaped values for the SQL
   questionMarks = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
   .reduce((a, b) -> a.concat b)
