@@ -3,6 +3,7 @@ export READER_ROOT="$PWD"
 
 # Port of the server
 export PORT=8080
+export SCRAPER_PASSWORD='h%r9hr23(uo'
 
 # Set path.
 OLD_PATH=$PATH
