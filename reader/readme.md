@@ -2,7 +2,7 @@ Activate
 
     . activate
 
-Parse a listing
+Parse a listing, and upload it.
 
     listing [listing file]
 
