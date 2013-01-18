@@ -6,8 +6,9 @@ define([
   'text!templates/application/page.html',
   'models/application',
   'models/session',
+  'helpers/auth',
   'helpers/parishes'
-], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, SessionModel, parishes){
+], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, SessionModel, auth, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
@@ -15,7 +16,7 @@ define([
       var page = this
       this.$model.fetch({
         success: function (collection, response, options) {
-          var sessionModel = new SessionModel
+          var sessionModel = new SessionModel()
           sessionModel.fetch()
           page.$el.html(_.template(applicationPageTemplate, {
             application: page.$model,
@@ -26,19 +27,9 @@ define([
       })
     },
     update: function (e) {
-      // this.$model.set(e.currentTarget.name, e.currentTarget.value)
-
       var attributes = {}
       attributes[e.currentTarget.name] = e.currentTarget.value
-
-      var beforeSend = function(xhr) {
-        sessionModel = new SessionModel()
-        sessionModel.fetch()
-        var token = sessionModel.token()
-        xhr.setRequestHeader('Authorization', ("Basic ".concat(btoa(token))))
-      }
-
-      this.$model.save(attributes, { beforeSend: beforeSend })
+      this.$model.save(attributes, { beforeSend: auth })
     },
     events: {
       "change input": "update",
