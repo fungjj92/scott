@@ -67,11 +67,10 @@ ACCOUNTS =
 
 # Check whether a username and password combination corresponds to an account.
 isUser = (username, password) ->
-  username != undefined and password != undefined and username in ACCOUNTS and password == ACCOUNTS[username]
+  username != undefined and password != undefined and password == ACCOUNTS[username]
 
 # Check that an edit is allowed
 validateDocumentEdit = (req, res, next, callback) ->
-
   # Must be authenticatied
   if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
