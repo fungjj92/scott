@@ -57,8 +57,8 @@ KEYS = [
   # Notes
   ["type", /^(|impact|mitigation|restoration|other)$/],
   ["notes", /^.*$/],
-  ["status", /^(toRead|toComment|waiting|toFOI|done)$/],
-  ["flagged", /^[01]$/]
+  ["status", /^(|toRead|toComment|waiting|toFOI|done|other)$/],
+  ["flagged", /^1?$/]
 ]
 
 ACCOUNTS =
@@ -79,7 +79,7 @@ notValid = (req, res) ->
   for key in KEYS
 
     # Validation (key[1] is always a regular expression.)
-    if req.body[key[0]] and not ('' + req.body[key[0]]).match key[1]
+    if req.body[key[0]] != undefined and not ('' + req.body[key[0]]).match key[1]
       return "#{key[0]} must match #{key[1]}"
 
   return false
@@ -140,28 +140,30 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
   # Lines of SQL
   sqlLines = KEYS.map (key) ->
-    if req.body[key[0]]
-      "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
-    else
+    console.log (req.body[key[0]] == undefined)
+    if req.body[key[0]] == undefined
       ""
+    else
+      "#{key[0]} = ?"
 
   # Text for a transaction
-  sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
+  sql = 'UPDATE application SET ' + (sqlLines.join ',') + 'WHERE permitApplicationNumber = ?;'
 
   # Escaped values for the SQL
-  values = (KEYS.map(key) ->
-    if req.body[key[0]]
-      [req.body[key[0]], req.params.permitApplicationNumber]
+  values = (KEYS.map ((key) ->
+    if req.body[key[0]] == undefined
+      []
     else
       [req.body[key[0]]]
-  ).reduce((a, b) -> a.concat b)
+  )).reduce((a, b) -> a.concat b)
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
-  db.run sql, values, (status) ->
-    if status
-      next(new restify.InvalidContentError status)
+  db.run sql, values, (err) ->
+    if err
+      next(new restify.InvalidContentError err)
     else
+      res.send 204
       next()
 
 # View an application

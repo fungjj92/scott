@@ -1,7 +1,7 @@
 <h2><%= application.get('projectDescription') %></h2>
 <div class="planning">
     <label for="flagged">Flagged</label>
-    <input type="checkbox" name="flagged" />
+    <input type="checkbox" name="flagged" value="1" />
 </div>
 <div class="acreage">
     <h3>Acreage</h3>
@@ -33,17 +33,17 @@
 <div class="type">
     <h3>What sort of permit is this?</h3>
     <label for="impact">Impact</label>
-    <input type="radio" name="status" value="impact"
-        <%= application.get('status') == 'impact' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    <input type="radio" name="type" value="impact"
+        <%= application.get('type') == 'impact' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="mitigation">Mitigation</label>
-    <input type="radio" name="status" value="mitigation"
-        <%= application.get('status') == 'mitigation' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    <input type="radio" name="type" value="mitigation"
+        <%= application.get('type') == 'mitigation' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="restoration">Restoration</label>
-    <input type="radio" name="status" value="restoration"
-        <%= application.get('status') == 'restoration' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    <input type="radio" name="type" value="restoration"
+        <%= application.get('type') == 'restoration' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
     <label for="other">Other</label>
-    <input type="radio" name="status" value="other"
-        <%= application.get('status') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    <input type="radio" name="type" value="other"
+        <%= application.get('type') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
 </div>
 <div class="documents">
     <h3>Documents</h3>
