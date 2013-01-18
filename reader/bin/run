@@ -16,19 +16,27 @@ fi
 # Parse the listing
 (
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html
+  listing publicnotices.asp.html web
 )
 
 
 # Download the public notices and drawings
 (
+  tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  permits=listing-urls publicnotices.asp.html
+  permits=listing publicnotices.asp.html terminal > $tmp
 
-  cd "$READER_ROOT/../documents"
-  for permit in $permits; do
-    wsync "$public_notice_url" public_notice pdf
-    wsync "$drawings_url" drawings pdf
+  while $(( $(wc -l $tmp) > 0 )); do
+    tmprow=$(head -n1 $tmp)
+    sed -i 1d $tmp
+
+    permitApplicaitonNumber=$(echo $tmprow | cut -d '\t' -f1)
+    publicNoticeUrl=$(echo $tmprow | cut -d '\t' -f2)
+    drawingsUrl=$(echo $tmprow | cut -d '\t' -f3)
+
+    cd "$READER_ROOT/../documents/$permitApplicationNumber"
+    wsync "$publicNoticeUrl" public_notice pdf
+    wsync "$drawingsUrl" drawings pdf
   done
 )
 
