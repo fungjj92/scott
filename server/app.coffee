@@ -139,15 +139,14 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     return next(new restify.MissingParameterError notValidMsg)
 
   # Lines of SQL
-  sqlLines = KEYS.map (key) ->
-    console.log (req.body[key[0]] == undefined)
+  sqlExprs = KEYS.map (key) ->
     if req.body[key[0]] == undefined
       ""
     else
       "#{key[0]} = ?"
 
   # Text for a transaction
-  sql = 'UPDATE application SET ' + (sqlLines.join ',') + 'WHERE permitApplicationNumber = ?;'
+  sql = "UPDATE application SET #{sqlExprs.join ','} WHERE permitApplicationNumber = ?;"
 
   # Escaped values for the SQL
   values = (KEYS.map ((key) ->
@@ -155,11 +154,13 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       []
     else
       [req.body[key[0]]]
-  )).reduce((a, b) -> a.concat b)
+  )).reduce((a, b) -> a.concat b).concat([req.body.permitApplicationNumber])
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
+    console.log sql
+    console.log values
     if err
       next(new restify.InvalidContentError err)
     else
