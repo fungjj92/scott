@@ -1,10 +1,9 @@
 #!/bin/sh
 set -e
 
-LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
-
 # Download the listing
 (
+  LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
   cd "$READER_ROOT/listings"
   wsync "$URL" publicnotices.asp html
 )
