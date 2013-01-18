@@ -24,7 +24,7 @@ for extension in pbm ppm
     echo $file
 
     # Raise OCR errors at the end; try other files if one fails.
-    tesseract "$file" "$file" &&
+    tesseract "$file" "$file" -l eng &&
       cat "$file.txt" >> "$FILE.txt" ||
       ocr_error=true
 
