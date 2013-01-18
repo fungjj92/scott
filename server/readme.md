@@ -14,10 +14,12 @@ dictionaries.
 application as a JSON dictionary.
 
 `POST /applications/:permitApplicationNumber` Create a record for a permit
-application by passing a JSON dictionary or a web query.
+application by passing a JSON dictionary or a web query. You must pass all
+fields.
 
 `PUT /applications/:permitApplicationNumber` Edit a particular permit
-application by passing the full new document as a JSON dictionary.
+application by passing the full new document as a JSON dictionary. Only
+the fields that you pass will be changed.
 
 Everything else serves static files
 

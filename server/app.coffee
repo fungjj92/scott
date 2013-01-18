@@ -78,13 +78,8 @@ validateDocumentEdit = (req, res, next, callback) ->
 
   for key in KEYS
 
-    # All keys must exist
-    if not req.body[key[0]]
-      res.send 400, "You need to pass the #{key[0]}."
-      return next()
-
     # Validation (key[1] is always a regular expression.)
-    if not ('' + req.body[key[0]]).match key[1]
+    if req.body[key[0]] and not ('' + req.body[key[0]]).match key[1]
       res.send 400, "#{key[0]} must match #{key[1]}"
       return next()
 
@@ -107,6 +102,12 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
     if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
       return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
+    # All keys must exist
+    for key in KEYS
+      if not req.body[key[0]]
+        res.send 400, "You need to pass the #{key[0]}."
+        return next()
+
     keys = (KEYS.map (key)-> key[0]).join ','
     questionMarks = (KEYS.map (key) -> '?').join ','
     sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks})"
@@ -124,14 +125,21 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   validateDocumentEdit req, res, next, (req, res, next) ->
     # Lines of SQL
     sqlLines = KEYS.map (key) ->
-      "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+      if req.body[key[0]]
+        "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
+      else
+        ""
 
     # Text for a transaction
     sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
 
     # Escaped values for the SQL
-    values = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
-    .reduce((a, b) -> a.concat b)
+    values = (KEYS.map(key) ->
+      if req.body[key[0]]
+        [req.body[key[0]], req.params.permitApplicationNumber]
+      else
+        [req.body[key[0]]]
+    ).reduce((a, b) -> a.concat b)
 
     # Run the query
     db = new sqlite3.Database SETTINGS.dbfile
