@@ -1,5 +1,5 @@
 define([], function () {
-  return [  return [
+  return [
     ['acadia', 'Acadia'],
     ['allen', 'Allen'],
     ['ascension', 'Ascension'],
