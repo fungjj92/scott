@@ -16,8 +16,8 @@
     <label for="parish">Parish</label>
     <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
         <% _.each(parishes, function(parish) { %>
-        <option value="" <%= application.get('parish') == parish ? 'selected' : '' %>>
-            <%= parish %>
+        <option <%= application.get('parish') == parish[0] ? 'selected' : '' %>>
+            <%= parish[1] %>
         </option>
         <% }) %>
         <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
