@@ -8,7 +8,7 @@ export SCRAPER_PASSWORD='h%r9hr23(uo'
 # Set path.
 OLD_PATH=$PATH
 OLD_PYTHONPATH=$PYTHONPATH
-PATH="$READER_ROOT/bin:$PATH"
+PATH="$READER_ROOT/bin:$READER_ROOT/wsync:$PATH"
 
 # Add code directory to PYTHONPATH, adding a separating ':' if PYTHONPATH is already set.
 # See http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_02

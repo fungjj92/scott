@@ -1,21 +1,44 @@
 #!/bin/sh
 set -e
 
+if [ -z "$READER_ROOT" ]; then
+  echo Activate before running this.
+  exit 1
+fi
+
 # Download the listing
 (
   LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
   cd "$READER_ROOT/../listings"
-  wsync "$URL" publicnotices.asp html
+  wsync "$LISTING_URL" publicnotices.asp html
 )
 
 # Parse the listing
+(
+  cd "$READER_ROOT/../listings"
+  listing publicnotices.asp.html
+)
 
 
 # Download the public notices and drawings
 (
+  cd "$READER_ROOT/../listings"
+  permits=listing-urls publicnotices.asp.html
+
   cd "$READER_ROOT/../documents"
-  wsync "$public_notice_url" public_notice pdf
-  wsync "$drawings_url" drawings pdf
+  for permit in $permits; do
+    wsync "$public_notice_url" public_notice pdf
+    wsync "$drawings_url" drawings pdf
+  done
 )
 
 # Parse the public notice
+(
+  cd "$READER_ROOT/../documents"
+  for permitApplicationNumber in *; do
+    (
+      cd $permitApplicationNumber
+      ls
+    )
+  done
+)
