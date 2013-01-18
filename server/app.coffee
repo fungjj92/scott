@@ -50,7 +50,7 @@ isUser = (username, password) ->
   username != undefined and password != undefined and username in ACCOUNTS and password == ACCOUNTS[username]
 
 # Check that an edit is allowed
-validateDocumentEdit = (req, res, next, callback)
+validateDocumentEdit = (req, res, next, callback) ->
 
   # Must be authenticatied
   if !req.authorization.basic or not (isUser req.authorization.basic.username, req.authorization.basic.password)
@@ -88,13 +88,12 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
     keys = (KEYS.map (key)-> key[0]).join ','
     questionMarks = (KEYS.map (key) -> '?').join ','
+    sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks})"
     values = KEYS.map (key)-> req.body[key[0]]
-
-    "INSERT INTO application (#{keys}) VALUES (#{questionMarks})", values
 
     # Run the query
     db = new sqlite3.Database '/tmp/wetlands.db'
-    db.run sql, questionMarks, () ->
+    db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
       return next()
@@ -109,12 +108,12 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
 
     # Escaped values for the SQL
-    questionMarks = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
+    values = (KEYS.map(key) -> [req.body[key[0]], req.params.permitApplicationNumber])
     .reduce((a, b) -> a.concat b)
 
     # Run the query
     db = new sqlite3.Database '/tmp/wetlands.db'
-    db.run sql, questionMarks, () ->
+    db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
       return next()
