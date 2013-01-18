@@ -113,7 +113,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
     values = KEYS.map (key)-> req.body[key[0]]
 
     # Run the query
-    db = new sqlite3.Database dbfile
+    db = new sqlite3.Database SETTINGS.dbfile
     db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
@@ -134,7 +134,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     .reduce((a, b) -> a.concat b)
 
     # Run the query
-    db = new sqlite3.Database dbfile
+    db = new sqlite3.Database SETTINGS.dbfile
     db.run sql, values, () ->
       # To do: Catch the error.
       res.send 204
@@ -142,7 +142,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
-  db = new sqlite3.Database dbfile
+  db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
     if row
@@ -153,7 +153,7 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
 
 # List the applications
 server.get '/applications', (req, res, next) ->
-  db = new sqlite3.Database dbfile
+  db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
     res.send rows

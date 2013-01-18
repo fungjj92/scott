@@ -6,7 +6,7 @@ define([
   'text!templates/application/page.html',
   'models/application',
   'models/session',
-  'views/application/parishes'
+  'helpers/parishes'
 ], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, SessionModel, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
