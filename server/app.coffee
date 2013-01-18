@@ -64,38 +64,38 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   if !req.authorization.basic || req.body.username == '' || req.authorization.basic.password != 'chainsaw'
     return next(new restify.NotAuthorizedError('Incorrect username or password'))
 
-  # All keys must exist
   for key in KEYS
+
+    # All keys must exist
     if not req.body[key[0]]
       send 123
       return next()
+
+    # Validation (key[1] is always a regular expression.)
     if not ('' + req.body[key[0]]).match key[1]
       send 123
       return next()
 
+  # Lines of SQL
   sqlLines = KEYS.map (key) ->
     "UPDATE application SET #{key[0]} = ? WHERE permitApplicationNumber = ?;"
 
   # Text for a transaction
   sql = 'BEGIN TRANSACTION;' + (sqlLines.join '') + 'COMMIT;'
 
+  # Escaped values for the SQL
   questionMarks = (KEYS.map
-      (key) -> [req.body[key[0]], req.body.permitApplicationNumber]
+      (key) -> [req.body[key[0]], req.params.permitApplicationNumber]
     ).reduce(
       (a, b) -> a.concat b
     )
 
-    # Validation (key[1] is always a regular expression.)
-    [sqlLine,
-  # Question marks
-  ((sqlLines.map (sqlLine, value) -> sqlLine).join '')
-
-    db.run sql, req.body[key[0]], req.params.permitApplicationNumber
-
+  # Run the query
   db = new sqlite3.Database '/tmp/wetlands.db'
-
-  res.send 204
-  return next()
+  db.run sql, questionMarks, () ->
+    # To do: Catch the error.
+    res.send 204
+    return next()
 
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   db = new sqlite3.Database '/tmp/wetlands.db'
