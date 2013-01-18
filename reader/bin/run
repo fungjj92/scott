@@ -16,7 +16,7 @@ fi
 # Parse the listing
 (
   cd "$READER_ROOT/../listings"
-# listing publicnotices.asp.html web
+  listing publicnotices.asp.html web
 )
 
 
