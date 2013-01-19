@@ -34,8 +34,8 @@ def main():
     print response.status_code
     print response.text
 
-LOCATION_OF_WORK = re.compile(r'^(LOCATION OF WORK|LOCATION):.*$')
-CHARACTER_OF_WORK = re.compile(r'^(CHARACTER OF WORK|DESCRIPTION):.*$')
+LOCATION_OF_WORK = re.compile(r'^.*(LOCATION OF WORK|LOCATION):.*$')
+CHARACTER_OF_WORK = re.compile(r'^.*(CHARACTER OF WORK|DESCRIPTION):.*$')
 def _location_of_work(text):
     lines = text.split('\n')
     in_window = False
