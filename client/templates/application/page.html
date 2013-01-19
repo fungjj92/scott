@@ -1,12 +1,10 @@
 <div class="row">
-    <div class="span12">
+    <div class="span1">
+        <p style="font-weight: bold; text-align: center; font-size: 50px; height: 60px; line-height: 60px; margin-top: 0.3em; background-color: #DDD; border-radius: 5px;"
+           id="flagged" class="<%= application.get('flagged') == '1' ? 'text-error' : 'muted' %>">!</p>
+    </div>
+    <div class="span11">
         <h2><%= application.get('projectDescription') %></h2>
-        <!--
-        <div class="planning">
-            <label for="flagged">Flagged</label>
-            <input type="checkbox" name="flagged" <%= application.get('flagged') == '1' ? 'checked' : '' %> />
-        </div>
-        -->
     </div>
 </div>
 <div class="row">

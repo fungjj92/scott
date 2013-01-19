@@ -35,10 +35,21 @@ define([
       }
       this.$model.save(attributes, { beforeSend: auth })
     },
+    update_flag: function (e) {
+      var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
+      this.$model.save({'flagged': flagged}, {
+        beforeSend: auth,
+        success: function() {
+          var textClass = flagged === '1' ? 'text-error' : 'muted'
+          $('#flagged').attr('class', textClass)
+        }
+      })
+    },
     events: {
       "change input": "update",
       "change textarea": "update",
-      "change select": "update"
+      "change select": "update",
+      "click #flagged": "update_flag"
     }
   });
   return ApplicationPage;
