@@ -32,8 +32,8 @@ if SETTINGS.log
     log: bunyan.createLogger
       name: 'scott'
       streams: [{
-        level: 'info',
-        path: logfile
+        level: 'trace',
+        path: SETTINGS.logfile
       }]
 
 # ORM alternative
@@ -53,11 +53,13 @@ KEYS = [
   # Automatically taken from the public notice
   ["CUP", /^.*$/],
   ["WQC", /^.*$/],
+  ["locationOfWork", /^.*$/],
+  ["characterOfWork", /^.*$/],
 
   # Manually taken from the public notice
   ["longitude", /^[0-9.]*$/],
-  ["latitude", /^[0-9.]*$/]
-  ["acreage", /^[0-9.]*$/],
+  ["latitude", /^-?[0-9.]*$/]
+  ["acreage", /^-?[0-9.]*$/],
 
   # Notes
   ["type", /^(|impact|mitigation|restoration|other)$/],

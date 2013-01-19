@@ -14,8 +14,8 @@
         <div class="row">
             <div class="acreage span5">
                 <h3>How big?</h3>
-                <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-                <textarea rows="4" name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
+                <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+                <textarea rows="4" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
                 <label for="acreage">Acreage</label>
                 <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
                     min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
@@ -34,7 +34,7 @@
                     </option>
                 </select>
                 <label for="abstactLocation">Location from the public notice</label>
-                <textarea rows="4" name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
+                <textarea rows="4" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
             </div>
         </div>
     </div>

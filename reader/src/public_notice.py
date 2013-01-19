@@ -29,6 +29,8 @@ def main():
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
     requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    print url
+    print doc
 
 LOCATION_OF_WORK = re.compile(r'^(LOCATION OF WORK|LOCATION):.*$')
 CHARACTER_OF_WORK = re.compile(r'^(CHARACTER OF WORK|DESCRIPTION):.*$')
