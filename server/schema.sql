@@ -19,6 +19,8 @@ CREATE TABLE application (
   "WQC" TEXT NOT NULL,
 
   -- Manually taken from the public notice
+  "locationOfWork" TEXT NOT NULL,
+  "characterOfWork" TEXT NOT NULL,
   "longitude" FLOAT,
   "latitude" FLOAT,
   "acreage" FLOAT,

@@ -30,6 +30,36 @@ def main():
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
     requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
 
+LOCATION_OF_WORK = re.compile(r'^(LOCATION OF WORK|LOCATION):.*$')
+CHARACTER_OF_WORK = re.compile(r'^(CHARACTER OF WORK|DESCRIPTION):.*$')
+def _location_of_work(text):
+    lines = text.split('\n')
+    in_window = False
+    out = []
+    for line in lines:
+        if re.match(LOCATION_OF_WORK, line):
+            in_window = True
+        elif re.match(CHARACTER_OF_WORK, line):
+            break
+
+        if in_window:
+            out.append(line)
+    return ''.join(out)
+
+def _character_of_work(text):
+    lines = text.split('\n')
+    in_window = False
+    out = []
+    for line in lines:
+        if re.match(CHARACTER_OF_WORK, line):
+            in_window = True
+        elif line == '':
+            break
+
+        if in_window:
+            out.append(line)
+    return ''.join(out)
+
 def parse(text):
     # Parse
     guess = read_public_notice(text)
@@ -43,6 +73,9 @@ def parse(text):
 
     if len(guess['Coords']) > 0:
         doc['latitude'], doc['longitude'] = guess['Coords'][0]
+
+    doc['description'] = _location_of_work(text)
+    doc['description'] = _character_of_work(text)
 
     return doc
 
