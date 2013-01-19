@@ -8,6 +8,22 @@ Clone with submodules
 
     git clone git@github.com:tlevine/scott.git --recursive
 
+Install dependencies
+
+    # For the server
+    (
+      cd server
+      npm install
+    )
+
+    # For the reader
+    sudo pacman -S python2-lxml python2-cssselect \
+      tesseract-data-eng tesseract
+    (
+      cd reader
+      sudo pip2 install -r requirements.txt
+    )
+
 `server` contains a restify web server, and `client`
 contains a Backbone application. The server also serves
 the client files. Serve the site like so
