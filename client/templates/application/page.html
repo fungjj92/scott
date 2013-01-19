@@ -27,14 +27,6 @@
 </div>
 <div class="row">
     <div class="span4">
-        <div class="acreage row">
-            <h3>How big?</h3>
-            <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-            <textarea class="span4" rows="12" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
-            <label for="acreage">Acreage</label>
-            <input class="span4" type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
-                min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
-        </div>
         <div class="where row">
             <h3>Where?</h3>
             <label for="parish">Parish</label>
@@ -50,6 +42,14 @@
             </select>
             <label for="abstactLocation">Location from the public notice</label>
             <textarea class="span4" rows="12" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
+        </div>
+        <div class="acreage row">
+            <h3>How big?</h3>
+            <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+            <textarea class="span4" rows="12" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
+            <label for="acreage">Acreage</label>
+            <input class="span4" type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
+                min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
         </div>
         <div class="row type">
             <h3>Permit type</h3>
@@ -91,67 +91,47 @@
             </a>
         </div>
         <div class="map row">
-            <div id="map" style="width: 90%; height: 500px; margin-left: auto; background-color: black; color: white;"></div>
+            <div id="map" style="width: 90%; height: 500px; margin-left: auto; background-color: #0FF; color: white;"></div>
             <p style="text-align: center;">Click the map to mark the proposed development.</p>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="notes span4">
-        <div class="row">
-            <h3><label for="notes">Notes</label></h3>
+        <fieldset class="row">
+            <h3><label for="notes"><h3>Notes</h3></label></h3>
             <textarea class="span4" rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
-        </div>
+        </fieldset>
     </div>
     <div class="identifiers span4">
-        <div class="row">
-            <div class="span4">
-                <h3>Identity numbers</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
-                <!-- http://www.mvn.usace.army.mil/bcarre/mvn%20levee%20permits%20policy.pdf -->
-            </div>
-            <div class="span4">
-                <input class="span4" type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
-            </div>
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
-            </div>
-            <div class="span4">
-                <input class="span4" type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
-            </div>
-        </div>
-        <div class="row">
+        <h3>Identity numbers</h3>
+        <fieldset class="row">
+            <label class="span1" for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
+            <!-- http://www.mvn.usace.army.mil/bcarre/mvn%20levee%20permits%20policy.pdf -->
+            <input class="span3" type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
+            <input class="span3" type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
             <label class="span1" for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
-            <input class="span4" type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
-        </div>
+            <input class="span3" type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
     </div>
     <div class="projectManager span4">
         <h3>Project Manager</h3>
-        <div class="row">
+        <fieldset class="row">
             <label class="span1" for="projectManagerName">Name</label>
-            <input class="span4" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="projectManagerPhone">Phone</label>
-            </div>
-            <div class="span4">
-                <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
-            </div>
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="projectManagerEmail">Email</label>
-            </div>
-            <div class="span4">
-                <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
-            </div>
-        </div>
+            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="projectManagerPhone">Phone</label>
+            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="projectManagerEmail">Email</label>
+            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
     </div>
 </div>
