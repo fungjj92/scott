@@ -18,6 +18,7 @@ SETTINGS =
 # log: false
   log: true
   dbfile: '/tmp/wetlands.db'
+  logfile: '/tmp/scott.log'
 
 server = restify.createServer()
 
@@ -32,7 +33,7 @@ if SETTINGS.log
       name: 'scott'
       streams: [{
         level: 'info',
-        path: '/tmp/scott.log'
+        path: logfile
       }]
 
 # ORM alternative
