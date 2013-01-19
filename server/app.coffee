@@ -163,8 +163,6 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
-    console.log sql
-    console.log values
     if err
       next(new restify.InvalidContentError err)
     else
