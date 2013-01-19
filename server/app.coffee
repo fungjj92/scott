@@ -29,8 +29,11 @@ server.use (restify.authorizationParser())
 if SETTINGS.log
   server.on 'after', restify.auditLogger
     log: bunyan.createLogger
-      name: 'audit'
-      stream: process.stdout
+      name: 'scott'
+      streams: [{
+        level: 'info',
+        path: '/tmp/scott.log'
+      }]
 
 # ORM alternative
 KEYS = [
