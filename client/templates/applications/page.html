@@ -1,7 +1,16 @@
-<h3>Permit Applications</h3>
-<p>This is a bunch of permit applications</p>
-<ul>
-    <% _.each(applications, function(application){ %>
-    <%= record_template({ application: application }) %>
-    <% }); %>
-</ul>
+<div class="span12">
+    <h3>Permit Applications</h3>
+    <table class="table table-hover">
+        <thead>
+            <th class="projectDescription span6">Description</th>
+            <th class="expirationDate span2">Expiration</th>
+            <th class="type span2">Type</th>
+            <th class="acreage span2">Acreage</th>
+        </thead>
+        <tbody>
+            <% _.each(applications, function(application){ %>
+            <%= record_template({ application: application }) %>
+            <% }); %>
+        </tbody>
+    </table>
+</div>

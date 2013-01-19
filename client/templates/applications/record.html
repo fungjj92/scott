@@ -1,11 +1,11 @@
-<div class="application">
-    <hgroup>
-        <h3 class="projectDescription"><a href="#/applications/<%= application.get('permitApplicationNumber') %>"><%= application.get('projectDescription') %></a></h3>
-        <h4 class="permitApplicationNumber"><%= application.get('permitApplicationNumber') %></h4>
-    </hgroup>
-    <span class="expirationDate">Expires on <%= application.get('expirationDate') %></span>
-    <!-- 
-        Type (restoration, &c.)
-        Acreage
-    -->
-</div>
+<tr class="application">
+    <td class="projectDescription span2">
+        <a href="#/applications/<%= application.get('permitApplicationNumber') %>"><%= application.get('projectDescription') %></a>
+    </td>
+    <% var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ] %>
+    <% var d = new Date(application.get('expirationDate')) %>
+    <% var month = months[d.getMonth()]  %>
+    <td class="expirationDate span2"><%= month %> <%= d.getDate() %>, <%= d.getFullYear() %></td>
+    <td class="type span2"><%= application.get('type') %></td>
+    <td class="acreage span2"><%= application.get('acreage') %></td>
+</tr>
