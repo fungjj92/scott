@@ -10,41 +10,45 @@
     </div>
 </div>
 <div class="row">
-    <div class="acreage span4">
-        <h3>Acreage</h3>
-        <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-        <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
-        <label for="acreage">Acreage</label>
-        <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
-            min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
+    <div class="span5">
+        <div class="row">
+            <div class="acreage span5">
+                <h3>How big?</h3>
+                <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+                <textarea rows="6" name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
+                <label for="acreage">Acreage</label>
+                <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
+                    min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
+            </div>
+            <div class="where span5">
+                <h3>Where?</h3>
+                <label for="parish">Parish</label>
+                <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
+                    <% _.each(parishes, function(parish) { %>
+                    <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
+                        <%= parish[1] %>
+                    </option>
+                    <% }) %>
+                    <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
+                        Other/multiple/none
+                    </option>
+                </select>
+                <label for="abstactLocation">Location from the public notice</label>
+                <textarea rows="6" name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
+            </div>
+            <div class="map span5">
+                <div id="map" class="map" style="width: 100%; height: 300px; background-color: black; color: white;">Map here</div>
+                <p>Click the map to mark the proposed development.</p>
+            </div>
+        </div>
     </div>
-    <div class="preview span8">
+    <div class="preview span7">
         <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">
             <img width="100%" src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
         </a>
     </div>
 </div>
 <div class="row">
-    <div class="where span4">
-        <h3>Where is it?</h3>
-        <label for="parish">Parish</label>
-        <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
-            <% _.each(parishes, function(parish) { %>
-            <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
-                <%= parish[1] %>
-            </option>
-            <% }) %>
-            <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
-                Other/multiple/none
-            </option>
-        </select>
-        <label for="abstactLocation">Location from the public notice</label>
-        <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
-    </div>
-    <div class="span8">
-        <div id="map" class="map" style="width: 100%; height: 480px; background-color: black; color: white;">Map here</div>
-        <p>Click the map to mark the proposed development.</p>
-    </div>
 </div>
 <div class="row">
     <div class="type span3">
@@ -162,7 +166,7 @@
         </div>
         <div class="row">
             <div class="span2">
-                <label for="CUP">CUP</label>
+                <label for="CUP">Coastal Use Permit (CUP)</label>
             </div>
             <div class="span3">
                 <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
@@ -170,7 +174,7 @@
         </div>
         <div class="row">
             <div class="span2">
-                <label for="WQC">WQC</label>
+                <label for="WQC">Water Quality Certification (WQC)</label>
             </div>
             <div class="span3">
                 <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
