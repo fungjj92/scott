@@ -20,3 +20,11 @@ select {
 textarea {
   width: 100%;
 }
+
+.checkpoint {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    text-align: center;
+}
