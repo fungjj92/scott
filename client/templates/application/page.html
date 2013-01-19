@@ -10,118 +10,166 @@
     </div>
 </div>
 <div class="row">
-    <div class="span4">
-        <div class="row">
-            <div class="acreage">
-                <h3>Acreage</h3>
-                <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-                <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
-                <label for="acreage">Acreage</label>
-                <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
-                    min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
-            </div>
-            <div class="where">
-                <%= application.get('parish') %>
-                <h3>Where is it?</h3>
-                <label for="parish">Parish</label>
-                <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
-                    <% _.each(parishes, function(parish) { %>
-                    <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
-                        <%= parish[1] %>
-                    </option>
-                    <% }) %>
-                    <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
-                        Other/multiple/none
-                    </option>
-                </select>
-                <label for="abstactLocation">Location from the public notice</label>
-                <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
-                <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
-                <p>Click the map to mark the proposed development.</p>
-            </div>
-        </div>
+    <div class="acreage span4">
+        <h3>Acreage</h3>
+        <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+        <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
+        <label for="acreage">Acreage</label>
+        <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
+            min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
     </div>
     <div class="preview span8">
         <div style="width: 100%; height: 600px; background-color: #AAA"></div>
         <img src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
     </div>
 </div>
-<div class="type">
-    <h3>What sort of permit is this?</h3>
-    <label for="impact">Impact</label>
-    <input type="radio" name="type" value="impact"
-        <%= application.get('type') == 'impact' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="mitigation">Mitigation</label>
-    <input type="radio" name="type" value="mitigation"
-        <%= application.get('type') == 'mitigation' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="restoration">Restoration</label>
-    <input type="radio" name="type" value="restoration"
-        <%= application.get('type') == 'restoration' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="other">Other</label>
-    <input type="radio" name="type" value="other"
-        <%= application.get('type') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+<div class="row">
+    <div class="where span4">
+        <%= application.get('parish') %>
+        <h3>Where is it?</h3>
+        <label for="parish">Parish</label>
+        <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
+            <% _.each(parishes, function(parish) { %>
+            <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
+                <%= parish[1] %>
+            </option>
+            <% }) %>
+            <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
+                Other/multiple/none
+            </option>
+        </select>
+        <label for="abstactLocation">Location from the public notice</label>
+        <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
+    </div>
+    <div class="span8">
+        <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
+        <p>Click the map to mark the proposed development.</p>
+    </div>
 </div>
-<div class="documents">
-    <h3>Documents</h3>
-    <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
-        class="public_notice">Public Notice</a>
-    <a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
-        class="drawings">Drawings</a>
-    <a href="#" class="deq">DEQ</a>
-    <a href="#" class="dnr">DNR</a>
+<div class="row">
+    <div class="type span4">
+        <h3>What sort of permit is this?</h3>
+        <label for="impact">Impact</label>
+        <input type="radio" name="type" value="impact"
+            <%= application.get('type') == 'impact' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="mitigation">Mitigation</label>
+        <input type="radio" name="type" value="mitigation"
+            <%= application.get('type') == 'mitigation' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="restoration">Restoration</label>
+        <input type="radio" name="type" value="restoration"
+            <%= application.get('type') == 'restoration' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="other">Other</label>
+        <input type="radio" name="type" value="other"
+            <%= application.get('type') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    </div>
+    <div class="documents span4">
+        <h3>Documents</h3>
+        <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
+            class="public_notice">Public Notice</a>
+        <a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
+            class="drawings">Drawings</a>
+        <a href="#" class="deq">DEQ</a>
+        <a href="#" class="dnr">DNR</a>
+    </div>
+    <div class="status span4">
+        <h3>Status</h3>
+        <label for="toRead">To read</label>
+        <input type="radio" name="status" value=""
+            <%= application.get('status') == undefined ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="toComment">To comment</label>
+        <input type="radio" name="status" value="toComment"
+            <%= application.get('status') == 'toComment' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="waiting">Waiting</label>
+        <input type="radio" name="status" value="waiting"
+            <%= application.get('status') == 'waiting' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="toFOI">To FOI</label>
+        <input type="radio" name="status" value="toFOI"
+            <%= application.get('status') == 'toFOI' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+        <label for="done">Done</label>
+        <input type="radio" name="status" value="done"
+            <%= application.get('status') == 'done' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+    </div>
 </div>
-<div class="status">
-    <h3>Status</h3>
-    <label for="toRead">To read</label>
-    <input type="radio" name="status" value=""
-        <%= application.get('status') == undefined ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="toComment">To comment</label>
-    <input type="radio" name="status" value="toComment"
-        <%= application.get('status') == 'toComment' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="waiting">Waiting</label>
-    <input type="radio" name="status" value="waiting"
-        <%= application.get('status') == 'waiting' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="toFOI">To FOI</label>
-    <input type="radio" name="status" value="toFOI"
-        <%= application.get('status') == 'toFOI' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-    <label for="done">Done</label>
-    <input type="radio" name="status" value="done"
-        <%= application.get('status') == 'done' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-</div>
-<div class="notes">
+<div class="notes row">
     <h3>Notes</h3>
     <label for="notes">Notes</label>
     <textarea name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
 </div>
-<div class="identifiers">
-    <h3>Identity numbers</h3>
-    <label for="permitApplicationNumber">Permit Application Number</label>
-    <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
-    <label for="CUP">CUP</label>
-    <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
-    <label for="WQC">WQC</label>
-    <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+<div class="row">
+    <div class="dates">
+        <h3>Dates</h3>
+        <label for="publicNoticeDate">Public Notice Date</label>
+        <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+        <label for="expirationDate">Expiration Date</label>
+        <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+    </div>
 </div>
-<div class="projectManager">
-    <h3>Project Manager</h3>
-    <label for="projectManagerName">Name</label>
-    <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
-
-    <label for="projectManagerPhone">Phone</label>
-    <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
-    <a href="tel:<%= '+' + application.get('projectManagerPhone').replace(/[^0-9]/g, '') %>">Call</a>
-
-    <label for="projectManagerEmail">Email</label>
-    <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
-    <% var emailAddress = encodeURIComponent( application.get('projectManagerName') + ' <' + application.get('projectManagerEmail') + '>' ) %>
-    <% var emailSubject = encodeURIComponent('Concern over ' + application.get('permitApplicationNumber') + ' ' + application.get('projectDescription') ) %>
-    <% var emailBody    = encodeURIComponent('') %>
-    <a href="mailto:<%= emailAddress %>?subject=<%= emailSubject %>&body=<%= emailBody %>">Send Email</a>
-</div>
-<div class="dates">
-    <h3>Dates</h3>
-    <label for="publicNoticeDate">Public Notice Date</label>
-    <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
-    <label for="expirationDate">Expiration Date</label>
-    <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+<div class="row">
+    <div class="identifiers span6">
+        <div class="row">
+            <div class="span6">
+                <h3>Identity numbers</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span2">
+                <label for="permitApplicationNumber">Permit Application Number</label>
+            </div>
+            <div class="span4">
+                <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
+            </div>
+        </div>
+        <div class="row">
+            <div class="span2">
+                <label for="CUP">CUP</label>
+            </div>
+            <div class="span4">
+                <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+        </div>
+        <div class="row">
+            <div class="span2">
+                <label for="WQC">WQC</label>
+            </div>
+            <div class="span4">
+                <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+        </div>
+    </div>
+    <div class="projectManager span6">
+        <h3>Project Manager</h3>
+        <div class="row">
+            <div class="span1">
+                <label for="projectManagerName">Name</label>
+            </div>
+            <div class="span4">
+                <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+        </div>
+        <div class="row">
+            <div class="span1">
+                <label for="projectManagerPhone">Phone</label>
+            </div>
+            <div class="span4">
+                <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+            <div class="span1">
+                <a href="tel:<%= '+' + application.get('projectManagerPhone').replace(/[^0-9]/g, '') %>">Call</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span1">
+                <label for="projectManagerEmail">Email</label>
+            </div>
+            <div class="span4">
+                <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+            <div class="span1">
+                <% var emailAddress = encodeURIComponent( application.get('projectManagerName') + ' <' + application.get('projectManagerEmail') + '>' ) %>
+                <% var emailSubject = encodeURIComponent('Concern over ' + application.get('permitApplicationNumber') + ' ' + application.get('projectDescription') ) %>
+                <% var emailBody    = encodeURIComponent('') %>
+                <a href="mailto:<%= emailAddress %>?subject=<%= emailSubject %>&body=<%= emailBody %>">Send Email</a>
+            </div>
+        </div>
+    </div>
 </div>
