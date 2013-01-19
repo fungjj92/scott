@@ -159,7 +159,6 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   )).reduce((a, b) -> a.concat b).concat([req.body.permitApplicationNumber])
 
   # Run the query
-  console.log sql
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
     if err

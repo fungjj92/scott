@@ -74,8 +74,8 @@ def parse(text):
     if len(guess['Coords']) > 0:
         doc['latitude'], doc['longitude'] = guess['Coords'][0]
 
-    doc['description'] = _location_of_work(text)
-    doc['description'] = _character_of_work(text)
+    doc['locationOfWork'] = _location_of_work(text)
+    doc['characterOfWork'] = _character_of_work(text)
 
     return doc
 
