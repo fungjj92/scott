@@ -15,18 +15,30 @@ define([
         }
       }
 
-      var applicationsCollection = new ApplicationsCollection
-      applicationsCollection.comparator = params.comparator
+      this.applicationsCollection = new ApplicationsCollection
+      this.applicationsCollection.comparator = params.comparator
       var page = this
 
-      applicationsCollection.fetch({
+      this.applicationsCollection.fetch({
         success: function (collection, response, options) {
           page.$el.html(_.template(applicationsPageTemplate, {
-            applications: applicationsCollection.models,
+            applications: page.applicationsCollection.models,
             record_template: _.template(applicationsRecordTemplate)
           }))
         }
       })
+    },
+    resort: function(e) {
+      var comparator = {
+        type: function(a) { return a.get('type') },
+        date: function(a) { return -new Date(a.get('expirationDate')) },
+        acreage: function(a) { return -a.get('acreage') }
+      }[e.currentTarget.href.split('#')[1]]
+      this.render({comparator: comparator})
+      return false
+    },
+    events: {
+      'click .sort': 'resort'
     }
   });
 
