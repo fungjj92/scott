@@ -57,7 +57,7 @@ def _character_of_work(text):
     for line in lines:
         if re.match(CHARACTER_OF_WORK, line):
             in_window = True
-        elif line == '':
+        elif line == '\n':
             break
 
         if in_window:
