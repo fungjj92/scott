@@ -13,10 +13,6 @@ select {
   height: 4em;
 }
 
-textarea {
-  width: 100%;
-}
-
 .checkpoint {
     float: left;
     margin: 0;

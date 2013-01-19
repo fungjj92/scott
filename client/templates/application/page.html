@@ -26,123 +26,101 @@
     </div>
 </div>
 <div class="row">
-    <div class="span5">
-        <div class="row">
-            <div class="acreage span5">
-                <h3>How big?</h3>
-                <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-                <textarea rows="6" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
-                <label for="acreage">Acreage</label>
-                <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
-                    min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
-            </div>
-            <div class="where span5">
-                <h3>Where?</h3>
-                <label for="parish">Parish</label>
-                <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
-                    <% _.each(parishes, function(parish) { %>
-                    <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
-                        <%= parish[1] %>
-                    </option>
-                    <% }) %>
-                    <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
-                        Other/multiple/none
-                    </option>
-                </select>
-                <label for="abstactLocation">Location from the public notice</label>
-                <textarea rows="6" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
-            </div>
+    <div class="span4">
+        <div class="acreage row">
+            <h3>How big?</h3>
+            <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+            <textarea rows="12" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
+            <label for="acreage">Acreage</label>
+            <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
+                min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
         </div>
-    </div>
-    <div class="preview span6 offset1">
-        <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">
-            <img width="100%" src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
-        </a>
-    </div>
-</div>
-<div class="row">
-    <div class="span6">
-        <div class="row">
-            <div class="type span3">
-                <div class="row">
-                    <div class="span3">
-                        <h3>Permit type</h3>
-                    </div>
-                </div>
-                <% var permitTypes = [['impact', 'Impact'], ['mitigation', 'Mitigation'], ['restoration', 'Restoration'], ['other', 'Other']] %>
-                <% _.each(permitTypes, function(permitType) { %>
-                <div class="row">
-                    <div class="span3">
-                        <label class="radio">
-                            <input type="radio" name="type" value="<%= permitType[0] %>"
-                                <%= application.get('type') == permitType[0] ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                                <%= permitType[1] %>
-                        </label>
-                    </div>
-                </div>
+        <div class="where row">
+            <h3>Where?</h3>
+            <label for="parish">Parish</label>
+            <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
+                <% _.each(parishes, function(parish) { %>
+                <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
+                    <%= parish[1] %>
+                </option>
                 <% }) %>
-            </div>
+                <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
+                    Other/multiple/none
+                </option>
+            </select>
+            <label for="abstactLocation">Location from the public notice</label>
+            <textarea rows="12" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
         </div>
-        <div class="row">
-            <div class="dates span3">
-                <div class="row">
-                    <div class="span3">
-                        <h3>Dates</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span2">
-                        <label for="publicNoticeDate">Public Notice Date</label>
-                        <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span2">
-                        <label for="expirationDate">Expiration Date</label>
-                        <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
-                    </div>
+        <div class="row type">
+            <h3>Permit type</h3>
+            <% var permitTypes = [['impact', 'Impact'], ['mitigation', 'Mitigation'], ['restoration', 'Restoration'], ['other', 'Other']] %>
+            <% _.each(permitTypes, function(permitType) { %>
+            <label class="radio">
+                <input type="radio" name="type" value="<%= permitType[0] %>"
+                    <%= application.get('type') == permitType[0] ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+                    <%= permitType[1] %>
+            </label>
+            <% }) %>
+        </div>
+        <div class="dates">
+            <div class="row">
+                <div class="span4">
+                    <h3>Dates</h3>
                 </div>
             </div>
-            <div class="documents span3">
-                <div class="row">
-                    <div class="span3">
-                        <h3>Documents</h3>
-                    </div>
+            <div class="row">
+                <div class="span4">
+                    <label for="publicNoticeDate">Public Notice Date</label>
+                    <input type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
                 </div>
-                <div class="row">
-                    <div class="span3">
-                        <ul>
-                            <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
-                                class="public_notice">Public Notice</a></li>
-                            <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
-                                class="drawings">Drawings</a></li>
-                            <% if (application.get('CUP')) { %>
-                            <li><a href="" class="deq">DEQ</a></li>
-                            <!-- http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=P20110522 -->
-                            <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
-                            <% } %>
-                        </ul>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="span4">
+                    <label for="expirationDate">Expiration Date</label>
+                    <input type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="notes span5">
-                <h3><label for="notes">Notes</label></h3>
-                <textarea rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
+        <div class="documents">
+            <div class="row">
+                <div class="span4">
+                    <h3>Documents</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span4">
+                    <ul>
+                        <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
+                            class="public_notice">Public Notice</a></li>
+                        <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
+                            class="drawings">Drawings</a></li>
+                        <% if (application.get('CUP')) { %>
+                        <li><a href="" class="deq">DEQ</a></li>
+                        <!-- http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=P20110522 -->
+                        <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
+                        <% } %>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="span6">
-        <div class="row">
-            <div class="map span6">
-                <div id="map" class="map" style="width: 100%; height: 500px; background-color: black; color: white;">Map here</div>
-                <p>Click the map to mark the proposed development.</p>
-            </div>
+    <div class="span8">
+        <div class="preview row">
+            <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">
+                <img width="100%" src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
+            </a>
+        </div>
+        <div class="map row">
+            <div id="map" style="width: 90%; height: 500px; margin-left: auto; background-color: black; color: white;"></div>
+            <p style="text-align: center;">Click the map to mark the proposed development.</p>
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="notes span4">
+        <h3><label for="notes">Notes</label></h3>
+        <textarea rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
+    </div>
     <div class="identifiers span4">
         <div class="row">
             <div class="span4">
@@ -154,7 +132,7 @@
                 <label for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
                 <!-- http://www.mvn.usace.army.mil/bcarre/mvn%20levee%20permits%20policy.pdf -->
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
             </div>
         </div>
@@ -162,7 +140,7 @@
             <div class="span1">
                 <label for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
@@ -170,18 +148,18 @@
             <div class="span1">
                 <label for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
     </div>
-    <div class="projectManager span4 offset4">
+    <div class="projectManager span4">
         <h3>Project Manager</h3>
         <div class="row">
             <div class="span1">
                 <label for="projectManagerName">Name</label>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
@@ -189,7 +167,7 @@
             <div class="span1">
                 <label for="projectManagerPhone">Phone</label>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
@@ -197,7 +175,7 @@
             <div class="span1">
                 <label for="projectManagerEmail">Email</label>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <input type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
