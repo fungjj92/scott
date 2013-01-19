@@ -3,12 +3,13 @@ define([
   'lodash',
   'backbone',
   'vm',
+  'leaflet',
   'text!templates/application/page.html',
   'models/application',
   'models/session',
   'helpers/auth',
   'helpers/parishes'
-], function($, _, Backbone, Vm, applicationPageTemplate, ApplicationModel, SessionModel, auth, parishes){
+], function($, _, Backbone, Vm, L, applicationPageTemplate, ApplicationModel, SessionModel, auth, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     render: function () {
