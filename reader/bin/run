@@ -24,9 +24,9 @@ fi
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  permits=$(listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp)
+  permits=$(listing publicnotices.asp.html terminal | sed '/^$/d' | head -n2 > $tmp)
 
-  while [ $(( $(cat $tmp | wc -l))) > 0 ] ; do
+  while [ $(cat $tmp | wc -l) -gt 0 ] ; do
     permitApplicationNumber=$(head -n1 $tmp | cut -f1)
     publicNoticeUrl=$(head -n1 $tmp | cut -f2)
     drawingsUrl=$(head -n1 $tmp | cut -f3)
