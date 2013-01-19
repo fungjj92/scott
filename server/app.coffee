@@ -158,11 +158,13 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
       []
     else
       [req.body[key[0]]]
-  )).reduce((a, b) -> a.concat b).concat([req.body.permitApplicationNumber])
+  )).reduce((a, b) -> a.concat b).concat([req.params.permitApplicationNumber])
 
   # Run the query
   db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
+    console.log sql
+    console.log values
     if err
       next(new restify.InvalidContentError err)
     else
