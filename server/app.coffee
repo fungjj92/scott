@@ -57,9 +57,9 @@ KEYS = [
   ["characterOfWork", /^.*$/],
 
   # Manually taken from the public notice
-  ["longitude", /^[0-9.]*$/],
+  ["longitude", /^-?[0-9.]*$/],
   ["latitude", /^-?[0-9.]*$/]
-  ["acreage", /^-?[0-9.]*$/],
+  ["acreage", /^[0-9.]*$/],
 
   # Notes
   ["type", /^(|impact|mitigation|restoration|other)$/],
