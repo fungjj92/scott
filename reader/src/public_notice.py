@@ -11,7 +11,7 @@ def main():
     import requests
 
     if len(sys.argv) != 3:
-        print('USAGE: %s [permit application number] [public notice document text]' % sys.argv[0])
+        print('USAGE: %s [permit application number] [public notice text document]' % sys.argv[0])
         exit(1)
 
     # Read input

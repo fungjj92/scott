@@ -1,37 +1,49 @@
-<h2><%= application.get('projectDescription') %></h2>
-<div class="planning">
-    <label for="flagged">Flagged</label>
-    <input type="checkbox" name="flagged" <%= application.get('flagged') == '1' ? 'checked' : '' %> />
+<div class="row">
+    <div class="span12">
+        <h2><%= application.get('projectDescription') %></h2>
+        <!--
+        <div class="planning">
+            <label for="flagged">Flagged</label>
+            <input type="checkbox" name="flagged" <%= application.get('flagged') == '1' ? 'checked' : '' %> />
+        </div>
+        -->
+    </div>
 </div>
-<div class="preview">
-    <img src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
-</div>
-<div class="acreage">
-    <h3>Acreage</h3>
-    <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-    <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
-    <label for="acreage">Acreage</label>
-    <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
-        min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
-</div>
-<div class="where">
-    <%= application.get('parish') %>
-    <h3>Where is it?</h3>
-    <label for="parish">Parish</label>
-    <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
-        <% _.each(parishes, function(parish) { %>
-        <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
-            <%= parish[1] %>
-        </option>
-        <% }) %>
-        <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
-            Other/multiple/none
-        </option>
-    </select>
-    <label for="abstactLocation">Location from the public notice</label>
-    <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
-    <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
-    <p>Click the map to mark the proposed development.</p>
+<div class="row">
+    <div class="span4">
+        <div class="row">
+            <div class="acreage">
+                <h3>Acreage</h3>
+                <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
+                <textarea name="abstractDescription" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractDescription') %></textarea>
+                <label for="acreage">Acreage</label>
+                <input type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
+                    min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
+            </div>
+            <div class="where">
+                <%= application.get('parish') %>
+                <h3>Where is it?</h3>
+                <label for="parish">Parish</label>
+                <select name="parish" <%= loggedIn ? '' : 'readonly' %>>
+                    <% _.each(parishes, function(parish) { %>
+                    <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
+                        <%= parish[1] %>
+                    </option>
+                    <% }) %>
+                    <option value="" <%= application.get('parish') == '' ? 'selected' : '' %>>
+                        Other/multiple/none
+                    </option>
+                </select>
+                <label for="abstactLocation">Location from the public notice</label>
+                <textarea name="abstractLocation" <%= loggedIn ? '' : 'readonly' %>><%= application.get('abstractLocation') %></textarea>
+                <div id="map" class="map" style="width: 480px; height: 320px; background-color: black; color: white;">Map here</div>
+                <p>Click the map to mark the proposed development.</p>
+            </div>
+        </div>
+    </div>
+    <div class="preview span8">
+        <img src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
+    </div>
 </div>
 <div class="type">
     <h3>What sort of permit is this?</h3>
