@@ -69,34 +69,18 @@
                         <h3>Permit type</h3>
                     </div>
                 </div>
+                <% var permitTypes = [['impact', 'Impact'], ['mitigation', 'Mitigation'], ['restoration', 'Restoration'], ['other', 'Other']] %>
+                <% _.each(permitTypes, function(permitType) { %>
                 <div class="row">
                     <div class="span3">
-                        <input type="radio" name="type" value="impact"
-                            <%= application.get('type') == 'impact' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="impact">Impact</label>
+                        <label class="radio">
+                            <input type="radio" name="type" value="<%= permitType[0] %>"
+                                <%= application.get('type') == permitType[0] ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
+                                <%= permitType[1] %>
+                        </label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="type" value="mitigation"
-                            <%= application.get('type') == 'mitigation' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="mitigation">Mitigation</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="type" value="restoration"
-                            <%= application.get('type') == 'restoration' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="restoration">Restoration</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="type" value="other"
-                            <%= application.get('type') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="other">Other</label>
-                    </div>
-                </div>
+                <% }) %>
             </div>
         </div>
         <div class="row">

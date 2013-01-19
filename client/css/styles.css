@@ -9,10 +9,6 @@ select {
   width: 100%;
 }
 
-.status label, .type label {
-  display: inline;
-}
-
 .identifiers .row, .projectManager .row {
   height: 4em;
 }
