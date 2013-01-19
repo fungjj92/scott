@@ -1,14 +1,5 @@
 @import url("bootstrap.css");
 
-input[type=text],
-input[type=tel],
-input[type=email],
-input[type=number],
-input[type=date],
-select {
-  width: 100%;
-}
-
 .identifiers .row, .projectManager .row {
   height: 4em;
 }
