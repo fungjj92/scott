@@ -145,9 +145,9 @@
     </div>
 </div>
 <div class="row">
-    <div class="identifiers span6">
+    <div class="identifiers span5">
         <div class="row">
-            <div class="span6">
+            <div class="span5">
                 <h3>Identity numbers</h3>
             </div>
         </div>
@@ -155,7 +155,7 @@
             <div class="span2">
                 <label for="permitApplicationNumber">Permit Application Number</label>
             </div>
-            <div class="span4">
+            <div class="span3">
                 <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
             </div>
         </div>
@@ -163,7 +163,7 @@
             <div class="span2">
                 <label for="CUP">CUP</label>
             </div>
-            <div class="span4">
+            <div class="span3">
                 <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
@@ -171,12 +171,12 @@
             <div class="span2">
                 <label for="WQC">WQC</label>
             </div>
-            <div class="span4">
+            <div class="span3">
                 <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
         </div>
     </div>
-    <div class="projectManager span6">
+    <div class="projectManager span6 offset1">
         <h3>Project Manager</h3>
         <div class="row">
             <div class="span1">

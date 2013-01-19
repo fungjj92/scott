@@ -1,18 +1,22 @@
 @import url("bootstrap.css");
 
-.span4 > input[type=text],
-.span4 > input[type=tel],
-.span4 > input[type=email],
-.span4 > input[type=number],
-.span4 > select {
-  width: 300px;
-}
-*/
-
-.notes textarea {
-    width: 100%;
+input[type=text],
+input[type=tel],
+input[type=email],
+input[type=number],
+input[type=date],
+select {
+  width: 100%;
 }
 
 .status label, .type label {
   display: inline;
+}
+
+.identifiers .row, .projectManager .row {
+  height: 4em;
+}
+
+textarea {
+  width: 100%;
 }
