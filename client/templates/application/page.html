@@ -3,6 +3,9 @@
     <label for="flagged">Flagged</label>
     <input type="checkbox" name="flagged" <%= application.get('flagged') == '1' ? 'checked' : '' %> />
 </div>
+<div class="preview">
+    <img src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" />
+</div>
 <div class="acreage">
     <h3>Acreage</h3>
     <label for="abstractDescription" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
@@ -47,9 +50,9 @@
 </div>
 <div class="documents">
     <h3>Documents</h3>
-    <a href="http://chainsaw.chickenkiller.com:1419/pdfs/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
+    <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf"
         class="public_notice">Public Notice</a>
-    <a href="http://chainsaw.chickenkiller.com:1419/pdfs/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
+    <a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
         class="drawings">Drawings</a>
     <a href="#" class="deq">DEQ</a>
     <a href="#" class="dnr">DNR</a>
