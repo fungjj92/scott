@@ -10,7 +10,7 @@
 <div class="row">
     <div class="span8 offset2">
         <div class="row">
-            <input type="range" min="1" max="5" step="1" style="width: 100%;"/>
+            <input name="status" type="range" min="1" max="5" step="1" style="width: 100%;" value="<%= application.get('status') %>" />
         </div>
     </div>
 </div>
@@ -95,48 +95,6 @@
                         <input type="radio" name="type" value="other"
                             <%= application.get('type') == 'other' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
                         <label for="other">Other</label>
-                    </div>
-                </div>
-            </div>
-            <div class="status span3">
-                <div class="row">
-                    <div class="span3">
-                        <h3>Status</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="status" value=""
-                            <%= application.get('status') == undefined ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="toRead">To read</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="status" value="toComment"
-                            <%= application.get('status') == 'toComment' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="toComment">To comment</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="status" value="waiting"
-                            <%= application.get('status') == 'waiting' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="waiting">Waiting</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="status" value="toFOI"
-                            <%= application.get('status') == 'toFOI' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="toFOI">To FOI</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span3">
-                        <input type="radio" name="status" value="done"
-                            <%= application.get('status') == 'done' ? 'checked' : '' %> <%= loggedIn ? '' : 'disabled' %> />
-                        <label for="done">Done</label>
                     </div>
                 </div>
             </div>

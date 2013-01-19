@@ -64,7 +64,7 @@ KEYS = [
   # Notes
   ["type", /^(|impact|mitigation|restoration|other)$/],
   ["notes", /^.*$/],
-  ["status", /^(|toRead|toComment|waiting|toFOI|done|other)$/],
+  ["status", /^([1-5])$/],
   ["flagged", /^[01]?$/]
 ]
 
