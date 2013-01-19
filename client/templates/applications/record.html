@@ -5,7 +5,7 @@
     <% var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ] %>
     <% var d = new Date(application.get('expirationDate')) %>
     <% var month = months[d.getMonth()]  %>
-    <td class="expirationDate span2"><%= month %> <%= d.getDate() %>, <%= d.getFullYear() %></td>
     <td class="type span2"><%= application.get('type') %></td>
     <td class="acreage span2"><%= application.get('acreage') %></td>
+    <td class="expirationDate span2"><%= month %> <%= d.getDate() %>, <%= d.getFullYear() %></td>
 </tr>
