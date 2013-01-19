@@ -98,38 +98,32 @@
 </div>
 <div class="row">
     <div class="notes span4">
-        <div class="row">
-            <h3><label for="notes">Notes</label></h3>
-            <textarea class="span4" rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
-        </div>
+        <h3><label for="notes">Notes</label></h3>
+        <textarea class="span4" rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
     </div>
     <div class="identifiers span4">
-        <div class="row">
-            <div class="span4">
-                <h3>Identity numbers</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
+        <h3>Identity numbers</h3>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label span1" for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
                 <!-- http://www.mvn.usace.army.mil/bcarre/mvn%20levee%20permits%20policy.pdf -->
+                <div class="controls">
+                    <input type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
+                </div>
             </div>
-            <div class="span4">
-                <input class="span4" type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
+            <div class="control-group">
+                <label class="control-label" for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
+                <div class="controls">
+                    <input type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="span1">
-                <label for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
+            <div class="control-group">
+                <label class="control-label" for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
+                <div class="controls">
+                    <input type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+                </div>
             </div>
-            <div class="span4">
-                <input class="span4" type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
-            </div>
-        </div>
-        <div class="row">
-            <label class="span1" for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
-            <input class="span4" type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
-        </div>
+        </form>
     </div>
     <div class="projectManager span4">
         <h3>Project Manager</h3>

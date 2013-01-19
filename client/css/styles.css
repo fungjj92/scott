@@ -1,9 +1,5 @@
 @import url("bootstrap.css");
 
-.identifiers .row, .projectManager .row {
-  height: 4em;
-}
-
 .checkpoint {
     float: left;
     margin: 0;
