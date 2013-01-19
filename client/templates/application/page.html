@@ -93,8 +93,11 @@
                 class="public_notice">Public Notice</a></li>
             <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
                 class="drawings">Drawings</a></li>
-            <li><a href="#" class="deq">DEQ</a></li>
-            <li><a href="#" class="dnr">DNR</a></li>
+            <% if (application.get('CUP')) { %>
+            <li><a href="" class="deq">DEQ</a></li>
+            <!-- http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=P20110522 -->
+            <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
+            <% } %>
         </li>
     </div>
     <div class="status span3">
