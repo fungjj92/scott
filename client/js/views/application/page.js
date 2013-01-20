@@ -58,17 +58,41 @@ define([
         // Zoom in more if we've alraedy specified the coordinates
         var zoom = this.$model.get('latitude') ? 10 : 7
 
+        // Plot a point
+        var plot = function(map, model) {
+            var coords = [model.get('latitude'), model.get('longitude')]
+            window.coords = coords
+            return L.circle(coords, 10000, {
+                color: 'black',
+                opacity: 0,
+                fillColor: 'black',
+                fillOpacity: 0.5
+            }).addTo(map)
+        }
+
         // Draw
         var map = L.map('map').setView([latitude, longitude], zoom).addLayer(osm)
+
+        // Plot the point if we have it.
+        if (this.$model.get('latitude')) {
+            this.point = plot(map, this.$model)
+        }
 
         // Update on click
         var page = this
         map.on('click', function(e) {
-            alert(e.latlng.lng)
             page.$model.save({
-                latitude:   e.latlng.lat,
-                longtitude: e.latlng.lng
-            }, { beforeSend: auth })
+                latitude:  e.latlng.lat,
+                longitude: e.latlng.lng
+            }, {
+                beforeSend: auth,
+                success: function() {
+                    if (page.point) {
+                        map.removeLayer(page.point)
+                    }
+                    plot(map, page.$model)
+                }
+            })
         })
     },
     events: {
