@@ -52,11 +52,28 @@ define([
         var osmAttrib='Map data (C) OpenStreetMap contributors'
         var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 12, attribution: osmAttrib})
 
-        var longitude = this.$model.get('longitude') || -91.8360
-        var latitude =  this.$model.get('latitude')  ||  31.0413
-
         // Zoom in more if we've alraedy specified the coordinates
-        var zoom = this.$model.get('latitude') ? 10 : 7
+        if (this.$model.get('latitude')) {
+            var longitude = this.$model.get('longitude')
+            var latitude =  this.$model.get('latitude')
+            var zoom = 11
+        } else if (this.$model.get('parish')) {
+            var parish = this.$model.get('parish')
+            var lnglat = parishes.map(function(p) {
+                if (p[0] != parish) {
+                    return []
+                } else {
+                    return [p[3], p[2]]
+                }
+            }).reduce(function(a,b) { return a.concat(b) })
+            var longitude = lnglat[0]
+            var latitude =  lnglat[1]
+            var zoom = 9
+        } else {
+            var longitude = -91.8360
+            var latitude =   31.0413
+            var zoom = 6
+        }
 
         // Plot a point
         var plot = function(map, model) {
