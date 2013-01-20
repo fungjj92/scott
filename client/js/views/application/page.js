@@ -24,6 +24,7 @@ define([
             parishes: parishes,
             loggedIn: sessionModel.loggedIn()
           }))
+          page.drawMap()
         }
       })
     },
@@ -36,7 +37,7 @@ define([
       }
       this.$model.save(attributes, { beforeSend: auth })
     },
-    update_flag: function (e) {
+    updateFlag: function (e) {
       var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
       this.$model.save({'flagged': flagged}, {
         beforeSend: auth,
@@ -46,12 +47,36 @@ define([
         }
       })
     },
+    drawMap: function() {
+        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        var osmAttrib='Map data (C) OpenStreetMap contributors'
+        var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 12, attribution: osmAttrib})
+
+        var longitude = this.$model.get('longitude') || -91.8360
+        var latitude =  this.$model.get('latitude')  ||  31.0413
+
+        // Zoom in more if we've alraedy specified the coordinates
+        var zoom = this.$model.get('latitude') ? 10 : 7
+
+        // Draw
+        var map = L.map('map').setView([latitude, longitude], zoom).addLayer(osm)
+
+        // Update on click
+        var page = this
+        map.on('click', function(e) {
+            alert(e.latlng.lng)
+            page.$model.save({
+                latitude:   e.latlng.lat,
+                longtitude: e.latlng.lng
+            }, { beforeSend: auth })
+        })
+    },
     events: {
       "change input": "update",
       "change textarea": "update",
       "change select": "update",
-      "click #flagged": "update_flag"
+      "click #flagged": "updateFlag"
     }
-  });
-  return ApplicationPage;
+  })
+  return ApplicationPage
 });

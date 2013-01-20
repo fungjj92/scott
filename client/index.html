@@ -13,9 +13,13 @@
   <link rel="stylesheet" href="css/styles.css" />
 
   <script data-main="js/main" src="js/libs/require/require.js"></script>
+
+  <!-- Leaflet doesn't work nicely with require.js -->
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 </head>
 <body>
   <!-- Initially populated by templates/layout.html -->
   <div class="container container_16"></div>
+  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
 </body>
 </html>
