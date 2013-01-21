@@ -184,7 +184,7 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
       next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
 # List the applications
-server.get '/applications', (req, res, next) ->
+server.get /^\/applications(\.json)?$/, (req, res, next) ->
   db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
@@ -227,9 +227,15 @@ server.get '/applications.csv', (req, res, next) ->
         else
           a.concat [row[b]]
     csv().from(listRows).to (csvString) ->
-      res.setHeader('content-type', 'text/csv');
+      res.setHeader 'content-type', 'text/csv'
       res.send CSV_COLUMNS.join(',') + '\n' + csvString
       next()
+
+server.get '/applications.db', (req, res, next) ->
+  fs.readFile SETTINGS.dbfile, (err, data) ->
+    res.setHeader 'content-type', 'application/x-sqlite3'
+    res.send data
+    next()
 
 # Serve the client
 file = new node_static.Server '../client', { cache: SETTINGS.cache }
