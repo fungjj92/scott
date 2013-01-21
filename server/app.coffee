@@ -12,6 +12,9 @@ node_static = require 'node-static'
 bunyan = require 'bunyan'
 # https://github.com/trentm/node-bunyan
 
+csv = require 'csv'
+# http://www.adaltas.com/projects/node-csv/to.html
+
 SETTINGS =
   cache: 0
   port: 8080
@@ -187,6 +190,46 @@ server.get '/applications', (req, res, next) ->
   db.all sql, (err, rows) ->
     res.send rows
     next()
+
+CSV_COLUMNS = [
+  'permitApplicationNumber',
+  'projectDescription',
+  'applicant',
+  'projectManagerName',
+  'projectManagerPhone',
+  'projectManagerEmail',
+  'publicNoticeDate',
+  'expirationDate',
+  'publicNoticeUrl',
+  'drawingsUrl',
+  'parish',
+  'CUP',
+  'WQC',
+  'locationOfWork',
+  'characterOfWork',
+  'longitude',
+  'latitude',
+  'acreage',
+  'type',
+  'notes',
+  'status',
+  'flagged'
+]
+# List the applications as csv
+server.get '/applications.csv', (req, res, next) ->
+  db = new sqlite3.Database SETTINGS.dbfile
+  sql = "SELECT * FROM application;"
+  db.all sql, (err, rows) ->
+    listRows = rows.map (row) ->
+      CSV_COLUMNS.reduce (a, b) ->
+        if a == 'permitApplicationNumber'
+          [row[a], row[b]]
+        else
+          a.concat [row[b]]
+    csv().from(listRows).to (csvString) ->
+      res.setHeader('content-type', 'text/csv');
+      res.send CSV_COLUMNS.join(',') + '\n' + csvString
+      next()
 
 # Serve the client
 file = new node_static.Server '../client', { cache: SETTINGS.cache }
