@@ -193,9 +193,9 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
       next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
 # List the applications
-server.get /^\/applications(\.json)?$/, (req, res, next) ->
+server.get '/applications', (req, res, next) ->
   db = new sqlite3.Database SETTINGS.dbfile
-  sql = "SELECT * FROM application;"
+  sql = "SELECT permitApplicationNumber, projectDescription, type, acreage, expirationDate, flagged, reminderDate, latitude, longitude, status FROM application;"
   db.all sql, (err, rows) ->
     res.send rows
     next()
@@ -225,6 +225,14 @@ CSV_COLUMNS = [
   'flagged',
   'reminderDate'
 ]
+# List the applications as JSON
+server.get '/applications.json', (req, res, next) ->
+  db = new sqlite3.Database SETTINGS.dbfile
+  sql = "SELECT * FROM application;"
+  db.all sql, (err, rows) ->
+    res.send rows
+    next()
+
 # List the applications as csv
 server.get '/applications.csv', (req, res, next) ->
   db = new sqlite3.Database SETTINGS.dbfile
@@ -241,6 +249,7 @@ server.get '/applications.csv', (req, res, next) ->
       res.send CSV_COLUMNS.join(',') + '\n' + csvString
       next()
 
+# Applications as SQLite database
 server.get '/applications.db', (req, res, next) ->
   fs.readFile SETTINGS.dbfile, (err, data) ->
     res.setHeader 'content-type', 'application/x-sqlite3'
