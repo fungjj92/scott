@@ -1,8 +1,8 @@
 <% if (application.get('status') == '3') { %>
     <div class="span2 offset5"> 
         <div class="row" style="text-align: center;">
-            <input type="date" class="input-small" name="reminderDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> style="margin-top: 1em;" />
-            <label for="reminderDate"><abbr title="This application will be linked from the home page on and after this date.">Remind me</label>
+            <label for="reminderDate"><abbr title="This application will be linked from the home page on and after this date.">until</label>
+            <input type="date" class="input-small" name="reminderDate" value ="<%= application.get('reminderDate') %>" <%= loggedIn ? '' : 'readonly' %> />
         </div>
     </div>
 <% } %>
