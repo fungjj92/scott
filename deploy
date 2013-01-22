@@ -13,7 +13,7 @@ wget http://nodejs.org/dist/v0.8.18/node-v0.8.18.tar.gz
 tar -zxf node-v0.8.18.tar.gz
 echo 'Node.js download & unpack completed'
 cd node-v0.8.18
-./configure && make && checkinstall --install=yes --pkgname=nodejs --pkgversion "0.8.18" --default
+./configure && make && sudo checkinstall --install=yes --pkgname=nodejs --pkgversion "0.8.18" --default
 echo 'Node.js install completed'
 
 # Other stuff
