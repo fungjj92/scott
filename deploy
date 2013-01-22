@@ -2,4 +2,4 @@
 
 # This should be run on a fresh installation of Ubuntu 12.04 64-bit.
 sudo apt-get update
-sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng
+sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng coffeescript

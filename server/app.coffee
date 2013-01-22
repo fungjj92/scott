@@ -244,3 +244,6 @@ file = new node_static.Server '../client', { cache: SETTINGS.cache }
 server.get /^.*$/, (a, b, c) ->
   file.serve a, b, c
 server.listen SETTINGS.port
+
+# Make it a module.
+module.exports = server
