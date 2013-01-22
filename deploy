@@ -36,3 +36,5 @@ cd scott
   cd server
   npm install
 )
+
+echo 'Edit the passwords in the user table.'
