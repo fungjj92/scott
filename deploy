@@ -2,12 +2,19 @@
 
 # This should be run on a fresh installation of Ubuntu 12.04 64-bit.
 
-# The latest node
-# https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manage
-sudo apt-get install python-software-properties python g++ make
-sudo add-apt-repository ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs npm
+apt-get -y update
+
+# Node ( http://apptob.org/ )
+apt-get -y install libssl-dev pkg-config build-essential curl gcc g++ checkinstall
+echo 'Download Node.js - v. 0.8.18'
+mkdir /tmp/node-install
+cd /tmp/node-install
+wget http://nodejs.org/dist/v0.8.18/node-v0.8.18.tar.gz
+tar -zxf node-v0.8.18.tar.gz
+echo 'Node.js download & unpack completed'
+cd node-v0.8.18
+./configure && make && checkinstall --install=yes --pkgname=nodejs --pkgversion "0.8.18" --default
+echo 'Node.js install completed'
 
 # Other stuff
 sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng \
@@ -15,8 +22,8 @@ sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng \
 
 # Serve port 8080 as port 80
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-# iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 
+# Clone the project
 cd /home/tlevine
 git clone git@github.com:tlevine/scott.git --recursive
 cd scott
