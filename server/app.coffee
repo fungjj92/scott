@@ -15,13 +15,21 @@ bunyan = require 'bunyan'
 csv = require 'csv'
 # http://www.adaltas.com/projects/node-csv/to.html
 
-SETTINGS =
+PRODUCTION_SETTINGS =
   cache: 0
   port: 8080
-# log: false
+  log: true
+  dbfile: '/home/tlevine/wetlands.db'
+  logfile: '/home/tlevine/scott.log'
+
+DEVELOPMENT_SETTINGS =
+  cache: 0
+  port: 8080
   log: true
   dbfile: '/tmp/wetlands.db'
   logfile: '/tmp/scott.log'
+
+SETTINGS = PRODUCTION_SETTINGS
 
 server = restify.createServer()
 
