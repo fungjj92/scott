@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # This should be run on a fresh installation of Ubuntu 12.04 64-bit.
-
-apt-get -y update
+# First, update.
+sudo apt-get -y update
 
 # Node ( http://apptob.org/ )
-apt-get -y install libssl-dev pkg-config build-essential curl gcc g++ checkinstall
+sudo apt-get -y install libssl-dev pkg-config build-essential curl gcc g++ checkinstall
 echo 'Download Node.js - v. 0.8.18'
 mkdir /tmp/node-install
 cd /tmp/node-install
