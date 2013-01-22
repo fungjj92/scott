@@ -5,28 +5,39 @@ define([
   'vm',
   'leaflet',
   'text!templates/application/page.html',
+  'text!templates/application/reminder_date.html',
   'models/application',
   'models/session',
   'helpers/auth',
   'helpers/parishes'
-], function($, _, Backbone, Vm, L, applicationPageTemplate, ApplicationModel, SessionModel, auth, parishes){
+], function($, _, Backbone, Vm, L, applicationPageTemplate, reminderDateTemplate, ApplicationModel, SessionModel, auth, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
+    initialize: function(options) {
+      this.$model = new ApplicationModel({id: options.permitApplicationNumber})
+      this.$sessionModel = new SessionModel()
+    },
     render: function () {
-      this.$model = new ApplicationModel({id: this.options.permitApplicationNumber})
       var page = this
       this.$model.fetch({
         success: function (collection, response, options) {
-          var sessionModel = new SessionModel()
-          sessionModel.fetch()
+          page.$sessionModel.fetch()
           page.$el.html(_.template(applicationPageTemplate, {
             application: page.$model,
             parishes: parishes,
-            loggedIn: sessionModel.loggedIn()
+            loggedIn: page.$sessionModel.loggedIn()
           }))
+          page.render_reminder_date()
           page.drawMap()
         }
       })
+    },
+    render_reminder_date: function() {
+      var page = this
+      $('#reminder_date').html(_.template(reminderDateTemplate, {
+        application: this.$model,
+        loggedIn: page.$sessionModel.loggedIn()
+      }))
     },
     update: function (e) {
       var attributes = {}
@@ -35,7 +46,8 @@ define([
       } else {
         attributes[e.currentTarget.name] = e.currentTarget.value
       }
-      this.$model.save(attributes, { beforeSend: auth })
+      this.$model.save(attributes, { beforeSend: auth, patch: true })
+      this.render_reminder_date()
     },
     updateFlag: function (e) {
       var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
@@ -44,7 +56,8 @@ define([
         success: function() {
           var textClass = flagged === '1' ? 'text-error' : 'muted'
           $('#flagged').attr('class', textClass)
-        }
+        },
+        patch: true
       })
     },
     drawMap: function() {
@@ -78,7 +91,6 @@ define([
         // Plot a point
         var plot = function(map, model) {
             var coords = [model.get('latitude'), model.get('longitude')]
-            window.coords = coords
             return L.circle(coords, 10000, {
                 color: 'black',
                 opacity: 0,
