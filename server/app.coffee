@@ -69,6 +69,7 @@ KEYS = [
   ["notes", /^.*$/],
   ["status", /^([1-5])$/],
   ["flagged", /^[01]?$/]
+  ["reminderDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
 ]
 
 ACCOUNTS =
@@ -213,7 +214,8 @@ CSV_COLUMNS = [
   'type',
   'notes',
   'status',
-  'flagged'
+  'flagged',
+  'reminderDate'
 ]
 # List the applications as csv
 server.get '/applications.csv', (req, res, next) ->

@@ -30,6 +30,7 @@ CREATE TABLE application (
   "notes" TEXT NOT NULL,            -- Whatever
   "status" TEXT NOT NULL,           -- toRead,  toComment, waiting, toFOI or done 
   "flagged" INTEGER NOT NULL,       -- Either 0 or 1
+  "reminderDate" TEXT NOT NULL,     -- Date at which we will be reminded of it (yyyy-mm-dd)
 
   -- Key
   UNIQUE("permitApplicationNumber")
