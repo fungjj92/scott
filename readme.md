@@ -17,12 +17,17 @@ Install dependencies
     )
 
     # For the reader
-    sudo pacman -S python2-lxml python2-cssselect \
-      tesseract-data-eng tesseract
     (
       cd reader
       sudo pip2 install -r requirements.txt
     )
+
+    # More for the reader, in Arch
+    sudo pacman -S python2-lxml python2-cssselect \
+      tesseract-data-eng tesseract
+
+    # More for the reader, in Ubuntu
+    sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng
 
 `server` contains a restify web server, and `client`
 contains a Backbone application. The server also serves
