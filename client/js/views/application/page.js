@@ -34,9 +34,11 @@ define([
     },
     render_reminder_date: function() {
       var page = this
+        console.log(page.reminderDate(21))
       $('#reminder_date').html(_.template(reminderDateTemplate, {
-        application: this.$model,
-        loggedIn: page.$sessionModel.loggedIn()
+        application: page.$model,
+        loggedIn: page.$sessionModel.loggedIn(),
+        reminderDate: page.reminderDate(21)
       }))
     },
     update: function (e) {
@@ -46,7 +48,7 @@ define([
       } else {
         attributes[e.currentTarget.name] = e.currentTarget.value
       }
-      this.$model.save(attributes, { beforeSend: auth, patch: true })
+      this.$model.save(attributes, { beforeSend: auth})
       this.render_reminder_date()
     },
     updateFlag: function (e) {
@@ -56,9 +58,20 @@ define([
         success: function() {
           var textClass = flagged === '1' ? 'text-error' : 'muted'
           $('#flagged').attr('class', textClass)
-        },
-        patch: true
+        }
       })
+    },
+    reminderDate: function(delay) {
+      if (this.$model.get('reminderDate')) { 
+        // Return the manually set reminder date if it exists.
+        return this.$model.get('reminderDate')
+      } else {
+        // Add two weeks to the expiration date.
+        var d = new Date(this.$model.get('expirationDate'))
+        d.setTime(d.getTime() + delay)
+        var months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+        return '' + d.getFullYear() + '-' + months[d.getMonth()] + '-' + d.getDate()
+      }
     },
     drawMap: function() {
         var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
