@@ -39,3 +39,14 @@ All source files are saved, and you can load them all with this script.
 The source files were previously downloaded, and they have been named in the
 new format, which isn't that different from the old one. This migration was
 useful for loading those data.
+
+## Other batch processes
+
+Create all of the images.
+
+    for p in *; do
+      (
+        cd $p
+        [ -e public_notice.pdf ] && convert -geometry 1200 public_notice.pdf[0] public_notice.jpg
+        [ -e drawings.pdf ] && convert -geometry 1200 drawings.pdf[1] drawings.jpg )
+    done
