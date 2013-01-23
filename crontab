@@ -1,2 +1,3 @@
 @hourly cd backup && git push -u origin master
 @daily cd scott/reader && . activate && run
+@reboot cd scott && ./serve
