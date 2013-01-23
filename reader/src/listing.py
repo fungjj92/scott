@@ -113,6 +113,8 @@ def listing_parse(rawtext):
             'longitude', 'latitude', 'acreage',
             'CUP', 'WQC',
             'notes', 'flagged', 'type',
+            'locationOfWork', 'characterOfWork',
+            'reminderDate',
         ]:
             row2[k] = ''
 
