@@ -108,10 +108,11 @@ def listing_parse(rawtext):
             if type(v) in {lxml.etree._ElementStringResult, str}:
                 row2[k] = unicode(v)
         row2['parish'] = _extract_parish(row2['location'])
+        row['status'] = 1
         for k in [
             'longitude', 'latitude', 'acreage',
             'CUP', 'WQC',
-            'notes', 'flagged', 'type', 'status',
+            'notes', 'flagged', 'type',
         ]:
             row2[k] = ''
 
