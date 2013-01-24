@@ -41,13 +41,19 @@
                     Other/multiple/none
                 </option>
             </select>
-            <label for="abstactLocation">Location from the public notice</label>
-            <textarea class="span4" rows="12" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
+            <label for="abstactLocation">Location</label>
+            <textarea class="span4" rows="6" name="locationOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('locationOfWork') %></textarea>
+            <label for="latitude">Latitude</label>
+            <input class="span4" type="number" name="latitude" value="<%= application.get('latitude') %>" <%= loggedIn ? '' : 'readonly' %>
+                min="25" max="35" step="0.00000001" /><!-- Is that the right range and precision? -->
+            <label for="longitude">Longitude</label>
+            <input class="span4" type="number" name="longitude" value="<%= application.get('longitude') %>" <%= loggedIn ? '' : 'readonly' %>
+                min="25" max="35" step="0.00000001" /><!-- Is that the right range and precision? -->
         </div>
         <div class="acreage row">
             <h3>How big?</h3>
-            <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description from the public notice</label>
-            <textarea class="span4" rows="12" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
+            <label for="characterOfWork" <%= loggedIn ? '' : 'readonly' %>>Description</label>
+            <textarea class="span4" rows="6" name="characterOfWork" <%= loggedIn ? '' : 'readonly' %>><%= application.get('characterOfWork') %></textarea>
             <label for="acreage">Acreage</label>
             <input class="span4" type="number" name="acreage" value="<%= application.get('acreage') %>" <%= loggedIn ? '' : 'readonly' %>
                 min="0" max="10000" step="0.1" /><!-- Is that the right range and precision? -->
