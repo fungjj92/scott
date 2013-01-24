@@ -48,16 +48,24 @@ define([
       } else {
         attributes[e.currentTarget.name] = e.currentTarget.value
       }
-      this.$model.save(attributes, { beforeSend: auth})
+      $('#saving').fadeIn()
+      this.$model.save(attributes, {
+        beforeSend: auth,
+        success: function() {
+          $('#saving').hide()
+        }
+      })
       this.render_reminder_date()
     },
     updateFlag: function (e) {
       var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
+      $('#saving').fadeIn()
       this.$model.save({'flagged': flagged}, {
         beforeSend: auth,
         success: function() {
           var textClass = flagged === '1' ? 'text-error' : 'muted'
           $('#flagged').attr('class', textClass)
+          $('#saving').hide()
         }
       })
     },
