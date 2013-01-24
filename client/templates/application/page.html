@@ -69,12 +69,11 @@
             </label>
             <% }) %>
         </div>
-        <div class="dates row">
-            <h3>Dates</h3>
-            <label for="publicNoticeDate">Public Notice Date</label>
-            <input class="span4" type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
-            <label for="expirationDate">Expiration Date</label>
-            <input class="span4" type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+        <div class="notes row">
+            <fieldset>
+                <h3><label for="notes"><h3>Notes</h3></label></h3>
+                <textarea class="span4" rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
+            </fieldset>
         </div>
         <div class="documents row">
             <h3>Documents</h3>
@@ -104,11 +103,12 @@
     </div>
 </div>
 <div class="row">
-    <div class="notes span4">
-        <fieldset class="row">
-            <h3><label for="notes"><h3>Notes</h3></label></h3>
-            <textarea class="span4" rows="6" name="notes" <%= loggedIn ? '' : 'readonly' %>><%= application.get('notes') %></textarea>
-        </fieldset>
+    <div class="dates span4">
+        <h3>Dates</h3>
+        <label class="span2" for="publicNoticeDate">Public Notice</label>
+        <input class="span2" type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+        <label class="span2" for="expirationDate">Expiration</label>
+        <input class="span2" type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
     </div>
     <div class="identifiers span4">
         <h3>Identity numbers</h3>
@@ -138,15 +138,15 @@
         <h3>Project Manager</h3>
         <fieldset class="row">
             <label class="span1" for="projectManagerName">Name</label>
-            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
+            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" readonly />
         </fieldset>
         <fieldset class="row">
             <label class="span1" for="projectManagerPhone">Phone</label>
-            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
+            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" readonly />
         </fieldset>
         <fieldset class="row">
             <label class="span1" for="projectManagerEmail">Email</label>
-            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
+            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" readonly />
         </fieldset>
     </div>
 </div>
