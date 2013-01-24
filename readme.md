@@ -22,12 +22,15 @@ Install dependencies
       sudo pip2 install -r requirements.txt
     )
 
-    # More for the reader, in Arch
+    # In Arch
     sudo pacman -S python2-lxml python2-cssselect \
-      tesseract-data-eng tesseract
+      tesseract-data-eng tesseract coffee-script \
+      poppler imagemagick git
 
-    # More for the reader, in Ubuntu
-    sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng
+    # In Ubuntu 12.04
+    echo Install node 0.8 from source. Then,
+    sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng \
+      coffeescript git poppler-utils imagemagick
 
 `server` contains a restify web server, and `client`
 contains a Backbone application. The server also serves
@@ -42,3 +45,6 @@ often ram, so you might need to put one there.
 
 * [Automatic permit application data](http://wetlands.thomaslevine.com)
 * [Parish coordinates](https://twitter.com/ian_villeda/status/267334042507169793)
+
+## Tom watched Scott use Scott
+
