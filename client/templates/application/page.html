@@ -77,8 +77,8 @@
                     class="public_notice">Public Notice</a></li>
                 <li><a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf"
                     class="drawings">Drawings</a></li>
+                <!-- <li><a href="" class="deq">DEQ</a></li> -->
                 <% if (application.get('CUP')) { %>
-                <li><a href="" class="deq">DEQ</a></li>
                 <!-- http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=P20110522 -->
                 <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
                 <% } %>
@@ -118,6 +118,14 @@
         <fieldset class="row">
             <label class="span1" for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
             <input class="span3" type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="HUC"><abbr title="What does this mean?" class="initialism">HUC</abbr></label>
+            <input class="span3" type="text" name="HUC" value="<%= application.get('HUC') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="AI"><abbr title="What does this mean?" class="initialism">AI</abbr></label>
+            <input class="span3" type="text" name="AI" value="<%= application.get('AI') %>" <%= loggedIn ? '' : 'readonly' %> />
         </fieldset>
     </div>
     <div class="projectManager span4">
