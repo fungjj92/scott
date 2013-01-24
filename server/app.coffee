@@ -29,7 +29,7 @@ DEVELOPMENT_SETTINGS =
   dbfile: '/tmp/wetlands.db'
   logfile: '/tmp/scott.log'
 
-SETTINGS = PRODUCTION_SETTINGS
+SETTINGS = DEVELOPMENT_SETTINGS
 
 server = restify.createServer()
 
