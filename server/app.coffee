@@ -48,7 +48,7 @@ if SETTINGS.log
       }]
 
 # ORM alternative
-KEYS = [
+SCHEMA = [
   # Automatically taken from the listings page
   ["projectDescription", /^.*$/],
   ["applicant", /^.*$/],
@@ -200,31 +200,6 @@ server.get '/applications', (req, res, next) ->
     res.send rows
     next()
 
-CSV_COLUMNS = [
-  'permitApplicationNumber',
-  'projectDescription',
-  'applicant',
-  'projectManagerName',
-  'projectManagerPhone',
-  'projectManagerEmail',
-  'publicNoticeDate',
-  'expirationDate',
-  'publicNoticeUrl',
-  'drawingsUrl',
-  'parish',
-  'CUP',
-  'WQC',
-  'locationOfWork',
-  'characterOfWork',
-  'longitude',
-  'latitude',
-  'acreage',
-  'type',
-  'notes',
-  'status',
-  'flagged',
-  'reminderDate'
-]
 # List the applications as JSON
 server.get '/applications.json', (req, res, next) ->
   db = new sqlite3.Database SETTINGS.dbfile
@@ -236,17 +211,18 @@ server.get '/applications.json', (req, res, next) ->
 # List the applications as csv
 server.get '/applications.csv', (req, res, next) ->
   db = new sqlite3.Database SETTINGS.dbfile
+  csv_columns = SCHEMA.map ((row) -> row[0])
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
     listRows = rows.map (row) ->
-      CSV_COLUMNS.reduce (a, b) ->
+      csv_columns.reduce (a, b) ->
         if a == 'permitApplicationNumber'
           [row[a], row[b]]
         else
           a.concat [row[b]]
     csv().from(listRows).to (csvString) ->
       res.setHeader 'content-type', 'text/csv'
-      res.send CSV_COLUMNS.join(',') + '\n' + csvString
+      res.send csv_columns.join(',') + '\n' + csvString
       next()
 
 # Applications as SQLite database
@@ -264,3 +240,9 @@ server.listen SETTINGS.port
 
 # Make it a module.
 module.exports = server
+
+# Set up the SQLite database based on the SCHEMA
+db = new sqlite3.Database SETTINGS.dbfile
+db.run 'CREATE TABLE IF NOT EXISTS application;', (err) ->
+  SCHEMA.map (row) ->
+    db.run 'ALTER TABLE application ADD COLUMN "#(row[0]}" TEXT NOT NULL DEFAULT \'\''
