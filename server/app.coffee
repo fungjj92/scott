@@ -64,6 +64,10 @@ SCHEMA = [
   ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/],
 ]
 
+#
+# Helper functions
+# ===========================================================
+
 # Check whether a username and password combination corresponds to an account.
 isUser = (username, password) ->
   username != undefined and password != undefined and password == ACCOUNTS[username]
@@ -96,9 +100,14 @@ CREATE TABLE IF NOT EXISTS application (
 );'''
 db.run table, (err) ->
   SCHEMA.map (row) ->
-    db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL;"
+    db.run "SELECT \"#{row[0]}\" FROM application LIMIT 0;", (err) ->
+      if (err)
+        db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL;"
+#
+# Serve
+# ===========================================================
 
-# Go
+# Serve the API
 server = restify.createServer()
 
 server.use (restify.bodyParser { mapParams: false })
@@ -114,6 +123,16 @@ if SETTINGS.log
         level: 'trace',
         path: SETTINGS.logfile
       }]
+
+# Serve the client
+file = new node_static.Server '../client', { cache: SETTINGS.cache }
+server.get /^.*$/, (a, b, c) ->
+  file.serve a, b, c
+server.listen SETTINGS.port
+
+#
+# Web API endpoints
+# ===========================================================
 
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
@@ -147,6 +166,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   values = [req.body.permitApplicationNumber].concat (KEYS.map (key)-> req.body[key[0]])
 
   # Run the query
+  db = new sqlite3.Database SETTINGS.dbfile
   db.get "SELECT count(*) AS 'c' FROM application WHERE permitApplicationNumber = ?", req.body.permitApplicationNumber, (err, row) ->
     if row.c == 1
       next(new restify.BadMethodError "There is already a permit application with number #{req.body.permitApplicationNumber}")
@@ -184,6 +204,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   )).reduce((a, b) -> a.concat b).concat([req.params.permitApplicationNumber])
 
   # Run the query
+  db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
     if err
       next(new restify.InvalidContentError err)
@@ -194,6 +215,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
+  db = new sqlite3.Database SETTINGS.dbfile
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
     if row
       res.send row
@@ -201,16 +223,23 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
     else
       next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
+
 # List the applications
 server.get '/applications', (req, res, next) ->
   sql = "SELECT permitApplicationNumber, projectDescription, type, acreage, expirationDate, flagged, reminderDate, latitude, longitude, status FROM application;"
+  db = new sqlite3.Database SETTINGS.dbfile
   db.all sql, (err, rows) ->
     res.send rows
     next()
 
+#
+# Export
+# ===========================================================
+
 # List the applications as JSON
 server.get '/applications.json', (req, res, next) ->
   sql = "SELECT * FROM application;"
+  db = new sqlite3.Database SETTINGS.dbfile
   db.all sql, (err, rows) ->
     res.send rows
     next()
@@ -219,6 +248,7 @@ server.get '/applications.json', (req, res, next) ->
 server.get '/applications.csv', (req, res, next) ->
   csv_columns = SCHEMA.map ((row) -> row[0])
   sql = "SELECT * FROM application;"
+  db = new sqlite3.Database SETTINGS.dbfile
   db.all sql, (err, rows) ->
     listRows = rows.map (row) ->
       csv_columns.reduce (a, b) ->
@@ -238,11 +268,7 @@ server.get '/applications.db', (req, res, next) ->
     res.send data
     next()
 
-# Serve the client
-file = new node_static.Server '../client', { cache: SETTINGS.cache }
-server.get /^.*$/, (a, b, c) ->
-  file.serve a, b, c
-server.listen SETTINGS.port
-
+#
 # Make it a module.
+# ===========================================================
 module.exports = server
