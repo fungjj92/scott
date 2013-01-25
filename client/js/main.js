@@ -18,8 +18,10 @@ require.config({
     templates: '../templates'
   },
   shim: {
-    'leaflet': {
-      exports: 'L'
+    'leaflet': { exports: 'L' },
+    'backbone': {
+      require: ['underscore'],
+      exports: 'Backbone'
     }
   }
 

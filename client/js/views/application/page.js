@@ -50,6 +50,7 @@ define([
       }
       $('#saving').fadeIn()
       this.$model.save(attributes, {
+        patch: true,
         beforeSend: auth,
         success: function() {
           $('#saving').hide()
@@ -61,6 +62,7 @@ define([
       var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
       $('#saving').fadeIn()
       this.$model.save({'flagged': flagged}, {
+        patch: true,
         beforeSend: auth,
         success: function() {
           var textClass = flagged === '1' ? 'text-error' : 'muted'
