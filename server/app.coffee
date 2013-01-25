@@ -219,8 +219,11 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
 server.get '/applications', (req, res, next) ->
   sql = "SELECT permitApplicationNumber, projectDescription, type, acreage, expirationDate, flagged, reminderDate, latitude, longitude, status FROM application;"
   db.all sql, (err, rows) ->
-    res.send rows
-    next()
+    if (err)
+      next(new restify.InvalidContentError err)
+    else
+      res.send rows
+      next()
 
 #
 # Export
@@ -230,31 +233,40 @@ server.get '/applications', (req, res, next) ->
 server.get '/applications.json', (req, res, next) ->
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
-    res.send rows
-    next()
+    if (err)
+      next(new restify.InvalidContentError err)
+    else
+      res.send rows
+      next()
 
 # List the applications as csv
 server.get '/applications.csv', (req, res, next) ->
   csv_columns = SCHEMA.map ((row) -> row[0])
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
-    listRows = rows.map (row) ->
-      csv_columns.reduce (a, b) ->
-        if a == 'permitApplicationNumber'
-          [row[a], row[b]]
-        else
-          a.concat [row[b]]
-    csv().from(listRows).to (csvString) ->
-      res.setHeader 'content-type', 'text/csv'
-      res.send csv_columns.join(',') + '\n' + csvString
-      next()
+    if (err)
+      next(new restify.InvalidContentError err)
+    else
+      listRows = rows.map (row) ->
+        csv_columns.reduce (a, b) ->
+          if a == 'permitApplicationNumber'
+            [row[a], row[b]]
+          else
+            a.concat [row[b]]
+      csv().from(listRows).to (csvString) ->
+        res.setHeader 'content-type', 'text/csv'
+        res.send csv_columns.join(',') + '\n' + csvString
+        next()
 
 # Applications as SQLite database
 server.get '/applications.db', (req, res, next) ->
   fs.readFile SETTINGS.dbfile, (err, data) ->
-    res.setHeader 'content-type', 'application/x-sqlite3'
-    res.send data
-    next()
+    if (err)
+      next(new restify.InvalidContentError err)
+    else
+      res.setHeader 'content-type', 'application/x-sqlite3'
+      res.send data
+      next()
 
 #
 # Serve the client
