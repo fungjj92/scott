@@ -1,6 +1,6 @@
         <div class="row type">
             <label for="type"><h3>Permit type</h3></label>
-            <select class="span4" name="type" <%= loggedIn ? '' : 'readonly' %>>
+            <select class="span4" name="type" <%= loggedIn ? '' : 'disabled' %>>
                 <% var permitTypes = [['impact', 'Impact'], ['mitigation', 'Mitigation'], ['restoration', 'Restoration'], ['other', 'Other']] %>
                 <% _.each(permitTypes, function(permitType) { %>
                 <option name="type" value="<%= permitType[0] %>">
@@ -39,7 +39,7 @@
         <div class="where row">
             <h3>Where?</h3>
             <label for="parish">Parish</label>
-            <select class="span4" name="parish" <%= loggedIn ? '' : 'readonly' %>>
+            <select class="span4" name="parish" <%= loggedIn ? '' : 'disabled' %>>
                 <% _.each(parishes, function(parish) { %>
                 <option <%= application.get('parish') == parish[0] ? 'selected' : '' %> value="<%= parish[0] %>" >
                     <%= parish[1] %>
