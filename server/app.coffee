@@ -182,7 +182,7 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
     return next(new restify.NotAuthorizedError 'Incorrect username or password')
   notValidMsg = notValid req, res
   if notValidMsg
-    return next(new restify.MissingParameterError notValidMsg)
+    return next(new restify.InvalidContentError notValidMsg)
 
   # Lines of SQL
   sqlExprs = ("#{key[0]} = ?" for key in SCHEMA when req.body[key[0]] != undefined)
