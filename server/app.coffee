@@ -57,10 +57,10 @@ SCHEMA = [
   ["acreage", /^[0-9.]*$/],
 
   # Notes
-  ["type", /^(|impact|mitigation|restoration|other)$/],
+  ["type", /^(impact|mitigation|restoration|other)$/],
   ["notes", /^.*$/],
-  ["status", /^([1-5])$/],
-  ["flagged", /^[01]?$/]
+  ["status", /^[1-5]$/],
+  ["flagged", /^[01]$/]
   ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/],
 ]
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS application (
 );'''
 db.run table, (err) ->
   SCHEMA.map (row) ->
-    db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL DEFAULT ''"
+    db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL;"
 
 # Go
 server = restify.createServer()
