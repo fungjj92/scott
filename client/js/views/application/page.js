@@ -22,7 +22,6 @@ define([
     render: function () {
       var page = this
       page.$sessionModel.fetch()
-      console.log(234)
       var params = {
         application: page.$model,
         parishes: parishes,
@@ -32,7 +31,7 @@ define([
       if (!page.$model.get('renderedStaticComponents')) {
         page.$el.html(_.template(applicationPageTemplate, params))
         page.$model.set('renderedStaticComponents', true)
-        page.drawMap()
+        // page.drawMap()
       }
       $('#left').html(_.template(applicationPageLeftTemplate, params))
       $('#bottom').html(_.template(applicationPageBottomTemplate, params))

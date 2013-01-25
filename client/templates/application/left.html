@@ -3,8 +3,7 @@
             <select class="span4" name="type" <%= loggedIn ? '' : 'disabled' %>>
                 <% var permitTypes = [['impact', 'Impact'], ['mitigation', 'Mitigation'], ['restoration', 'Restoration'], ['other', 'Other']] %>
                 <% _.each(permitTypes, function(permitType) { %>
-                <option name="type" value="<%= permitType[0] %>">
-                    <%= application.get('type') == permitType[0] ? 'selected' : '' %>
+                <option name="type" value="<%= permitType[0] %>" <%= application.get('type') == permitType[0] ? 'selected' : '' %>>
                     <%= permitType[1] %>
                 </option>
                 <% }) %>
