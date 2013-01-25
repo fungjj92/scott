@@ -147,7 +147,6 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   values = [req.body.permitApplicationNumber].concat (KEYS.map (key)-> req.body[key[0]])
 
   # Run the query
-  db = new sqlite3.Database SETTINGS.dbfile
   db.get "SELECT count(*) AS 'c' FROM application WHERE permitApplicationNumber = ?", req.body.permitApplicationNumber, (err, row) ->
     if row.c == 1
       next(new restify.BadMethodError "There is already a permit application with number #{req.body.permitApplicationNumber}")
@@ -185,7 +184,6 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
   )).reduce((a, b) -> a.concat b).concat([req.params.permitApplicationNumber])
 
   # Run the query
-  db = new sqlite3.Database SETTINGS.dbfile
   db.run sql, values, (err) ->
     if err
       next(new restify.InvalidContentError err)
@@ -195,7 +193,6 @@ server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
-  db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT * FROM application WHERE permitApplicationNumber = ? LIMIT 1;"
   db.get sql, req.params.permitApplicationNumber, (err, row) ->
     if row
@@ -206,7 +203,6 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
 
 # List the applications
 server.get '/applications', (req, res, next) ->
-  db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT permitApplicationNumber, projectDescription, type, acreage, expirationDate, flagged, reminderDate, latitude, longitude, status FROM application;"
   db.all sql, (err, rows) ->
     res.send rows
@@ -214,7 +210,6 @@ server.get '/applications', (req, res, next) ->
 
 # List the applications as JSON
 server.get '/applications.json', (req, res, next) ->
-  db = new sqlite3.Database SETTINGS.dbfile
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
     res.send rows
@@ -222,7 +217,6 @@ server.get '/applications.json', (req, res, next) ->
 
 # List the applications as csv
 server.get '/applications.csv', (req, res, next) ->
-  db = new sqlite3.Database SETTINGS.dbfile
   csv_columns = SCHEMA.map ((row) -> row[0])
   sql = "SELECT * FROM application;"
   db.all sql, (err, rows) ->
