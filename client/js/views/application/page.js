@@ -5,12 +5,14 @@ define([
   'vm',
   'leaflet',
   'text!templates/application/page.html',
+  'text!templates/application/left.html',
+  'text!templates/application/bottom.html',
   'text!templates/application/reminder_date.html',
   'models/application',
   'models/session',
   'helpers/auth',
   'helpers/parishes'
-], function($, _, Backbone, Vm, L, applicationPageTemplate, reminderDateTemplate, ApplicationModel, SessionModel, auth, parishes){
+], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, reminderDateTemplate, ApplicationModel, SessionModel, auth, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     initialize: function(options) {
@@ -22,13 +24,19 @@ define([
       this.$model.fetch({
         success: function (collection, response, options) {
           page.$sessionModel.fetch()
-          page.$el.html(_.template(applicationPageTemplate, {
+          var params = {
             application: page.$model,
             parishes: parishes,
             loggedIn: page.$sessionModel.loggedIn()
-          }))
+          }
+          if (!page.$model.get('renderedStaticComponents')) {
+            page.$el.html(_.template(applicationPageTemplate, params))
+            page.$model.set('renderedStaticComponents', true)
+            page.drawMap()
+          }
+          $('#left').html(_.template(applicationPageLeftTemplate, params))
+          $('#bottom').html(_.template(applicationPageBottomTemplate, params))
           page.render_reminder_date()
-          page.drawMap()
         }
       })
     },
@@ -55,7 +63,7 @@ define([
           $('#saving').hide()
         }
       })
-      this.render_reminder_date()
+      this.render()
     },
     updateFlag: function (e) {
       var flagged = this.$model.get('flagged') === '1' ? '0' : '1'
