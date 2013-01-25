@@ -164,11 +164,11 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
     if row.c == 1
       next(new restify.BadMethodError "There is already a permit application with number #{req.body.permitApplicationNumber}")
 
-    db.run sql, values, (status) ->
-      if status
-        next(new restify.InvalidContentError status)
+    db.run sql, values, (err) ->
+      if err
+        next(new restify.InvalidContentError err)
       else
-        res.send 200
+        res.send 204
         next()
 
 # Edit an application
