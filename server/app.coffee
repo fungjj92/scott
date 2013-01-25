@@ -175,7 +175,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
         next()
 
 # Edit an application
-server.put '/applications/:permitApplicationNumber', (req, res, next) ->
+server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
 
   # Authenticate
   if not isAuthorized req, res

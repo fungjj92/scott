@@ -21,25 +21,22 @@ define([
     },
     render: function () {
       var page = this
-      this.$model.fetch({
-        success: function (collection, response, options) {
-          page.$sessionModel.fetch()
-          var params = {
-            application: page.$model,
-            parishes: parishes,
-            loggedIn: page.$sessionModel.loggedIn(),
-            reminderDate: page.reminderDate(21)
-          }
-          if (!page.$model.get('renderedStaticComponents')) {
-            page.$el.html(_.template(applicationPageTemplate, params))
-            page.$model.set('renderedStaticComponents', true)
-            page.drawMap()
-          }
-          $('#left').html(_.template(applicationPageLeftTemplate, params))
-          $('#bottom').html(_.template(applicationPageBottomTemplate, params))
-          $('#status').html(_.template(applicationStatusTemplate, params))
-        }
-      })
+      page.$sessionModel.fetch()
+      console.log(234)
+      var params = {
+        application: page.$model,
+        parishes: parishes,
+        loggedIn: page.$sessionModel.loggedIn(),
+        reminderDate: page.reminderDate(21)
+      }
+      if (!page.$model.get('renderedStaticComponents')) {
+        page.$el.html(_.template(applicationPageTemplate, params))
+        page.$model.set('renderedStaticComponents', true)
+        page.drawMap()
+      }
+      $('#left').html(_.template(applicationPageLeftTemplate, params))
+      $('#bottom').html(_.template(applicationPageBottomTemplate, params))
+      $('#status').html(_.template(applicationStatusTemplate, params))
     },
     update: function (e) {
       var attributes = {}
