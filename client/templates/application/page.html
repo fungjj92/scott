@@ -7,25 +7,7 @@
         <h2><%= application.get('projectDescription') %></h2>
     </div>
 </div>
-<div class="row">
-    <div class="span8 offset2">
-        <div class="row">
-            <input name="status" type="range" min="1" max="5" step="1" style="width: 100%;" value="<%= application.get('status') %>" <%= loggedIn ? '' : 'disabled' %> />
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="span10 offset1">
-        <div class="row">
-            <p class="checkpoint">To read</p>
-            <p class="checkpoint">To comment</p>
-            <p class="checkpoint">To FOI</p>
-            <p class="checkpoint">Waiting</p>
-            <p class="checkpoint">Done</p>
-        </div>
-    </div>
-</div>
-<div class="row" id="reminder_date"></div>
+<div id="status"></div>
 <div class="row">
     <div class="span4" id="left"></div>
     <div class="span8">

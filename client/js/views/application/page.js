@@ -7,12 +7,12 @@ define([
   'text!templates/application/page.html',
   'text!templates/application/left.html',
   'text!templates/application/bottom.html',
-  'text!templates/application/reminder_date.html',
+  'text!templates/application/status.html',
   'models/application',
   'models/session',
   'helpers/auth',
   'helpers/parishes'
-], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, reminderDateTemplate, ApplicationModel, SessionModel, auth, parishes){
+], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, applicationStatusTemplate, ApplicationModel, SessionModel, auth, parishes){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     initialize: function(options) {
@@ -27,7 +27,8 @@ define([
           var params = {
             application: page.$model,
             parishes: parishes,
-            loggedIn: page.$sessionModel.loggedIn()
+            loggedIn: page.$sessionModel.loggedIn(),
+            reminderDate: page.reminderDate(21)
           }
           if (!page.$model.get('renderedStaticComponents')) {
             page.$el.html(_.template(applicationPageTemplate, params))
@@ -36,18 +37,9 @@ define([
           }
           $('#left').html(_.template(applicationPageLeftTemplate, params))
           $('#bottom').html(_.template(applicationPageBottomTemplate, params))
-          page.render_reminder_date()
+          $('#status').html(_.template(applicationStatusTemplate, params))
         }
       })
-    },
-    render_reminder_date: function() {
-      var page = this
-        console.log(page.reminderDate(21))
-      $('#reminder_date').html(_.template(reminderDateTemplate, {
-        application: page.$model,
-        loggedIn: page.$sessionModel.loggedIn(),
-        reminderDate: page.reminderDate(21)
-      }))
     },
     update: function (e) {
       var attributes = {}
@@ -135,23 +127,6 @@ define([
         if (this.$model.get('latitude')) {
             this.point = plot(map, this.$model)
         }
-
-        // Update on click
-        var page = this
-        map.on('click', function(e) {
-            page.$model.save({
-                latitude:  e.latlng.lat,
-                longitude: e.latlng.lng
-            }, {
-                beforeSend: auth,
-                success: function() {
-                    if (page.point) {
-                        map.removeLayer(page.point)
-                    }
-                    plot(map, page.$model)
-                }
-            })
-        })
     },
     events: {
       "change input": "update",
