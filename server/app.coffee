@@ -78,7 +78,7 @@ isAuthorized = (req, res) ->
   return req.authorization.basic and (isUser req.authorization.basic.username, req.authorization.basic.password)
 
 notValid = (req, res) ->
-  for key in KEYS
+  for key in SCHEMA
 
     # Validation (key[1] is always a regular expression.)
     if req.body[key[0]] != undefined and not ('' + req.body[key[0]]).match key[1]
@@ -131,33 +131,36 @@ if SETTINGS.log
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
 
-  if req.body and isUser req.body.username, req.body.password
-    # http://stackoverflow.com/questions/5240876/difference-between-success-and-complete#answer-5240889
-    res.send 200, req.body
-    next()
+  # Authenticate
+  if not (isAuthorized req, res)
+    return next(new restify.NotAuthorizedError 'Incorrect username or password')
+  notValidMsg = notValid req, res
+  if notValidMsg
+    return next(new restify.InvalidContentError notValidMsg)
 
-  else
-    next(new restify.NotAuthorizedError 'Incorrect username or password')
+  res.send 204
+  next()
+
 
 # Create an application
 server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 
+  # Authenticate
   if not (isAuthorized req, res)
     return next(new restify.NotAuthorizedError 'Incorrect username or password')
-
   notValidMsg = notValid req, res
   if notValidMsg
     return next(new restify.InvalidContentError notValidMsg)
 
   # All keys must exist
-  for key in KEYS
+  for key in SCHEMA
     if req.body[key[0]] == undefined
       return next(new restify.MissingParameterError "You need to pass the #{key[0]}.")
 
-  keys = 'permitApplicationNumber,' + (KEYS.map (key)-> key[0]).join ','
-  questionMarks = '?,' + (KEYS.map (key) -> '?').join ','
+  keys = 'permitApplicationNumber,' + (SCHEMA.map (key)-> key[0]).join ','
+  questionMarks = '?,' + (SCHEMA.map (key) -> '?').join ','
   sql = "INSERT INTO application (#{keys}) VALUES (#{questionMarks});"
-  values = [req.body.permitApplicationNumber].concat (KEYS.map (key)-> req.body[key[0]])
+  values = [req.body.permitApplicationNumber].concat (SCHEMA.map (key)-> req.body[key[0]])
 
   # Run the query
   db.get "SELECT count(*) AS 'c' FROM application WHERE permitApplicationNumber = ?", req.body.permitApplicationNumber, (err, row) ->
@@ -174,22 +177,22 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
 # Edit an application
 server.put '/applications/:permitApplicationNumber', (req, res, next) ->
 
+  # Authenticate
   if not isAuthorized req, res
     return next(new restify.NotAuthorizedError 'Incorrect username or password')
-
   notValidMsg = notValid req, res
   if notValidMsg
     return next(new restify.MissingParameterError notValidMsg)
 
   # Lines of SQL
-  sqlExprs = ("#{key[0]} = ?" for key in KEYS when req.body[key[0]] != undefined)
+  sqlExprs = ("#{key[0]} = ?" for key in SCHEMA when req.body[key[0]] != undefined)
 
 
   # Text for a transaction
   sql = "UPDATE application SET #{sqlExprs.join ','} WHERE permitApplicationNumber = ?;"
 
   # Escaped values for the SQL
-  values = (KEYS.map ((key) ->
+  values = (SCHEMA.map ((key) ->
     if req.body[key[0]] == undefined
       []
     else
