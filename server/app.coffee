@@ -31,22 +31,6 @@ DEVELOPMENT_SETTINGS =
 
 SETTINGS = DEVELOPMENT_SETTINGS
 
-server = restify.createServer()
-
-server.use (restify.bodyParser { mapParams: false })
-# server.use restify.gzipResponse()
-
-server.use (restify.authorizationParser())
-
-if SETTINGS.log
-  server.on 'after', restify.auditLogger
-    log: bunyan.createLogger
-      name: 'scott'
-      streams: [{
-        level: 'trace',
-        path: SETTINGS.logfile
-      }]
-
 # ORM alternative
 SCHEMA = [
   # Automatically taken from the listings page
@@ -80,11 +64,6 @@ SCHEMA = [
   ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/],
 ]
 
-ACCOUNTS =
-  tom: 'chainsaw'
-  scott: 'chainsaw'
-  bot: 'h%r9hr23(uo'
-
 # Check whether a username and password combination corresponds to an account.
 isUser = (username, password) ->
   username != undefined and password != undefined and password == ACCOUNTS[username]
@@ -102,6 +81,39 @@ notValid = (req, res) ->
       return "#{key[0]} must match #{key[1]}"
 
   return false
+
+ACCOUNTS =
+  tom: 'chainsaw'
+  scott: 'chainsaw'
+  bot: 'h%r9hr23(uo'
+
+# Set up the SQLite database based on the SCHEMA
+db = new sqlite3.Database SETTINGS.dbfile
+table = '''
+CREATE TABLE IF NOT EXISTS application (
+  permitApplicationNumber TEXT NOT NULL,
+  UNIQUE(permitApplicationNumber)
+);'''
+db.run table, (err) ->
+  SCHEMA.map (row) ->
+    db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL DEFAULT ''"
+
+# Go
+server = restify.createServer()
+
+server.use (restify.bodyParser { mapParams: false })
+# server.use restify.gzipResponse()
+
+server.use (restify.authorizationParser())
+
+if SETTINGS.log
+  server.on 'after', restify.auditLogger
+    log: bunyan.createLogger
+      name: 'scott'
+      streams: [{
+        level: 'trace',
+        path: SETTINGS.logfile
+      }]
 
 # Check whether the password is correct
 server.post '/login', (req, res, next) ->
@@ -240,9 +252,3 @@ server.listen SETTINGS.port
 
 # Make it a module.
 module.exports = server
-
-# Set up the SQLite database based on the SCHEMA
-db = new sqlite3.Database SETTINGS.dbfile
-db.run 'CREATE TABLE IF NOT EXISTS application;', (err) ->
-  SCHEMA.map (row) ->
-    db.run 'ALTER TABLE application ADD COLUMN "#(row[0]}" TEXT NOT NULL DEFAULT \'\''
