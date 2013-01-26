@@ -8,6 +8,7 @@ require.config(
     leaflet: 'libs/leaflet/leaflet'
 
     text: 'libs/require/text'
+    jade: 'libs/jade/jade'
 
     templates: '../templates'
 
