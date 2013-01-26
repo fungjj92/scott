@@ -111,7 +111,7 @@ db.run table, (err) ->
 server = restify.createServer()
 
 server.use (restify.bodyParser { mapParams: false })
-# server.use restify.gzipResponse()
+server.use restify.gzipResponse()
 
 server.use (restify.authorizationParser())
 
