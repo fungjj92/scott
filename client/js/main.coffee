@@ -19,32 +19,77 @@ require.config(
       exports: 'Backbone'
 )
 
-###
-require([
-  'views/app'
-  'router'
-  'vm'
-], function(AppView, Router, Vm){
-  var appView = Vm.create({}, 'AppView', AppView)
-  appView.render()
-  Router.initialize({appView: appView})  // The router now has a copy of all main appview
-})
-###
-
 require [
   'jquery',
   'lodash',
   'backbone',
   'text!templates/layout.html',
 ], ($, _, Backbone, layoutTemplate) ->
-  ($ '.container').html layoutTemplate
+  AppView = Backbone.View.extend(
+    el: '.container'
+    initialize: (options) ->
+      @.views = {}
 
-  sessionModel = new SessionModel
+    renderFirst: (firstPage, options) ->
 
-  require ['views/header/menu'], (HeaderMenuView) ->
-    headerMenuView = new HeaderMenuView
-    headerMenuView.render()
+      # Page layout
+      @.session = new SessionModel
 
-  require ['views/footer/footer'], (FooterMenuView) ->
-    footerMenuView = new FooterMenuView
-    footerMenuView.render()
+      ($ @.el).html(layoutTemplate)
+
+      require ['views/header/menu'], (HeaderMenuView) ->
+        @.views.headerMenuView = new HeaderMenuView
+        @.session.fetch
+          success: @.views.headerMenuView.render @.session
+
+      require ['views/footer/footer'], (FooterMenuView) ->
+        @.views.footerMenuView = new FooterMenuView
+        @.views.footerMenuView.render()
+
+    anticipate: (callback) ->
+      # Different pages
+      require [
+        'cs!collections/permits'
+      ], (PermitsCollection) ->
+        if !@.permits
+          @.permits = new PermitsCollection
+
+        if !@.permits.recent()
+          @.permits.fetch(
+            success: callback
+          )
+
+  AppRouter = Backbone.Router.extend(
+    routes:
+      # List of applications
+      'permits': 'permits',
+
+      # Everything about one permit
+      'permits/:permitApplicationNumber': 'permit',
+
+      # Homepage/dashboard for everything else
+      '*actions': 'defaultAction'
+  )
+
+  app = new AppView
+  router = new AppRouter
+
+  router.on 'route:defaultAction', (actions) ->
+    require ['views/dashboard/page'] (DashboardPage) ->
+      new DashboardPage
+      dashboardPage.render app
+
+  router.on 'route:permits', () ->
+    require ['views/permits/page'], (PermitsPage) ->
+      permitsPage = new PermitsPage
+      permitsPage.render app
+
+  router.on 'route:permit', (permitApplicationNumber) ->
+    require ['views/permit/page'], (permitPage) ->
+      permitPage = new PermitPage, {permitApplicationNumber: permitApplicationNumber}
+      permitPage.$model.fetch(
+        success: () ->
+          applicationPage.render app # Select the particular model
+      )
+
+  Backbone.history.start()
