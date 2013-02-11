@@ -1,6 +1,6 @@
 define([
   'lodash',
-  'backbone'
+  'bb'
 ], function(_, Backbone) {
   var applicationModel = Backbone.Model.extend({
     urlRoot: '/applications',

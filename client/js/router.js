@@ -2,7 +2,7 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
+  'bb',
   'vm'
 ], function ($, _, Backbone, Vm) {
   var AppRouter = Backbone.Router.extend({

@@ -1,7 +1,7 @@
 define([
   'jquery',
   'lodash',
-  'backbone',
+  'bb',
   'events',
   'text!templates/footer/footer.html',
 ], function($, _, Backbone, Events, footerTemplate){

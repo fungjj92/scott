@@ -1,7 +1,7 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'bb'
 ], function($, _, Backbone){
   var vent = _.extend({}, Backbone.Events);
   return vent;

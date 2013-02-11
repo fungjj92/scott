@@ -2,7 +2,7 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
+  'bb',
   'events'
 ], function($, _, Backbone, Events){
   var views = {};

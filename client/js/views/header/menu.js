@@ -1,7 +1,7 @@
 define([
   'jquery',
   'lodash',
-  'backbone',
+  'bb',
   'views/header/session',
   'text!templates/header/menu.html'
 ], function($, _, Backbone, SessionView, headerMenuTemplate){

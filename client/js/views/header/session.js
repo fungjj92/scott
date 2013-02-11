@@ -1,7 +1,7 @@
 define([
   'jquery',
   'lodash',
-  'backbone',
+  'bb',
   'models/session',
   'text!templates/header/session.html'
 ], function($, _, Backbone, SessionModel, sessionTemplate){

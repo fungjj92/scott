@@ -6,8 +6,13 @@ require.config({
     jquery: 'libs/jquery/jquery-min',
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
     lodash: 'libs/lodash/lodash-min', // alternative to underscore
+
+    // Backbone
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
-    localstorage: 'libs/backbone.localStorage/backbone.localStorage-min', // https://github.com/jeromegn/Backbone.localStorage
+    // 'backbone-fetch-cache': 'libs/backbone.fetch-cache.min', // https://github.com/mrappleton/backbone-fetch-cache/
+    // localstorage: 'libs/backbone.localStorage/backbone.localStorage-min', // https://github.com/jeromegn/Backbone.localStorage
+    bb: 'libs/backbone-shim',
+
     leaflet: 'libs/leaflet/leaflet',
 
     // Require.js plugins
@@ -18,10 +23,10 @@ require.config({
     templates: '../templates'
   },
   shim: {
-    'leaflet': {
+    leaflet: {
         exports: 'L'
     },
-    'backbone': {
+    backbone: {
       require: ['lodash'],
       exports: 'Backbone'
     }

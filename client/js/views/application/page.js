@@ -1,7 +1,7 @@
 define([
   'jquery',
   'lodash',
-  'backbone',
+  'bb',
   'vm',
   'leaflet',
   'text!templates/application/page.html',

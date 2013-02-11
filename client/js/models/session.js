@@ -1,6 +1,6 @@
 define([
   'jquery',
-  'backbone'
+  'bb'
 ], function($, Backbone) {
   var SessionModel = Backbone.Model.extend({
     sync: function(method, model, options){

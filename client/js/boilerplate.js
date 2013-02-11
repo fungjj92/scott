@@ -2,7 +2,7 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'bb'
 ], function($, _, Backbone){
 
   return {};
