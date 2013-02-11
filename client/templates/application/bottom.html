@@ -1,9 +1,22 @@
-    <div class="dates span4">
-        <h3>Dates</h3>
-        <label class="span2" for="publicNoticeDate">Public Notice</label>
-        <input class="span2" type="date" name="publicNoticeDate" value ="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
-        <label class="span2" for="expirationDate">Expiration</label>
-        <input class="span2" type="date" name="expirationDate" value ="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+    <div class="span4">
+        <div class="row">
+            <div class="dates span4">
+                <h3>Dates</h3>
+                <label class="span2" for="publicNoticeDate">Public Notice</label>
+                <input class="span2" type="date" name="publicNoticeDate" value="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+                <label class="span2" for="expirationDate">Expiration</label>
+                <input class="span2" type="date" name="expirationDate" value="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+            <div class="bookkeeping span4">
+                <h3>Bookkeeping</h3>
+                <form class="form-inline">
+                    <label class="span2" for="lastModified">Last edited on</label>
+                    <input class="span2" type="date" name="lastModified" value="<%= application.get('lastModified') %>" readonly> 
+                    <label class="span2" for="lastEditor">Last edited by</label>
+                    <input class="span2" type="text" name="lastEditor" value="<%= application.get('lastEditor') %>" readonly> 
+                </form>
+            </div>
+        </div>
     </div>
     <div class="identifiers span4">
         <h3>Identity numbers</h3>
