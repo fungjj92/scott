@@ -49,7 +49,7 @@ define([
         patch: true,
         beforeSend: auth,
         success: function() {
-          $('#saving').hide()
+          $('#saving').fadeOut()
         }
       })
       this.render()
