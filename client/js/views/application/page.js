@@ -82,7 +82,7 @@ define([
     drawMap: function() {
         var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         var osmAttrib='Map data (C) OpenStreetMap contributors'
-        var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 12, attribution: osmAttrib})
+        var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 24, attribution: osmAttrib})
 
         // Zoom in more if we've alraedy specified the coordinates
         if (this.$model.get('latitude')) {
