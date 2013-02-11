@@ -60,8 +60,8 @@ SCHEMA = [
   ["type", /^(impact|mitigation|restoration|other)$/],
   ["notes", /^.*$/],
   ["status", /^[1-5]$/],
-  ["flagged", /^[01]$/]
-  ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/],
+  ["flagged", /^[01]$/],
+  ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/]
 ]
 
 #
