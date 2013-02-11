@@ -107,15 +107,21 @@ define([
             var zoom = 6
         }
 
+        var markerIcon = L.icon({
+           iconUrl: '/img/marker.png',
+           shadowUrl: '/img/marker.png',
+           
+           iconSize:     [39, 39], // size of the icon
+           shadowSize:   [39, 39], // size of the shadow
+           iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location
+           shadowAnchor: [20, 20],  // the same for the shadow
+           popupAnchor:  [ 0,  0] // point from which the popup should open relative to the iconAnchor
+        });
+
         // Plot a point
         var plot = function(map, model) {
             var coords = [model.get('latitude'), model.get('longitude')]
-            return L.circle(coords, 10000, {
-                color: 'black',
-                opacity: 0,
-                fillColor: 'black',
-                fillOpacity: 0.5
-            }).addTo(map)
+            return L.marker(coords, { icon: markerIcon }).addTo(map)
         }
 
         // Draw
