@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Public notices
+cd "$READER_ROOT/../documents"
+for permitApplicationNumber in *; do
+  (
+    echo "$permitApplicationNumber"
+    cd "$permitApplicationNumber"
+
+    # Convert
+    if [ -f public_notice.pdf ]; then
+      sleep 0 # all good
+    elif [ -f public_notice.doc ]; then
+      unoconv -f pdf public_notice.doc
+    elif [ -f public_notice.docx ]; then
+      unoconv -f pdf public_notice.docx
+    fi
+
+
+    # This is the slow part, so skip it if it's already done.
+    # We won't get automatic updates from changed files, but who cares?
+    [ -f public_notice.pdf.txt ] || translate public_notice.pdf
+
+    public_notice "$permitApplicationNumber" public_notice.pdf.txt
+  )
+done

@@ -34,7 +34,8 @@ and the upload to the data hub site.
 All source files are saved, and you can load them all with this script.
 
     . activate
-    batch_load
+    batch_listings
+    batch_public_notices
 
 The source files were previously downloaded, and they have been named in the
 new format, which isn't that different from the old one. This migration was
