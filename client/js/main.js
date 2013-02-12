@@ -5,10 +5,10 @@ require.config({
     // Major libraries
     jquery: 'libs/jquery/jquery-min',
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
-    lodash: 'libs/lodash/lodash', // alternative to underscore
+    lodash: 'libs/lodash/lodash-min', // alternative to underscore
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
     localstorage: 'libs/backbone.localStorage/backbone.localStorage-min', // https://github.com/jeromegn/Backbone.localStorage
-    sinon: 'libs/sinon/sinon.js',
+    leaflet: 'libs/leaflet/leaflet',
 
     // Require.js plugins
     text: 'libs/require/text',
@@ -16,9 +16,17 @@ require.config({
     // Just a short cut so we can put our html outside the js dir
     // When you have HTML/CSS designers this aids in keeping them out of the js directory
     templates: '../templates'
+  },
+  shim: {
+    'leaflet': {
+        exports: 'L'
+    },
+    'backbone': {
+      require: ['lodash'],
+      exports: 'Backbone'
+    }
   }
-
-});
+})
 
 // Let's kick off the application
 
@@ -27,7 +35,7 @@ require([
   'router',
   'vm'
 ], function(AppView, Router, Vm){
-  var appView = Vm.create({}, 'AppView', AppView);
-  appView.render();
-  Router.initialize({appView: appView});  // The router now has a copy of all main appview
-});
+  var appView = Vm.create({}, 'AppView', AppView)
+  appView.render()
+  Router.initialize({appView: appView})  // The router now has a copy of all main appview
+})

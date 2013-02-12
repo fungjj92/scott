@@ -3,5 +3,10 @@
 # Serve the website
 (
   cd server
-  coffee app.coffee
+
+  # Such a hack
+  while true; do
+    coffee app.coffee
+    sleep 2s
+  done
 )

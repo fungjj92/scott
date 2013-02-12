@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# This should be run on a fresh installation of Ubuntu 12.04 64-bit.
+# First, update.
+sudo apt-get -y update
+
+# Node ( http://apptob.org/ )
+sudo apt-get -y install libssl-dev pkg-config build-essential curl gcc g++ checkinstall
+echo 'Download Node.js - v. 0.8.18'
+mkdir /tmp/node-install
+cd /tmp/node-install
+wget http://nodejs.org/dist/v0.8.18/node-v0.8.18.tar.gz
+tar -zxf node-v0.8.18.tar.gz
+echo 'Node.js download & unpack completed'
+cd node-v0.8.18
+./configure && make && sudo checkinstall --install=yes --pkgname=nodejs --pkgversion "0.8.18" --default
+echo 'Node.js install completed'
+
+# Other stuff
+sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng \
+  coffeescript git poppler-utils imagemagick
+
+# Serve port 8080 as port 80
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+# Clone the project
+cd /home/tlevine
+git clone git@github.com:tlevine/scott.git --recursive
+cd scott
+
+(
+  cd reader
+  sudo pip install -r requirements.txt
+)
+(
+  cd server
+  npm install
+)
+
+echo 'Edit the passwords in the user table.'

@@ -7,12 +7,14 @@ define([
       if (method == 'create' || method == 'update') {
         localStorage.setItem('username', model.attributes.username)
         localStorage.setItem('password', model.attributes.password)
+        model.attributes.username = localStorage.getItem('username')
+        model.attributes.password = localStorage.getItem('password')
       } else if (method == 'read') {
         model.attributes.username = localStorage.getItem('username')
         model.attributes.password = localStorage.getItem('password')
       } else if (method == 'delete') {
-        localStorage.setItem('username', '')
-        localStorage.setItem('password', '')
+        localStorage.removeItem('username', '')
+        localStorage.removeItem('password', '')
       }
     },
     token: function() {
@@ -28,7 +30,10 @@ define([
           username: username,
           password: password
         },
-        dataType: 'json',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('Authorization', ("Basic " + btoa(username + ':' + password)))
+        },
+        dataType: 'text',
         success: function() {
           sessionModel.save({'username': username, 'password': password})
           callback()
@@ -39,10 +44,10 @@ define([
       })
     },
     logOut: function(username, password) {
-      this.save({'username': '', 'password': ''})
+      this.sync('delete')
     },
     loggedIn: function() {
-      return this.get('username') != '' && this.get('password') != ''
+      return localStorage.propertyIsEnumerable('username') && localStorage.propertyIsEnumerable('password')
     }
   })
   return SessionModel

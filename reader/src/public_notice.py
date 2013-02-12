@@ -11,7 +11,7 @@ def main():
     import requests
 
     if len(sys.argv) != 3:
-        print('USAGE: %s [permit application number] [public notice document text]' % sys.argv[0])
+        print('USAGE: %s [permit application number] [public notice text document]' % sys.argv[0])
         exit(1)
 
     # Read input
@@ -23,19 +23,63 @@ def main():
     # Parse
     doc = parse(text)
 
+    if doc == {}:
+        return
+
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
-    #requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    response = requests.put(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+    print url
     print doc
+    print response.status_code
+    print response.text
+
+LOCATION_OF_WORK = re.compile(r'^.*(LOCATION OF WORK|LOCATION):.*$')
+CHARACTER_OF_WORK = re.compile(r'^.*(CHARACTER OF WORK|DESCRIPTION):.*$')
+def _location_of_work(text):
+    lines = text.split('\n')
+    in_window = False
+    out = []
+    for line in lines:
+        if re.match(LOCATION_OF_WORK, line):
+            in_window = True
+        elif re.match(CHARACTER_OF_WORK, line):
+            break
+
+        if in_window:
+            out.append(line)
+    return ''.join(out)
+
+def _character_of_work(text):
+    lines = text.split('\n')
+    in_window = False
+    out = []
+    for line in lines:
+        if re.match(CHARACTER_OF_WORK, line):
+            in_window = True
+        elif line == '\n':
+            break
+
+        if in_window:
+            out.append(line)
+    return ''.join(out)
 
 def parse(text):
     # Parse
-    doc = read_public_notice(text)
+    guess = read_public_notice(text)
+    doc = {}
 
-    # Clean up
-    doc['CUP'] = list(doc['CUP'])[0] if len(doc['CUP']) > 0 else ''
-    doc['Coords'] = json.dumps(doc['Coords'])
-    doc['Acres'] = json.dumps(doc['Acres'])
+    if guess['WQC'] != '':
+        doc['WQC'] = guess['WQC']
+
+    if len(guess['CUP']) > 0:
+        doc['CUP'] = guess['CUP']
+
+    if len(guess['Coords']) > 0:
+        doc['latitude'], doc['longitude'] = guess['Coords'][0]
+
+    doc['locationOfWork'] = _location_of_work(text)
+    doc['characterOfWork'] = _character_of_work(text)
 
     return doc
 

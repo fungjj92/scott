@@ -108,10 +108,13 @@ def listing_parse(rawtext):
             if type(v) in {lxml.etree._ElementStringResult, str}:
                 row2[k] = unicode(v)
         row2['parish'] = _extract_parish(row2['location'])
+        row2['status'] = 1
         for k in [
             'longitude', 'latitude', 'acreage',
             'CUP', 'WQC',
-            'notes', 'flagged', 'type', 'status',
+            'notes', 'flagged', 'type',
+            'locationOfWork', 'characterOfWork',
+            'reminderDate',
         ]:
             row2[k] = ''
 
@@ -238,8 +241,14 @@ def main():
     import os
     import sys
     import requests
-    usage = 'USAGE: %s [filename]' % sys.argv[0]
-    if len(sys.argv) != 2:
+    usage = 'USAGE: %s [filename] [web|terminal]' % sys.argv[0]
+    if len(sys.argv) != 3:
+        print usage
+        exit(1)
+
+    web = sys.argv[2] == 'web'
+    terminal = sys.argv[2] == 'terminal'
+    if not (web or terminal):
         print usage
         exit(1)
 
@@ -252,9 +261,12 @@ def main():
     data = listing_parse(f.read())
     f.close()
     for doc in data:
-        url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
-        response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
-        print(response.text)
+        if web:
+            url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
+            response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+            print(response.text)
+        elif terminal:
+            print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
 
 if __name__== "__main__":
     main()

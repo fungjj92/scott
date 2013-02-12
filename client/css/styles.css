@@ -1,12 +1,17 @@
-/*
-
-# Backbone Boilerplate
-
-*/
-
-/*
-### Third Party
-*/
 @import url("bootstrap.css");
 
+.identifiers .row, .projectManager .row {
+  height: 4em;
+}
 
+.checkpoint {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    text-align: center;
+}
+
+a.download {
+    margin-top: 20px;
+}

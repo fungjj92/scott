@@ -1,0 +1,60 @@
+    <div class="span4">
+        <div class="row">
+            <div class="dates span4">
+                <h3>Dates</h3>
+                <label class="span2" for="publicNoticeDate">Public Notice</label>
+                <input class="span2" type="date" name="publicNoticeDate" value="<%= application.get('publicNoticeDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+                <label class="span2" for="expirationDate">Expiration</label>
+                <input class="span2" type="date" name="expirationDate" value="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
+            </div>
+            <div class="bookkeeping span4">
+                <h3>Bookkeeping</h3>
+                <form class="form-inline">
+                    <label class="span2" for="lastModified">Last edited on</label>
+                    <input class="span2" type="date" name="lastModified" value="<%= application.get('lastModified') %>" readonly> 
+                    <label class="span2" for="lastEditor">Last edited by</label>
+                    <input class="span2" type="text" name="lastEditor" value="<%= application.get('lastEditor') %>" readonly> 
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="identifiers span4">
+        <h3>Identity numbers</h3>
+        <fieldset class="row">
+            <label class="span1" for="permitApplicationNumber"><abbr title="United States Army Corps of Engineers New Orleans District">MVN</label>
+            <!-- http://www.mvn.usace.army.mil/bcarre/mvn%20levee%20permits%20policy.pdf -->
+            <input class="span3" type="text" name="permitApplicationNumber" value="<%= application.get('permitApplicationNumber') %>" readonly />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="CUP"><abbr title="Coastal Use Permit" class="initialism">CUP</abbr></label>
+            <input class="span3" type="text" name="CUP" value="<%= application.get('CUP') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="WQC"><abbr title="Water Quality Certification" class="initialism">WQC</abbr></label>
+            <input class="span3" type="text" name="WQC" value="<%= application.get('WQC') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="HUC"><abbr title="What does this mean?" class="initialism">HUC</abbr></label>
+            <input class="span3" type="text" name="HUC" value="<%= application.get('HUC') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="AI"><abbr title="What does this mean?" class="initialism">AI</abbr></label>
+            <input class="span3" type="text" name="AI" value="<%= application.get('AI') %>" <%= loggedIn ? '' : 'readonly' %> />
+        </fieldset>
+    </div>
+    <div class="projectManager span4">
+        <h3>Project Manager</h3>
+        <fieldset class="row">
+            <label class="span1" for="projectManagerName">Name</label>
+            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" readonly />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="projectManagerPhone">Phone</label>
+            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" readonly />
+        </fieldset>
+        <fieldset class="row">
+            <label class="span1" for="projectManagerEmail">Email</label>
+            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" readonly />
+        </fieldset>
+    </div>
+
