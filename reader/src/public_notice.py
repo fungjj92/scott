@@ -28,8 +28,16 @@ def main():
 
     # Upload
     url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + permitApplicationNumber
+
     response = requests.patch(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
     print response.status_code, url
+
+    if response.status_code != 204:
+        # Print the response
+        print response.text
+
+#       # Check that it exists
+#       print requests.get(url).text
 
 LOCATION_OF_WORK = re.compile(r'^.*(LOCATION OF WORK|LOCATION):.*$')
 CHARACTER_OF_WORK = re.compile(r'^.*(CHARACTER OF WORK|DESCRIPTION):.*$')

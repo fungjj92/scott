@@ -18,6 +18,9 @@ csv = require 'csv'
 SETTINGS = require './settings'
 ACCOUNTS = require './accounts'
 
+console.log SETTINGS
+console.log ACCOUNTS
+
 # ORM alternative
 # Each column definition is [name, regex, type, default]
 SCHEMA = [
