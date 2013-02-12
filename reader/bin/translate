@@ -4,6 +4,11 @@ set -e
 
 FILE="$1"
 
+if [ ! -f "$FILE" ]; then
+  echo "USAGE: $0 [public notice pdf]"
+  exit 1
+fi
+
 # Extract images.
 # Use jpeg so we don't have to determine whether ppm or pbm is used.
 pdfimages "$FILE" "$FILE"
@@ -23,13 +28,9 @@ for extension in pbm ppm
 
     echo $file
 
-    # Raise OCR errors at the end; try other files if one fails.
+    # Ignore errors because it always has errors.
     tesseract "$file" "$file" -l eng &&
-      cat "$file.txt" >> "$FILE.txt" ||
-      ocr_error=true
+      cat "$file.txt" >> "$FILE.txt" || sleep 0
 
   done
 done
-
-# Raise OCR errors at the end.
-[ $ocr_error ] &&  exit 1
