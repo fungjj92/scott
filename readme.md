@@ -46,5 +46,14 @@ often ram, so you might need to put one there.
 * [Automatic permit application data](http://wetlands.thomaslevine.com)
 * [Parish coordinates](https://twitter.com/ian_villeda/status/267334042507169793)
 
-## Tom watched Scott use Scott
+## Network of servers
+I want to run this across three or four computers/providers.
 
+1. One serves the node application. Anything that is not explicitly mentioned
+    as running somewhere else runs from this computer
+2. One runs the downloader/reader. It inserts the extracted data into the node
+    application through the REST API. It pushes the new files to GitHub or
+    BitBucket
+3. Primary documents are served from GitHub or BitBucket rather than
+    from the the local disk.
+4. The database could be separate if that makes things easier.
