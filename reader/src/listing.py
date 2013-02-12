@@ -267,6 +267,7 @@ def main():
         doc['flagged'] = 0
 
         if web:
+            print doc
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
             response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
             print url

@@ -32,36 +32,37 @@ DEVELOPMENT_SETTINGS =
 SETTINGS = DEVELOPMENT_SETTINGS
 
 # ORM alternative
+# Each column definition is [name, regex, type, default]
 SCHEMA = [
   # Automatically taken from the listings page
-  ["projectDescription", /^.*$/],
-  ["applicant", /^.*$/],
-  ["projectManagerPhone", /^.*$/],
-  ["projectManagerEmail", /^.*$/],
-  ["projectManagerName", /^.*$/],
-  ["publicNoticeDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
-  ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/],
-  ["publicNoticeUrl", /^.*$/ ], # On the Army Corps site
-  ["drawingsUrl", /^.*$/ ],     # On the Army Corps site
-  ["parish", /^(|acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/]
+  ["projectDescription", /^.*$/, 'TEXT NOT NULL', ''],
+  ["applicant", /^.*$/, 'TEXT NOT NULL', ''],
+  ["projectManagerPhone", /^.*$/, 'TEXT NOT NULL', ''],
+  ["projectManagerEmail", /^.*$/, 'TEXT NOT NULL', ''],
+  ["projectManagerName", /^.*$/, 'TEXT NOT NULL', ''],
+  ["publicNoticeDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/, 'TEXT NOT NULL', '0000-00-00'],
+  ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/, 'TEXT NOT NULL', '0000-00-00'],
+  ["publicNoticeUrl", /^pdf\/.*$/, 'TEXT NOT NULL', '' ], # On the Army Corps site
+  ["drawingsUrl", /^pdf\/.*$/, 'TEXT NOT NULL', '' ],     # On the Army Corps site
+  ["parish", /^(|acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/, 'TEXT NOT NULL', '']
 
   # Automatically taken from the public notice
-  ["CUP", /^.*$/],
-  ["WQC", /^.*$/],
-  ["locationOfWork", /^.*$/],
-  ["characterOfWork", /^.*$/],
+  ["CUP", /^.*$/, 'TEXT NOT NULL', ''],
+  ["WQC", /^.*$/, 'TEXT NOT NULL', ''],
+  ["locationOfWork", /^.*$/, 'TEXT NOT NULL', ''],
+  ["characterOfWork", /^.*$/, 'TEXT NOT NULL', ''],
 
   # Manually taken from the public notice
-  ["longitude", /^-?[0-9.]*$/],
-  ["latitude", /^-?[0-9.]*$/]
-  ["acreage", /^[0-9.]*$/],
+  ["longitude", /^-?[0-9.]*$/, 'FLOAT', ''],
+  ["latitude", /^-?[0-9.]*$/, 'FLOAT', '']
+  ["acreage", /^[0-9.]*$/, 'FLOAT', ''],
 
   # Notes
-  ["type", /^(impact|mitigation|restoration|other)$/],
-  ["notes", /^.*$/],
-  ["status", /^[1-5]$/],
-  ["flagged", /^[01]$/],
-  ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/]
+  ["type", /^(impact|mitigation|restoration|other)$/, 'TEXT NOT NULL', ''],
+  ["notes", /^.*$/, 'TEXT NOT NULL', ''],
+  ["status", /^[1-5]$/, 'TEXT NOT NULL', '1'],
+  ["flagged", /^[01]$/, 'TEXT NOT NULL', '0'],
+  ["reminderDate", /^(|[0-9]{4}-[01][0-9]-[0-3][0-9])$/, 'TEXT NOT NULL', '0000-00-00']
 ]
 
 #
@@ -98,11 +99,12 @@ CREATE TABLE IF NOT EXISTS application (
   permitApplicationNumber TEXT NOT NULL,
   UNIQUE(permitApplicationNumber)
 );'''
-db.run table, (err) ->
-  SCHEMA.map (row) ->
-    db.run "SELECT \"#{row[0]}\" FROM application LIMIT 0;", (err) ->
-      if (err)
-        db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" TEXT NOT NULL;"
+SCHEMA.map (row) ->
+  db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" \"#{row[2]}\" DEFAULT \"#{row[3]}\";", (err) ->
+    if (err && !(('' + err).match 'duplicate'))
+      # Log if there's an error I care about.
+      console.log err
+
 #
 # Go
 # ===========================================================

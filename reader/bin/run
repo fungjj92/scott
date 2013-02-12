@@ -19,7 +19,6 @@ fi
   listing publicnotices.asp.html web
 )
 
-
 # Download the public notices and drawings
 (
   tmp=$(mktemp)
@@ -34,10 +33,23 @@ fi
     mkdir -p "$READER_ROOT/../documents/$permitApplicationNumber"
     cd "$READER_ROOT/../documents/$permitApplicationNumber"
     ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
-    wsync "${ARMY}${publicNoticeUrl}" public_notice pdf
+    publicNoticeExtension=$(echo "$publicNoticeUrl" | sed 's/^.*\.//')
+    drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
+
+    # Download
+    wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
     sleep 1s
-    wsync "${ARMY}${drawingsUrl}" drawings pdf
+    wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
     sleep 1s
+
+    # Convert
+    if [ "$publicNoticeExtension" != 'pdf' ]; then
+      swriter -convert-to pdf:writer_pdf_Export public_notice.doc
+    fi
+    if [ "$drawingsExtension" != 'pdf' ]; then
+      swriter -convert-to pdf:writer_pdf_Export drawings.doc
+    fi
+
     sed -i 1d $tmp
   done
 )
