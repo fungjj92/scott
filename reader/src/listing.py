@@ -3,6 +3,7 @@ import datetime
 import lxml.html, lxml.etree
 import re
 from unidecode import unidecode
+import json
 
 def listing_parse(rawtext):
     # There are more data in the comments!
@@ -267,11 +268,15 @@ def main():
         doc['flagged'] = 0
 
         if web:
-            print doc
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
             response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
-            print url
-            print(response.content)
+            print url, response.status_code
+            # Print the error only if I care.
+            if response.status_code != 204:
+                if not 'already a permit application with number' in json.loads(response.text).get('message', ''):
+                    print doc
+                    print response.text
+
         elif terminal:
             print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
 
