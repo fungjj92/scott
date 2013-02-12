@@ -23,7 +23,7 @@ fi
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  permits=$(listing publicnotices.asp.html terminal | sed '/^$/d' | head -n2 > $tmp)
+  listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp
 
   while [ $(cat $tmp | wc -l) -gt 0 ] ; do
     permitApplicationNumber=$(head -n1 $tmp | cut -f1)
@@ -42,13 +42,16 @@ fi
     drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
 
     # Skip files that we already have; don't worry about whether they've changed.
-    if [ ! -f "public_notice.$publicNoticeExtension" ]; then
+    if [ -f "public_notice.$publicNoticeExtension" ]; then
       echo "public_notice.$publicNoticeExtension already exists, so I'm not downloading it." 
+    else
       wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
       sleep 1s
     fi
-    if [ ! -f "drawings.$drawingsExtension" ]; then
+
+    if [ -f "drawings.$drawingsExtension" ]; then
       echo "drawings.$drawingsExtension already exists, so I'm not downloading it." 
+    else
       wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
       sleep 1s
     fi
