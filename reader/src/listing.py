@@ -271,7 +271,7 @@ def main():
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
             response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
             print url
-            print(response.text)
+            print(response.content)
         elif terminal:
             print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
 
