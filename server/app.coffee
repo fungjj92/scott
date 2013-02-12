@@ -15,21 +15,8 @@ bunyan = require 'bunyan'
 csv = require 'csv'
 # http://www.adaltas.com/projects/node-csv/to.html
 
-PRODUCTION_SETTINGS =
-  cache: 0
-  port: 8080
-  log: true
-  dbfile: '/home/tlevine/wetlands.db'
-  logfile: '/home/tlevine/scott.log'
-
-DEVELOPMENT_SETTINGS =
-  cache: 0
-  port: 8080
-  log: true
-  dbfile: '/tmp/wetlands.db'
-  logfile: '/tmp/scott.log'
-
-SETTINGS = DEVELOPMENT_SETTINGS
+SETTINGS = require './settings'
+ACCOUNTS = require './accounts'
 
 # ORM alternative
 # Each column definition is [name, regex, type, default]
@@ -86,11 +73,6 @@ notValid = (req, res) ->
       return "#{key[0]} must match #{key[1]}"
 
   return false
-
-ACCOUNTS =
-  tom: 'chainsaw'
-  scott: 'chainsaw'
-  bot: 'h%r9hr23(uo'
 
 # Set up the SQLite database based on the SCHEMA
 db = new sqlite3.Database SETTINGS.dbfile
