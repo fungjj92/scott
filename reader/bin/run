@@ -30,6 +30,11 @@ fi
     publicNoticeUrl=$(head -n1 $tmp | cut -f2)
     drawingsUrl=$(head -n1 $tmp | cut -f3)
 
+    # For debugging
+    echo "--------------------------------------------------------------"
+    echo "                      $permitApplicationNumber"
+    echo "--------------------------------------------------------------"
+
     mkdir -p "$READER_ROOT/../documents/$permitApplicationNumber"
     cd "$READER_ROOT/../documents/$permitApplicationNumber"
     ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
@@ -60,8 +65,9 @@ fi
   for permitApplicationNumber in *; do
     (
       cd $permitApplicationNumber
+      echo $permitApplicationNumber
       translate public_notice.pdf
-      public_notice public_notice.pdf.txt
+      public_notice "$permitApplicationNumber" public_notice.pdf.txt
     # Don't generate images because that sometimes doesn't work.
     # convert -geometry 1200 public_notice.pdf[0] public_notice.jpg
     # convert -geometry 1200 drawings.pdf[1] drawings.jpg
