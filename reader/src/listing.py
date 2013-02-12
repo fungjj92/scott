@@ -261,9 +261,15 @@ def main():
     data = listing_parse(f.read())
     f.close()
     for doc in data:
+
+        # These fields are required
+        doc['type'] = 'impact'
+        doc['flagged'] = 0
+
         if web:
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
             response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
+            print url
             print(response.text)
         elif terminal:
             print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
