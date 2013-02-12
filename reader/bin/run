@@ -47,14 +47,6 @@ fi
 #   wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
 #   sleep 1s
 
-    # Convert
-    if [ "$publicNoticeExtension" != 'pdf' ]; then
-      unoconv -f pdf "public_notice.$publicNoticeExtension"
-    fi
-    if [ "$drawingsExtension" != 'pdf' ]; then
-      unoconv -f pdf "drawings.$drawingsExtension"
-    fi
-
     sed -i 1d $tmp
   done
 )
@@ -66,6 +58,15 @@ fi
     (
       cd $permitApplicationNumber
       echo $permitApplicationNumber
+
+      # Convert
+      if [ -f public_notice.pdf ]; then
+        sleep 0 # all good
+      elif [ -f public_notice.doc ]; then
+        unoconv -f pdf public_notice.doc
+      elif [ -f public_notice.docx ]; then
+        unoconv -f pdf public_notice.docx
+      fi
 
       # This is the slow part, so skip it if it's already done.
       # We won't get automatic updates from changed files, but who cares?
