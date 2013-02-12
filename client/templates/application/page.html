@@ -12,10 +12,7 @@
     <div class="span4" id="left"></div>
     <div class="span8">
         <div class="preview row">
-            <a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">
-                <!--                <img width="100%" src="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.jpg" alt="First page of the public notice document" /> -->
-                <embed width="100%" height="600px" src="http://localhost:8080/documents/MVN-2000-2083-EQ/drawings.pdf" type="application/pdf">
-            </a>
+            <embed width="100%" height="600px" src="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf" type="application/pdf">
         </div>
         <div class="map row">
             <div id="map" style="width: 90%; height: 500px; margin-left: auto; margin-right: 0"></div>
