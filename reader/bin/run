@@ -42,10 +42,10 @@ fi
     drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
 
     # Download
-    wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
-    sleep 1s
-    wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
-    sleep 1s
+#   wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
+#   sleep 1s
+#   wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
+#   sleep 1s
 
     # Convert
     if [ "$publicNoticeExtension" != 'pdf' ]; then
@@ -66,7 +66,11 @@ fi
     (
       cd $permitApplicationNumber
       echo $permitApplicationNumber
-      translate public_notice.pdf
+
+      # This is the slow part, so skip it if it's already done.
+      # We won't get automatic updates from changed files, but who cares?
+      [ -f public_notice.pdf.txt ] || translate public_notice.pdf
+
       public_notice "$permitApplicationNumber" public_notice.pdf.txt
     # Don't generate images because that sometimes doesn't work.
     # convert -geometry 1200 public_notice.pdf[0] public_notice.jpg
