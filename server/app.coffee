@@ -42,8 +42,8 @@ SCHEMA = [
   ["projectManagerName", /^.*$/, 'TEXT NOT NULL', ''],
   ["publicNoticeDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/, 'TEXT NOT NULL', '0000-00-00'],
   ["expirationDate", /^[0-9]{4}-[01][0-9]-[0-3][0-9]$/, 'TEXT NOT NULL', '0000-00-00'],
-  ["publicNoticeUrl", /^pdf\/.*$/, 'TEXT NOT NULL', '' ], # On the Army Corps site
-  ["drawingsUrl", /^pdf\/.*$/, 'TEXT NOT NULL', '' ],     # On the Army Corps site
+  ["publicNoticeUrl", /^pdf\/.*$/, 'TEXT', '' ], # On the Army Corps site
+  ["drawingsUrl", /^pdf\/.*$/, 'TEXT', '' ],     # On the Army Corps site
   ["parish", /^(|acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|la salle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$/, 'TEXT NOT NULL', '']
 
   # Automatically taken from the public notice
@@ -99,11 +99,15 @@ CREATE TABLE IF NOT EXISTS application (
   permitApplicationNumber TEXT NOT NULL,
   UNIQUE(permitApplicationNumber)
 );'''
-SCHEMA.map (row) ->
-  db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" \"#{row[2]}\" DEFAULT \"#{row[3]}\";", (err) ->
-    if (err && !(('' + err).match 'duplicate'))
-      # Log if there's an error I care about.
-      console.log err
+db.run table, (err) ->
+  if (err)
+    console.log err
+  else
+    SCHEMA.map (row) ->
+      db.run "ALTER TABLE application ADD COLUMN \"#{row[0]}\" \"#{row[2]}\" DEFAULT \"#{row[3]}\";", (err) ->
+        if (err && !(('' + err).match 'duplicate'))
+          # Log if there's an error I care about.
+          console.log err
 
 #
 # Go
@@ -167,7 +171,7 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
   # Run the query
   db.get "SELECT count(*) AS 'c' FROM application WHERE permitApplicationNumber = ?", req.body.permitApplicationNumber, (err, row) ->
     if row.c == 1
-      next(new restify.BadMethodError "There is already a permit application with number #{req.body.permitApplicationNumber}")
+      next(new restify.InvalidContentError "There is already a permit application with number #{req.body.permitApplicationNumber}")
 
     db.run sql, values, (err) ->
       if err
