@@ -22,7 +22,7 @@ require.config({
         exports: 'L'
     },
     'backbone': {
-      require: ['lodash'],
+      require: ['jquery', 'lodash'],
       exports: 'Backbone'
     }
   }
