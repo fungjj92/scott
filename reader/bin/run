@@ -49,11 +49,9 @@ fi
 
     # Convert
     if [ "$publicNoticeExtension" != 'pdf' ]; then
-    # echo "XXX: Manually convert the public notice file for $permitApplicationNumber"
       unoconv -f pdf "public_notice.$publicNoticeExtension"
     fi
     if [ "$drawingsExtension" != 'pdf' ]; then
-    # echo "XXX: Manually convert the drawings file for $permitApplicationNumber"
       unoconv -f pdf "drawings.$drawingsExtension"
     fi
 
