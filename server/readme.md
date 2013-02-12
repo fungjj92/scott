@@ -71,3 +71,27 @@ the database call and the log write.)
 The associated listings, public notice and drawings files are not necessary
 for the restoration of the database, but they can also be easily restored from
 the respective git repositories, which are submodules of the project repository.
+
+## Versioning ideas
+
+### Undos
+
+The `undo` table lists edits.
+
+    CREATE TABLE undo (
+      user TEXT NOT NULL,
+      datetime TEXT NOT NULL,
+      key TEXT NOT NULL,
+      value TEXT NOT NULL
+    );
+
+When updating the database (PATCH), update the undo table within a transaction.
+I only need this for PATCH, not POST, because only human actions will need to be
+undone quickly.
+
+When undoing a bunch of things, run all of the undo things within one transaction
+that adds rows to `undo` for undoing the undo.
+
+### Logfile
+In addition to the main logfile, I make application-specific history files. These
+are plain text but easily read by a person.
