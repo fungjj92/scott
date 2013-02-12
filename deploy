@@ -19,7 +19,7 @@ echo 'Node.js install completed'
 # Other stuff
 sudo apt-get install python-lxml tesseract-ocr tesseract-ocr-eng \
   coffeescript git poppler-utils imagemagick \
-  libreoffice-writer
+  unoconv
 
 # Serve port 8080 as port 80
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
