@@ -32,5 +32,7 @@ for extension in pbm ppm
     tesseract "$file" "$file" -l eng &&
       cat "$file.txt" >> "$FILE.txt" || sleep 0
 
+    # Do only the first page.
+    break
   done
 done
