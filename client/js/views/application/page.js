@@ -80,9 +80,8 @@ define([
       }
     },
     drawMap: function() {
-        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        var osmAttrib='Map data (C) OpenStreetMap contributors'
-        var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib})
+        var mapQuestUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+        var mapQuest = new L.TileLayer(mapQuestUrl, {minZoom: 5, maxZoom: 18, subdomains: '1234'})
 
         // Zoom in more if we've alraedy specified the coordinates
         if (this.$model.get('latitude')) {
@@ -125,7 +124,7 @@ define([
         }
 
         // Draw
-        var map = L.map('map').setView([latitude, longitude], zoom).addLayer(osm)
+        var map = L.map('map').setView([latitude, longitude], zoom).addLayer(mapQuest)
 
         // Plot the point if we have it.
         if (this.$model.get('latitude')) {

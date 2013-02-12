@@ -14,10 +14,16 @@ define([
       var page = this
       applicationsCollection.fetch({
         success: function(collection, response, options) {
-          var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          var osmAttrib='Map data (C) OpenStreetMap contributors'
-          var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 12, attribution: osmAttrib})
-          var map = L.map('map').setView([28, -89.5], 6).addLayer(osm)
+          // OSM streets
+          // var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          // var osmAttrib='Map data (C) OpenStreetMap contributors'
+          // var tiles = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 12, attribution: osmAttrib})
+
+          // MapQuest aerial
+          var mapQuestUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+          var tiles = new L.TileLayer(mapQuestUrl, {minZoom: 5, maxZoom: 12, subdomains: '1234'})
+
+          var map = L.map('map').setView([28, -89.5], 6).addLayer(tiles)
           var i
           for (i in collection.models) {
             application = collection.models[i]
