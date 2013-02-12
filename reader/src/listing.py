@@ -278,7 +278,8 @@ def main():
                     print response.text
 
         elif terminal:
-            print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
+            if 'permitApplicationNumber' in doc and 'publicNoticeUrl' in doc and 'drawingsUrl' in doc:
+                print doc['permitApplicationNumber'] + '\t' + doc['publicNoticeUrl'] + '\t' + doc['drawingsUrl']
 
 if __name__== "__main__":
     main()
