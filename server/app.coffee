@@ -162,6 +162,10 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
       if err
         next(new restify.InvalidContentError err)
       else
+        # On success, write to the log file
+        logline = new Date() + ' ' + req.authorization.basic.username + ' ' + JSON.stringify(req.body) + '\n'
+        fs.writeFile(SETTINGS.humanlogprefix + req.params.permitApplicationNumber + '.log', logline)
+
         res.send 204
         next()
 
@@ -197,6 +201,7 @@ server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
       # On success, write to the log file
       logline = new Date() + ' ' + req.authorization.basic.username + ' ' + JSON.stringify(req.body) + '\n'
       fs.appendFile(SETTINGS.humanlogprefix + req.params.permitApplicationNumber + '.log', logline)
+
       res.send 204
       next()
 
@@ -210,6 +215,15 @@ server.get '/applications/:permitApplicationNumber', (req, res, next) ->
     else
       next(new restify.ResourceNotFoundError 'There is no permit with this number.')
 
+# View an application's update history
+server.get '/applications/:permitApplicationNumber/history', (req, res, next) ->
+  fs.readFile SETTINGS.humanlogprefix + req.params.permitApplicationNumber + '.log', 'utf8', (err, data) ->
+    if (err)
+      next(new restify.InternalError err)
+    else
+      res.setHeader 'content-type', 'text/plain'
+      res.send data
+      next()
 
 # List the applications
 server.get '/applications', (req, res, next) ->

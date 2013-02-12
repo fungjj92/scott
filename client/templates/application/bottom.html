@@ -7,14 +7,12 @@
                 <label class="span2" for="expirationDate">Expiration</label>
                 <input class="span2" type="date" name="expirationDate" value="<%= application.get('expirationDate') %>" <%= loggedIn ? '' : 'readonly' %> />
             </div>
-            <div class="bookkeeping span4">
-                <h3>Bookkeeping</h3>
-                <form class="form-inline">
-                    <label class="span2" for="lastModified">Last edited on</label>
-                    <input class="span2" type="date" name="lastModified" value="<%= application.get('lastModified') %>" readonly> 
-                    <label class="span2" for="lastEditor">Last edited by</label>
-                    <input class="span2" type="text" name="lastEditor" value="<%= application.get('lastEditor') %>" readonly> 
-                </form>
+            <div class="history span4">
+                <h3>History</h3>
+                <p>
+                    The history of data edits is <a href="/applications/<%= application.get('permitApplicationNumber') %>/history">here</a>.
+                    You can undo small changes manually, or you can talk to Tom for more involved undoings.
+                </p>
             </div>
         </div>
     </div>
