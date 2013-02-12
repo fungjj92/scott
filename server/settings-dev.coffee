@@ -4,3 +4,4 @@ module.exports =
   log: true
   dbfile: '/tmp/wetlands.db'
   logfile: '/tmp/scott.log'
+  humanlogprefix: '/tmp/'

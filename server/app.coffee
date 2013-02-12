@@ -178,7 +178,6 @@ server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
   # Lines of SQL
   sqlExprs = ("#{key[0]} = ?" for key in SCHEMA when req.body[key[0]] != undefined)
 
-
   # Text for a transaction
   sql = "UPDATE application SET #{sqlExprs.join ','} WHERE permitApplicationNumber = ?;"
 
@@ -195,6 +194,9 @@ server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
     if err
       next(new restify.InvalidContentError err)
     else
+      # On success, write to the log file
+      logline = new Date() + ' ' + req.authorization.basic.username + ' ' + JSON.stringify(req.body) + '\n'
+      fs.appendFile(SETTINGS.humanlogprefix + req.params.permitApplicationNumber + '.log', logline)
       res.send 204
       next()
 
