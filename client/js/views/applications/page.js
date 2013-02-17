@@ -28,7 +28,7 @@ define([
         }
       })
     },
-    resort: function(e) {
+    reSort: function(e) {
       var comparator = {
         type: function(a) { return a.get('type') ? a.get('type') : 'z' },
         date: function(a) { return -new Date(a.get('expirationDate')) },
@@ -38,7 +38,7 @@ define([
       return false
     },
     events: {
-      'click .sort': 'resort'
+      'click .sort': 'reSort'
     }
   });
 
