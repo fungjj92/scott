@@ -31,6 +31,7 @@ define([
     reSort: function(e) {
       var comparator = {
         type: function(a) { return a.get('type') ? a.get('type') : 'z' },
+        'status': function(a) { return a.get('status') },
         date: function(a) { return -new Date(a.get('expirationDate')) },
         acreage: function(a) { return -a.get('acreage') }
       }[e.currentTarget.href.split('#')[1]]
