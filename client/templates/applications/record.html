@@ -2,10 +2,15 @@
     <td class="projectDescription span2">
         <a href="#/applications/<%= application.get('permitApplicationNumber') %>"><%= application.get('projectDescription') %></a>
     </td>
+
     <% var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ] %>
     <% var d = new Date(application.get('expirationDate')) %>
     <% var month = months[d.getMonth()]  %>
+    <td class="expirationDate span2"><%= month %> <%= d.getDate() %>, <%= d.getFullYear() %></td>
+
+    <% var statuses = [ 'To Read', 'To Comment', 'To FOI', 'Waiting', 'Done' ] %>
+    <td class="status span2"><%= statuses[application.get('status')] %></td>
+
     <td class="type span2"><%= application.get('type') %></td>
     <td class="acreage span2"><%= application.get('acreage') %></td>
-    <td class="expirationDate span2"><%= month %> <%= d.getDate() %>, <%= d.getFullYear() %></td>
 </tr>
