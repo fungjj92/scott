@@ -1,0 +1,3 @@
+@hourly cd ~/Documents/scott-backup    && git pull scott.thomaslevine.com:backup/.git
+@hourly cd ~/Documents/scott/documents && git pull scott.thomaslevine.com:scott/.git/documents
+@hourly cd ~/Documents/scott/listings  && git pull scott.thomaslevine.com:scott/.git/listings
