@@ -1,2 +1,2 @@
-@daily  cd scott/reader && . activate && run
+@daily cd scott/reader && . ./activate && run
 @reboot cd scott && ./serve
