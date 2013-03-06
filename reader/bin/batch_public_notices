@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Public notices
 cd "$READER_ROOT/../documents"
