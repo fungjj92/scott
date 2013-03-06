@@ -4,6 +4,7 @@ set -e
 # Listings
 cd "$READER_ROOT/../listings"
 for file in publicnotices.asp*.html; do
+  echo "$file"
   listing "$file" web
 done
 
