@@ -41,6 +41,10 @@ def listing_parse(rawtext):
         # As a dict
         row = dict(zip(thead, [td.text_content().strip() for td in tr.xpath('td')]))
 
+        # Skip junk permit application numbers
+        if row['PermitApplication No.'] in SKIP:
+            continue
+
         # Clean up the permit application number
         row['PermitApplication No.'] = _clean_permit_application_number(row['PermitApplication No.'])
 
@@ -160,6 +164,8 @@ MANUAL_REPLACEMENTS = {
     '1997-3061-9 WB': 'MVN-1997-3061-9-WB'
 }
 
+SKIP = {'0'}
+
 PARISH = re.compile(r'^(acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|lasalle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$')
 
 def _parsedate(rawdate):
@@ -167,11 +173,15 @@ def _parsedate(rawdate):
 
 def _clean_permit_application_number(n):
     'Clean up the permit application number.'
-    if n[:3] in {'MVN', 'MVK'}:
+    if n in MANUAL_REPLACEMENTS:
+        # If this is a manual one, replace it that way.
+        return MANUAL_REPLACEMENTS[n]
+    elif n[:3] in {'MVN', 'MVK'}:
         return _clean_mvn_permit_application_number(n)
     elif n[:3] == 'CEM':
         return _clean_cem_permit_application_number(n)
     else:
+        print n
         raise AssertionError('Unexpected first block in %s' % n)
 
 def _clean_cem_permit_application_number(n):
@@ -183,10 +193,6 @@ def _clean_cem_permit_application_number(n):
 
 def _clean_mvn_permit_application_number(n):
     'Clean up the permit application number for MVN permits.'
-
-    # If this is a manual one, replace it that way.
-    if n in MANUAL_REPLACEMENTS:
-        return MANUAL_REPLACEMENTS[n]
 
     # Remove delimiters
     n = filter(lambda char: char not in '- ', n)
