@@ -165,7 +165,7 @@ def _parsedate(rawdate):
 
 def _clean_permit_application_number(n):
     'Clean up the permit application number.'
-    if n[:3] == 'MVN':
+    if n[:3] == in {'MVN', 'MVK'}:
         return _clean_mvn_permit_application_number(n)
     elif n[:3] == 'CEM':
         return _clean_cem_permit_application_number(n)
