@@ -31,12 +31,12 @@ and the upload to the data hub site.
 
 ## Batch loading data
 
-All source files are saved, and you can load them all with this script.
+All source files are saved, so you can rebuild the database from them.
 
     . activate
     batch_listings
     batch_public_notices
 
 The source files were previously downloaded, and they have been named in the
-new format, which isn't that different from the old one. This migration was
-useful for loading those data.
+new format, which isn't that different from the old one. These batch scripts
+were useful for loading those data.
