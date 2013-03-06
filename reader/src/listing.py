@@ -156,7 +156,7 @@ MANUAL_REPLACEMENTS = {
     'MVN 2009-3063 CO (ERRATUM)': 'MVN-2009-3063-CO-(ERRATUM)',
     'MVN 2010-1080 WLL/ MVN 2010 1032 WLL B': 'MVN-2010-1080-WLL_MVN-2010-1032-WLLB',
     'MVN-2010-1080-WLL/ MVN-2010-1032-WLL-A': 'MVN-2010-1080-WLL_MVN-2010-1032-WLL-A',
-    'MVN-2010-01080- WLL, 2010-01032-WLL': 'MVN-2010-01080-WLL_2010-01032-WLL'
+    'MVN-2010-01080- WLL, 2010-01032-WLL': 'MVN-2010-01080-WLL_2010-01032-WLL',
 }
 
 PARISH = re.compile(r'^(acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|lasalle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)$')
