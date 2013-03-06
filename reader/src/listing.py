@@ -201,8 +201,8 @@ def _clean_mvn_permit_application_number(n):
             raise AssertionError('The third group of %s is not all numbers.' % n)
 
     # Check year
-    if 'MVN' != n[:3]:
-        raise AssertionError('The first three letters of %s are not "MVN"' % n)
+    if n[:3] not in {'MVN', 'MVK'}:
+        raise AssertionError('The first three letters of %s are not "MVN" or "MVK"' % n)
 
     # Check year
     if not re.match(PERMIT_YEAR, n[4:8]):
