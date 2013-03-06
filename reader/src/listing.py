@@ -149,7 +149,7 @@ _COLNAMES = [
     'Project Manager'
 ]
 
-PERMIT_APPLICATION_NUMBER_REGEX = re.compile(r'^MVN-[0-9]+-[0-9]+(?:-[A-Z]+)?$')
+PERMIT_APPLICATION_NUMBER_REGEX = re.compile(r'^MV[KN]-[0-9]+-[0-9]+(?:-[A-Z]+)?$')
 PERMIT_YEAR = re.compile(r'[12][901][789012][0-9]')
 
 MANUAL_REPLACEMENTS = {
