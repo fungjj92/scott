@@ -266,6 +266,9 @@ def main():
         # These fields are required
         doc['type'] = 'impact'
         doc['flagged'] = 0
+        for k, v in doc.items():
+            if v == None:
+                doc[k] = ''
 
         if web:
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
