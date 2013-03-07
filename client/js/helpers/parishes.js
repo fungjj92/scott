@@ -17,7 +17,7 @@ define([], function () {
     ['claiborne', 'Claiborne',                           32.829727, -93.035794],
     ['concordia', 'Concordia',                           31.593625, -91.547275],
     ['de soto', 'De Soto',                               32.090382, -93.772958],
-    ['east baton Rouge', 'East Baton Rouge',             30.464976, -91.103294],
+    ['east baton rouge', 'East Baton Rouge',             30.464976, -91.103294],
     ['east carroll', 'East Carroll',                     32.771924, -91.199356],
     ['east feliciana', 'East Feliciana',                 30.829706, -91.091493],
     ['evangeline', 'Evangeline',                         30.682291, -92.361140],
@@ -61,7 +61,7 @@ define([], function () {
     ['vernon', 'Vernon',                                 31.095054, -93.242786],
     ['washington', 'Washington',                         30.835598, -89.977099],
     ['webster', 'Webster',                               32.704101, -93.341805],
-    ['west baton Rouge', 'West Baton Rouge',             30.447108, -91.264284],
+    ['west baton rouge', 'West Baton Rouge',             30.447108, -91.264284],
     ['west carroll', 'West Carroll',                     32.812876, -91.430324],
     ['west feliciana', 'West Feliciana',                 30.890217, -91.450009],
     ['winn', 'Winn',                                     31.932121, -92.673258]
