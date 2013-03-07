@@ -6,11 +6,14 @@ if [ -z "$READER_ROOT" ]; then
   exit 1
 fi
 
-# Download the listing
+# Download and commit the listing
 (
   LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
   cd "$READER_ROOT/../listings"
   wsync "$LISTING_URL" publicnotices.asp html
+
+  git add publicnotices.asp*
+  git commit publicnotices.asp* -m automatic\ download
 )
 
 # Parse the listing
@@ -58,6 +61,13 @@ fi
 
     sed -i 1d $tmp
   done
+)
+
+# Commit the public notices
+(
+  cd "$READER_ROOT/../documents"
+  git add .
+  git commit . -m automatic\ download
 )
 
 # Parse the public notice
