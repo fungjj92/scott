@@ -1,3 +1,3 @@
-@hourly cd ~/Documents/scott-backup    && git pull scott.thomaslevine.com:backup/.git master
-@hourly cd ~/Documents/scott/documents && git pull scott.thomaslevine.com:scott/.git/documents master
-@hourly cd ~/Documents/scott/listings  && git pull scott.thomaslevine.com:scott/.git/listings master
+@hourly cd ~/Documents/scott-logs      && git pull scott.thomaslevine.com:scott-logs/.git master              && git push
+@hourly cd ~/Documents/scott/documents && git pull scott.thomaslevine.com:scott/.git/modules/documents master && git push
+@hourly cd ~/Documents/scott/listings  && git pull scott.thomaslevine.com:scott/.git/modules/listings master  && git push
