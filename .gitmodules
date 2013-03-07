@@ -7,3 +7,6 @@
 [submodule "reader/wsync"]
 	path = reader/wsync
 	url = git@github.com:tlevine/wsync.git
+[submodule "logs"]
+	path = logs
+	url = git@github.com:tlevine/scott-logs.git
