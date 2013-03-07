@@ -4,4 +4,4 @@ module.exports =
   log: true
   dbfile: '/home/tlevine/scott.db'
   logfile: '/home/tlevine/scott.log'
-  humanlogprefix: '/home/tlevine/scott-logs'
+  humanlogprefix: '/home/tlevine/scott-logs/'
