@@ -29,7 +29,7 @@ and the upload to the data hub site.
 
     run
 
-## Batch loading data
+## Batch loading data from raw files (Deprecated after March 7, 2013)
 
 All source files are saved, so you can rebuild the database from them.
 
@@ -40,3 +40,8 @@ All source files are saved, so you can rebuild the database from them.
 The source files were previously downloaded, and they have been named in the
 new format, which isn't that different from the old one. These batch scripts
 were useful for loading those data.
+
+## Batch loading data from history
+
+In order to avoid adding extra records to the history, the `batch_public_notices`
+script should be replaced somewhat with a history loader.
