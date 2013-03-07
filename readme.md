@@ -57,3 +57,11 @@ I want to run this across three or four computers/providers.
 3. Primary documents are served from GitHub or BitBucket rather than
     from the the local disk.
 4. The database could be separate if that makes things easier.
+
+In practice, I really only use two.
+
+1. One (`server`) serves the node application, the downloader/reader, the database
+    and the primary documents
+2. A second (`desk`) coordinates backups; it periodically pulls the documents and
+    listings submodules and the logs directory and then pushes those to external
+    git repository hosting services.
