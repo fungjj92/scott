@@ -269,7 +269,7 @@ def main():
         exit(1)
 
     f = open(listings_file)
-    data = listing_parse(f.read())
+    data = listing_parse(f.read().decode('latin1'))
     f.close()
     for doc in data:
 
