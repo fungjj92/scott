@@ -1,2 +1,3 @@
 @daily cd scott/reader && . ./activate && run
 @reboot cd scott && ./serve
+@hourly cd scott-logs && git add . && git commit . -m automatic\ log\ commit
