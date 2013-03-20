@@ -22,8 +22,8 @@
                 </li>
                 <!-- <li><a href="" class="deq">DEQ</a></li> -->
                 <% if (application.get('CUP')) { %>
-                <!-- http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=P20110522 -->
-                <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
+                <li><a href="http://ucmwww.dnr.state.la.us/ucmsearch/FindDocuments.aspx?idx=xrefnum&val=<%= application.get('CUP')%>" class="dnr">Department of Natural Resources (DNR)</a></li>
+                <li><a href="http://sonris-www.dnr.state.la.us/sundown/cart_prod/pkg_crm00100_forms.cart_menu?pcup_num=<%= application.get('CUP')%>" class="dnr">Automated Permit Process (also DNR)</a></li>
                 <% } %>
             </ul>
         </div>
