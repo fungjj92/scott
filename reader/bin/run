@@ -13,6 +13,9 @@ fi
   wsync "$LISTING_URL" publicnotices.asp html
 
   git add publicnotices.asp*
+
+  # This errors and stops if nothing has changed.
+  # I want that; the code below need not run in that case.
   git commit publicnotices.asp* -m automatic\ download
 )
 
@@ -67,6 +70,8 @@ fi
 (
   cd "$READER_ROOT/../documents"
   git add .
+  # This errors and stops if nothing has changed.
+  # I want that; the code below need not run in that case.
   git commit . -m automatic\ download
 )
 
