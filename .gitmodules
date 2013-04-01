@@ -1,6 +1,9 @@
 [submodule "listings"]
 	path = listings
 	url = git@github.com:tlevine/scott-listings.git
+[submodule "listings-2"]
+	path = listings-2
+	url = git@github.com:tlevine/scott-listings-2.git
 [submodule "documents"]
 	path = documents
 	url = git@github.com:tlevine/scott-documents.git
