@@ -2,4 +2,4 @@
 # @hourly cd ~/Documents/scott/documents && git pull scott.thomaslevine.com:scott/.git/modules/documents master && git push
 # @hourly cd ~/Documents/scott/listings  && git pull scott.thomaslevine.com:scott/.git/modules/listings master  && git push
 
-@hourly cd ~/Documents/scott/reader && . activate && v2 && cd ../listings-2 && git add . && git commit . -m @hourly\ commit && git push origin master
+@hourly cd ~/Documents/scott/reader && source activate && v2 && cd ../listings-2 && git add . && git commit . -m @hourly\ commit && git push origin master
