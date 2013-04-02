@@ -1,4 +1,6 @@
 #!/usr/bin/env python2
+'This is for the old data format.'
+
 import datetime
 import lxml.html, lxml.etree
 import re
