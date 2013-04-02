@@ -8,28 +8,28 @@ fi
 
 # Download and commit the listing
 (
-  LISTING_URL='http://www.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
   cd "$READER_ROOT/../listings"
-  wsync "$LISTING_URL" publicnotices.asp html
+  wsync 'http://www.mvn.usace.army.mil/Missions/Regulatory/PublicNotices.aspx' PublicNotices.aspx html
+  wsync 'http://www.mvn.usace.army.mil/DesktopModules/DigArticle/RSS.ashx?portalid=56&moduleid=23919' RSS.ashx rss
 
-  git add publicnotices.asp*
+  git add RSS.ashx* PublicNotices.aspx*
 
   # This errors and stops if nothing has changed.
   # I want that; the code below need not run in that case.
-  git commit publicnotices.asp* -m automatic\ download
+  git commit RSS.ashx* PublicNotices.aspx* -m automatic\ download
 )
 
 # Parse the listing
 (
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html web
+  listing RSS.ashx.rss web
 )
 
 # Download the public notices and drawings
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp
+  listing RSS.ashx.rss terminal | sed '/^$/d' > $tmp
 
   while [ $(cat $tmp | wc -l) -gt 0 ] ; do
     permitApplicationNumber=$(head -n1 $tmp | cut -f1)
