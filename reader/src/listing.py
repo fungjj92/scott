@@ -20,7 +20,7 @@ _WEB_COLUMNS = [
 ]
 
 _parishes = '(Acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|lasalle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)'
-_DESCRIPTION = re.compile(r'([0-9/]): (.*) in ' + _parishes + ' Parish - ([^-]*)', flags = re.IGNORECASE)
+_DESCRIPTION = re.compile(r'([0-9/]*): (.*) in ' + _parishes + ' Parish - ([^-]*)', flags = re.IGNORECASE)
 
 def listing_parse(rawtext):
     html = lxml.html.fromstring(rawtext)
@@ -39,7 +39,13 @@ def listing_parse(rawtext):
 
     ):
         row = dict(zip(_WEB_COLUMNS, rowList))
-        m = re.match(_DESCRIPTION, row['_description']
+        m = re.match(_DESCRIPTION, row['_description'])
+        if not m:
+            m = re.match(_DESCRIPTION, re.sub(r'st.', 'saint', row['_description'], flags = re.IGNORECASE))
+
+        if not m:
+            print row['_description']
+            raise ValueError('The regular expression didn\'t match')
 
         row['publicNoticeDate'] = datetime.datetime.strptime(m.group(1), '%m/%d/%Y')
         row['projectDescription'] = m.group(2)
