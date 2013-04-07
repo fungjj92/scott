@@ -43,7 +43,6 @@ fi
 
     mkdir -p "$READER_ROOT/../documents/$permitApplicationNumber"
     cd "$READER_ROOT/../documents/$permitApplicationNumber"
-    ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
     publicNoticeExtension=$(echo "$publicNoticeUrl" | sed 's/^.*\.//')
     drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
 
@@ -51,14 +50,14 @@ fi
     if [ -f "public_notice.$publicNoticeExtension" ]; then
       echo "public_notice.$publicNoticeExtension already exists, so I'm not downloading it." 
     else
-      wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
+      wsync "${publicNoticeUrl}" public_notice "$publicNoticeExtension"
       sleep 1s
     fi
 
     if [ -f "drawings.$drawingsExtension" ]; then
       echo "drawings.$drawingsExtension already exists, so I'm not downloading it." 
     else
-      wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
+      wsync "${drawingsUrl}" drawings "$drawingsExtension"
       sleep 1s
     fi
 
