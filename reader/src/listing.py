@@ -84,7 +84,6 @@ def listing_parse(rawtext):
             print row['_description']
             raise ValueError('The regular expression didn\'t match')
 
-        print row
         row['expirationDate'] = datetime.datetime.strptime(row['expirationDate'], 'Expiration date: %m/%d/%Y').strftime('%Y-%m-%d')
         row['publicNoticeDate'] = datetime.datetime.strptime(m.group(1), '%m/%d/%Y').strftime('%Y-%m-%d')
         row['projectDescription'] = m.group(2)
