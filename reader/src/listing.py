@@ -9,7 +9,7 @@ import json
 
 # This is was helpful for creating the following map.
 # sqlite3 -csv -noheader /tmp/wetlands.db "SELECT substr(permitApplicationNumber, -5, 5), projectManagerName, projectManagerEmail, projectManagerPhone FROM application WHERE permitApplicationNumber GLOB '*-*-*-[A-Z]*';"|sed s/^[0-9]*-//|sed s/^[0-9]*-//|sort|uniq
-_PROJECT_MANAGER = {
+PROJECT_MANAGERS = {
     'CJ':  ('Christine Thibodeaux', 'christine.thibodeaux@usace.army.mil', '504-862-2278'),
     'CL':  ('Amy Oestringer', 'amy.l.oestringer@usace.army.mil', '504-862-1577'),
     'CM':  ('Neil Gauthier', 'neil.t.gauthier@usace.army.mil', '504-862-1301'),
@@ -121,9 +121,15 @@ def main():
         # These fields are required
         doc['type'] = 'impact'
         doc['flagged'] = 0
-        doc['projectManagerEmail'] = ''
-        doc['projectManagerName'] = ''
-        doc['projectManagerPhone'] = ''
+
+        # Project manager fields
+        projectManagerCode = doc['permitApplicationNumber'].split('-')[-1]
+        if projectManagerCode in PROJECT_MANAGERS:
+            (doc['projectManagerEmail'], doc['projectManagerName'], doc['projectManagerPhone']) = PROJECT_MANAGERS[projectManagerCode]
+        else:
+            doc['projectManagerEmail'] = doc['projectManagerName'] = doc['projectManagerPhone'] = ''
+
+        # Turn nones into empty strings.
         for k, v in doc.items():
             if v == None:
                 doc[k] = ''
