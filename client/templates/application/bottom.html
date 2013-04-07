@@ -44,15 +44,15 @@
         <h3>Project Manager</h3>
         <fieldset class="row">
             <label class="span1" for="projectManagerName">Name</label>
-            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" readonly />
+            <input class="span3" type="text" name="projectManagerName" value="<%= application.get('projectManagerName') %>" <%= loggedIn ? '' : 'readonly' %> />
         </fieldset>
         <fieldset class="row">
             <label class="span1" for="projectManagerPhone">Phone</label>
-            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" readonly />
+            <input class="span3" type="tel" name="projectManagerPhone" value="<%= application.get('projectManagerPhone') %>" <%= loggedIn ? '' : 'readonly' %> />
         </fieldset>
         <fieldset class="row">
             <label class="span1" for="projectManagerEmail">Email</label>
-            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" readonly />
+            <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
         </fieldset>
     </div>
 
