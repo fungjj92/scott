@@ -13,11 +13,19 @@
             <h3>Documents</h3>
             <ul>
                 <li class="public_notice">
+                    <% if (application.get('publicNoticeUrl').length != 0 && application.get('publicNoticeUrl')[0] != 'p') { %>
                     <a href="<%= application.get('publicNoticeUrl') %>">Public Notice</a>
+                    <% } else { %>
+                    Public Notice
+                    <% } %>
                     (<a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">mirror</a>)
                 </li>
                 <li class="drawings">
+                    <% if (application.get('drawingsUrl').length != 0 && application.get('drawingsUrl')[0] != 'p') { %>
                     <a href="<%= application.get('drawingsUrl') %>">Drawings</a>
+                    <% } else { %>
+                    Public Notice
+                    <% } %>
                     (<a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf">mirror</a>)
                 </li>
                 <!-- <li><a href="" class="deq">DEQ</a></li> -->
