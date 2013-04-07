@@ -57,7 +57,7 @@ _WEB_COLUMNS = [
 ]
 
 _parishes = '(Acadia|allen|ascension|assumption|avoyelles|beauregard|bienville|bossier|caddo|calcasieu|caldwell|cameron|catahoula|claiborne|concordia|de soto|east baton rouge|east carroll|east feliciana|evangeline|franklin|grant|iberia|iberville|jackson|jefferson|jefferson davis|lafayette|lafourche|lasalle|lincoln|livingston|madison|morehouse|natchitoches|orleans|ouachita|plaquemines|pointe coupee|rapides|red river|richland|sabine|saint bernard|saint charles|saint helena|saint james|saint john the baptist|saint landry|saint martin|saint mary|saint tammany|tangipahoa|tensas|terrebonne|union|vermilion|vernon|washington|webster|west baton rouge|west carroll|west feliciana|winn)'
-_DESCRIPTION = re.compile(r'([0-9/]*): (.*) in ' + _parishes + ' Parish - ([^-]*)', flags = re.IGNORECASE)
+_DESCRIPTION = re.compile(r'([0-9/]*): (.*) in ' + _parishes + ' Parish - ?([^-]*)', flags = re.IGNORECASE)
 
 def listing_parse(rawtext):
     html = lxml.html.fromstring(rawtext)
@@ -136,6 +136,7 @@ def main():
 
         if web:
             history = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber'] + '/history'
+            print history
             history_file = requests.get(history).text
             if len(filter(lambda line: ' bot {' in line, history_file.split('\n'))) > 2:
                 print doc['permitApplicationNumber'] + "'s data have already been uploaded."
