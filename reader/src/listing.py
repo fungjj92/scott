@@ -84,9 +84,11 @@ def listing_parse(rawtext):
             print row['_description']
             raise ValueError('The regular expression didn\'t match')
 
-        row['publicNoticeDate'] = datetime.datetime.strptime(m.group(1), '%m/%d/%Y')
+        print row
+        row['expirationDate'] = datetime.datetime.strptime(row['expirationDate'], 'Expiration date: %m/%d/%Y').strftime('%Y-%m-%d')
+        row['publicNoticeDate'] = datetime.datetime.strptime(m.group(1), '%m/%d/%Y').strftime('%Y-%m-%d')
         row['projectDescription'] = m.group(2)
-        row['location'] = m.group(3)
+        row['parish'] = m.group(3).lower()
         row['applicant'] = m.group(4)
 
         del(row['_description'])
@@ -121,6 +123,8 @@ def main():
         # These fields are required
         doc['type'] = 'impact'
         doc['flagged'] = 0
+        doc['status'] = 1
+        doc['CUP'] = doc['WQC'] = doc['locationOfWork'] = doc['characterOfWork'] = doc['longitude'] = doc['latitude'] = doc['acreage'] = doc['notes'] = doc['reminderDate'] = ''
 
         # Project manager fields
         projectManagerCode = doc['permitApplicationNumber'].split('-')[-1]
@@ -136,7 +140,6 @@ def main():
 
         if web:
             history = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber'] + '/history'
-            print history
             history_file = requests.get(history).text
             if len(filter(lambda line: ' bot {' in line, history_file.split('\n'))) > 2:
                 print doc['permitApplicationNumber'] + "'s data have already been uploaded."
