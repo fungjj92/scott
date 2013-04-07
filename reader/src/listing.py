@@ -135,6 +135,12 @@ def main():
                 doc[k] = ''
 
         if web:
+            history = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber'] + '/history'
+            history_file = requests.get(history).text
+            if len(filter(lambda line: ' bot {' in line, history_file.split('\n'))) > 2
+                print doc['permitApplicationNumber'] + "'s data have already been uploaded."
+                continue
+
             url = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber']
             response = requests.post(url, doc, auth = ('bot', os.environ['SCRAPER_PASSWORD']))
             print url, response.status_code
