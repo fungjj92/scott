@@ -7,6 +7,55 @@ import re
 from unidecode import unidecode
 import json
 
+# This is was helpful for creating the following map.
+# sqlite3 -csv -noheader /tmp/wetlands.db "SELECT substr(permitApplicationNumber, -5, 5), projectManagerName, projectManagerEmail, projectManagerPhone FROM application WHERE permitApplicationNumber GLOB '*-*-*-[A-Z]*';"|sed s/^[0-9]*-//|sed s/^[0-9]*-//|sort|uniq
+_PROJECT_MANAGER = {
+    'CL' : ('Amy Oestringer', '504-862-1577', ),
+    'WMM': ('Angelle Camus',  '504-862-1879', ),
+#   'WMM': ('Angelle Greer',  '504-862-1879', ),
+    'EKK': ('Angie Lacoste',  '504-862-2281', ),
+
+    'B':   ('Melissa Ellis', 'melissa.a.ellis@usace.army.mil', '504-862-2543'),
+    'CJ':  ('Christine Thibodeaux', 'christine.thibodeaux@usace.army.mil', '504-862-2278'),
+    'CL':  ('Amy Oestringer', 'amy.l.oestringer@usace.army.mil', '504-862-1577'),
+    'CM':  ('Neil Gauthier', 'neil.t.gauthier@usace.army.mil', '504-862-1301'),
+    'CO':  ('Jamie Crowe', 'Jamie.M.Crowe@usace.army.mil', '504-862-2675'),
+    'CQ':  ('Kenneth Blanke', 'Kenneth.G.Blanke@usace.army.mil', '504-862-1217'),
+    'CS':  ('Miranda Martin', 'Miranda.A.Martin@usace.army.mil', '504-862-1113'),
+    'CU':  ('Doris Terrell', 'Doris.Terrell@usace.army.mil', '504-862-1588'),
+    'CWB': ('Darlene Herman', 'Darlene.C.Herman@usace.army.mil', '504-862-2287'),
+    'CYA': ('John Herman', 'John.M.Herman@usace.army.mil', '504-862-1581'),
+    'CY':  ('John Herman', 'John.M.Herman@usace.army.mil', '504-862-1581'),
+    'EBB': ('Jennifer Burkett', 'jennifer.e.burkett@usace.army.mil', '504-862-2045'),
+    'EFF': ('Darrell Barbara', 'Darrell.Barbara@usace.army.mil', '504-862-2260'),
+    'EIIA':('Ed Wrubluski', 'Edward.F.Wrubluski@usace.army.mil', '504-862-2822'),
+    'EII': ('Ed Wrubluski', 'Edward.F.Wrubluski@usace.army.mil', '504-862-2822'),
+    'EMM': ('Scott Kennedy', 'Scott.N.Kennedy@usace.army.mil', '504-862-2259'),
+    'EOO': ('Brad LaBorde', 'Brad.LaBorde@usace.army.mil', '504-862-2225'),
+    'EPPB':('Stephanie Lacroix', 'Stephanie.L.Lacroix@usace.army.mil', '504-862-1564'),
+    'EPP': ('Stephanie Lacroix', 'Stephanie.L.Lacroix@usace.army.mil', '504-862-1564'),
+    'EQ':  ('Melissa Ellis', 'melissa.a.ellis@usace.army.mil', '504-862-2543'),
+    'ETT': ('Robert Tewis', 'Robert.M.Tewis2@usace.army.mil', '504-862-2041'),
+    'MB':  ('Brian Breaux', 'Brian.W.Breaux@usace.army.mil', '504-862-1938'),
+    'MR':  ('Jacqueline Farabee', 'Jacqueline.R.Farabee@usace.army.mil', '504-862-2595'),
+    'MS_2': ('Stephen Pfeffer', 'stephen.d.pfeffer@usace.army.mil', '504-862-2227'),
+    'SU':  ('Rob Heffner', 'rob.heffner@us.army.mil', '504-862-2274'),
+    'TWB': ('Darlene Herman', 'Darlene.C.Herman@usace.army.mil', '504-862-2287'),
+    'WB':  ('Darlene Herman', 'Darlene.C.Herman@usace.army.mil', '504-862-2287'),
+    'WII': ('James Little', 'James.Little@usace.army.mil', '504-862-2272'),
+    'WII': ('Miranda Martin', 'Miranda.A.Martin@usace.army.mil', '504-862-1113'),
+    'WJJ': ('Bobby Quebedeaux', 'Bobby.D.Quebedeaux@usace.army.mil', '504-862-2224'),
+    'WKK': ('Sara Fortuna', 'sara.b.fortuna@usace.army.mil', '504-862-1025'),
+    'WLL-A': ('Mike Herrmann', 'michael.h.herrmann@usace.army.mil', '504-862-1954'),
+    'WLLB': ('Mike Herrmann', 'michael.h.herrmann@usace.army.mil', '504-862-1954'),
+    'WLL': ('Mike Herrmann', 'michael.h.herrmann@usace.army.mil', '504-862-1954'),
+    'WMM': ('Angelle Greer', 'angelle.v.greer@usace.army.mil', '504-862-1879'),
+    'WNN': ('John Price', 'john.c.price@usace.army.mil', '504-862-2272'),
+    'WOO': ('Donald Rodrigue', 'donald.a.rodrigue@usace.army.mil', '504-862-1445'),
+    'WPP': ('Johnny Duplantis', 'Johnny.j.duplantis@usace.army.mil', '504-862-2548'),
+    'WPP': ('John Price', 'john.c.price@usace.army.mil', '504-862-2272'),
+    'Z':   ('Darlene Herman', 'Darlene.C.Herman@usace.army.mil', '504-862-2287'),
+}
 
 _WEB_COLUMNS = [
     'permitApplicationNumber',
