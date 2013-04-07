@@ -13,11 +13,11 @@
             <h3>Documents</h3>
             <ul>
                 <li class="public_notice">
-                    <a href="http://www.mvn.usace.army.mil/ops/regulatory/<%= application.get('publicNoticeUrl') %>">Public Notice</a>
+                    <a href="<%= application.get('publicNoticeUrl') %>">Public Notice</a>
                     (<a href="/documents/<%= application.get('permitApplicationNumber') %>/public_notice.pdf">mirror</a>)
                 </li>
                 <li class="drawings">
-                    <a href="http://www.mvn.usace.army.mil/ops/regulatory/<%= application.get('drawingsUrl') %>">Drawings</a>
+                    <a href="<%= application.get('drawingsUrl') %>">Drawings</a>
                     (<a href="/documents/<%= application.get('permitApplicationNumber') %>/drawings.pdf">mirror</a>)
                 </li>
                 <!-- <li><a href="" class="deq">DEQ</a></li> -->
