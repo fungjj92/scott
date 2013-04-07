@@ -22,14 +22,14 @@ fi
 # Parse the listing
 (
   cd "$READER_ROOT/../listings-2"
-  listing RSS.ashx.rss web
+  listing PublicNotices.aspx.html web
 )
 
 # Download the public notices and drawings
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings-2"
-  listing RSS.ashx.rss terminal | sed '/^$/d' > $tmp
+  listing PublicNotices.aspx.html terminal | sed '/^$/d' > $tmp
 
   while [ $(cat $tmp | wc -l) -gt 0 ] ; do
     permitApplicationNumber=$(head -n1 $tmp | cut -f1)

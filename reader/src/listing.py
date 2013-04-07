@@ -114,7 +114,7 @@ def main():
         exit(1)
 
     f = open(listings_file)
-    data = listing_parse(f.read().decode('latin1'))
+    data = listing_parse(f.read())
     f.close()
     for doc in data:
 
@@ -137,7 +137,7 @@ def main():
         if web:
             history = 'http://localhost:' + os.environ['PORT'] + '/applications/' + doc['permitApplicationNumber'] + '/history'
             history_file = requests.get(history).text
-            if len(filter(lambda line: ' bot {' in line, history_file.split('\n'))) > 2
+            if len(filter(lambda line: ' bot {' in line, history_file.split('\n'))) > 2:
                 print doc['permitApplicationNumber'] + "'s data have already been uploaded."
                 continue
 
