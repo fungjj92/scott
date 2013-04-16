@@ -278,6 +278,25 @@ server.get '/applications.db', (req, res, next) ->
       res.send data
       next()
 
+
+# Get private stuff
+server.get '/secrets/mailto.js', (req, res, next) ->
+
+  # Authenticate
+  if not (isAuthorized req, res)
+    return next(new restify.NotAuthorizedError 'Incorrect username or password')
+  notValidMsg = notValid req, res
+  if notValidMsg
+    return next(new restify.InvalidContentError notValidMsg)
+
+  fs.readFile ('private/mailto.js'), (err, data) ->
+    if (err)
+      next(new restify.InvalidContentError err)
+    else
+      res.setHeader 'content-type', 'text/javascript'
+      res.send data
+      next()
+
 #
 # Serve the client
 # ===========================================================
