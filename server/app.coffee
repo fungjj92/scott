@@ -280,13 +280,14 @@ server.get '/applications.db', (req, res, next) ->
 
 
 # Get private stuff
-server.get '/secrets/mailto.js', (req, res, next) ->
+server.get '/secrets/:filename', (req, res, next) ->
   if (isAuthorized req, res)
     directory = 'private'
   else
-    directory = 'public'
+    directory = 'private' # 'public'
 
-  fs.readFile ('../' + directory + '/mailto.js'), (err, data) ->
+  console.log(filename)
+  fs.readFile ('../' + directory + '/' + filename), (err, data) ->
     if (err)
       next(new restify.InvalidContentError err)
     else

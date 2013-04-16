@@ -1,3 +1,3 @@
-define(['private/mailto'], function () {
+define([], function () {
   return function() { return '#' }
 })
