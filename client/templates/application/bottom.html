@@ -54,5 +54,6 @@
             <label class="span1" for="projectManagerEmail">Email</label>
             <input class="span3" type="email" name="projectManagerEmail" value="<%= application.get('projectManagerEmail') %>" <%= loggedIn ? '' : 'readonly' %> />
         </fieldset>
+        <% if (loggedIn) { %><a href="<%= application.mailto() %>">Send email</a><% } %>
     </div>
 
