@@ -12,7 +12,7 @@ define([
   'models/session',
   'helpers/auth',
   'helpers/parishes',
-  'secrets/mailto'
+  '/secrets/mailto.js'
 ], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, applicationStatusTemplate, ApplicationModel, SessionModel, auth, parishes, mailto){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
