@@ -280,20 +280,24 @@ server.get '/applications.db', (req, res, next) ->
 
 
 # Get private stuff
-server.get '/secrets/:filename', (req, res, next) ->
-  if (isAuthorized req, res)
-    directory = 'private'
-  else
-    directory = 'private' # 'public'
-
-  console.log(filename)
-  fs.readFile ('../' + directory + '/' + filename), (err, data) ->
-    if (err)
-      next(new restify.InvalidContentError err)
+getPrivate = (filename, contentType) ->
+  server.get '/secrets/' + filename, (req, res, next) ->
+    if (isAuthorized req, res)
+      directory = 'private'
     else
-      res.setHeader 'content-type', 'text/javascript'
-      res.send data
-      next()
+      directory = 'private' # 'public'
+
+    path = '../' + directory + '/' + filename
+    fs.readFile (path), (err, data) ->
+      if (err)
+        next(new restify.InvalidContentError err)
+      else
+        res.setHeader 'content-type', contentType
+        res.send data
+        next()
+
+getPrivate 'email.txt', 'text/plain'
+getPrivate 'mailto.js', 'text/javascript'
 
 #
 # Serve the client
