@@ -38,8 +38,8 @@ the client files. Serve the site like so
 
     ./serve
 
-It expects a database to be in /tmp/wetlands.db. This
-often ram, so you might need to put one there.
+During development, it expects a database to be in /tmp/wetlands.db.
+This often ram, so you might need to put one there.
 
 ## Useful stuff
 
@@ -47,21 +47,31 @@ often ram, so you might need to put one there.
 * [Parish coordinates](https://twitter.com/ian_villeda/status/267334042507169793)
 
 ## Network of servers
-I want to run this across three or four computers/providers.
-
-1. One serves the node application. Anything that is not explicitly mentioned
-    as running somewhere else runs from this computer
-2. One runs the downloader/reader. It inserts the extracted data into the node
-    application through the REST API. It pushes the new files to GitHub or
-    BitBucket
-3. Primary documents are served from GitHub or BitBucket rather than
-    from the the local disk.
-4. The database could be separate if that makes things easier.
-
-In practice, I really only use two.
+This is run across two computers.
 
 1. One (`server`) serves the node application, the downloader/reader, the database
     and the primary documents
 2. A second (`desk`) coordinates backups; it periodically pulls the documents and
     listings submodules and the logs directory and then pushes those to external
     git repository hosting services.
+
+## Downloading old documents
+
+## Download of old documents
+You can see all the previous permit applications
+[here](https://github.com/tlevine/mvn-www2-backup)
+(except for a couple that went missing).
+
+If you want to integrate them with your csv file,
+switch everything in the respective urls before the
+final (sixth) slash for
+"`https://raw.github.com/tlevine/mvn-www2-backup/master/documents`"
+
+For example,
+[`http://www2.mvn.usace.army.mil/ops/regulatory/pdf/document2011-09-09-103911.pdf`](http://www2.mvn.usace.army.mil/ops/regulatory/pdf/document2011-09-09-103911.pdf)
+becomes
+[`https://raw.github.com/tlevine/mvn-www2-backup/master/documents/document2011-09-09-103911.pdf`](https://raw.github.com/tlevine/mvn-www2-backup/master/documents/document2011-09-09-103911.pdf)
+
+You can also download them all at once
+[here](https://github.com/tlevine/mvn-www2-backup/archive/master.zip)
+
