@@ -56,9 +56,8 @@ This is run across two computers.
     git repository hosting services.
 
 ## Downloading old documents
-
-## Download of old documents
-You can see all the previous permit applications
+You can see all the previous permit applications from Scott's
+manual spreadsheet parsings
 [here](https://github.com/tlevine/mvn-www2-backup)
 (except for a couple that went missing).
 
