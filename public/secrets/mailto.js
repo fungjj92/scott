@@ -1,3 +1,3 @@
 define([], function () {
-  return function() { return '#' }
+  return { 'url': '', 'body': '' }
 })
