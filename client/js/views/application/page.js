@@ -11,8 +11,9 @@ define([
   'models/application',
   'models/session',
   'helpers/auth',
-  'helpers/parishes'
-], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, applicationStatusTemplate, ApplicationModel, SessionModel, auth, parishes){
+  'helpers/parishes',
+  '/secrets/mailto.js'
+], function($, _, Backbone, Vm, L, applicationPageTemplate, applicationPageLeftTemplate, applicationPageBottomTemplate, applicationStatusTemplate, ApplicationModel, SessionModel, auth, parishes, mailto){
   var ApplicationPage = Backbone.View.extend({
     el: '.page',
     initialize: function(options) {
@@ -26,7 +27,8 @@ define([
         application: page.$model,
         parishes: parishes,
         loggedIn: page.$sessionModel.loggedIn(),
-        reminderDate: page.reminderDate(21)
+        reminderDate: page.reminderDate(21),
+        "mailto": mailto(page.$model)
       }
       if (!page.$model.get('renderedStaticComponents')) {
         page.$el.html(_.template(applicationPageTemplate, params))

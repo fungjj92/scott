@@ -13,3 +13,6 @@
 [submodule "logs"]
 	path = logs
 	url = git@github.com:tlevine/scott-logs.git
+[submodule "private"]
+	path = private
+	url = tlevine@secrets.thomaslevine.com:scott-private.git
