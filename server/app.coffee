@@ -281,7 +281,7 @@ server.get '/applications.db', (req, res, next) ->
 
 # Get private stuff
 secretsAuthorized   = new node_static.Server '../private', { cache: SETTINGS.cache }
-secretsUnauthorized = new node_static.Server '../private', { cache: SETTINGS.cache }
+secretsUnauthorized = new node_static.Server '../public', { cache: SETTINGS.cache }
 server.get /secrets\/.*$/, (req, res, next) ->
   if (isAuthorized req, res)
     secretsAuthorized.serve req, res, next
