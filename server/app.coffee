@@ -280,24 +280,13 @@ server.get '/applications.db', (req, res, next) ->
 
 
 # Get private stuff
-getPrivate = (filename, contentType) ->
-  server.get '/secrets/' + filename, (req, res, next) ->
-    if (isAuthorized req, res)
-      directory = 'private'
-    else
-      directory = 'private' # 'public'
-
-    path = '../' + directory + '/' + filename
-    fs.readFile (path), (err, data) ->
-      if (err)
-        next(new restify.InvalidContentError err)
-      else
-        res.setHeader 'content-type', contentType
-        res.send data
-        next()
-
-getPrivate 'email.txt', 'text/plain'
-getPrivate 'mailto.js', 'text/javascript'
+secretsAuthorized   = new node_static.Server '../private', { cache: SETTINGS.cache }
+secretsUnauthorized = new node_static.Server '../private', { cache: SETTINGS.cache }
+server.get /secrets\/.*$/, (req, res, next) ->
+  if (isAuthorized req, res)
+    secretsAuthorized.serve req, res, next
+  else
+    secretsUnauthorized.serve req, res, next
 
 #
 # Serve the client
