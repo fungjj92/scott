@@ -1,1 +1,0 @@
-accounts-dev.coffee

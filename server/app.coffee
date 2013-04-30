@@ -16,7 +16,7 @@ csv = require 'csv'
 # http://www.adaltas.com/projects/node-csv/to.html
 
 SETTINGS = require './settings'
-ACCOUNTS = require './accounts'
+ACCOUNTS = require '../private/accounts'
 
 console.log SETTINGS
 console.log ACCOUNTS

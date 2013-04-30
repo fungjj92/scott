@@ -1,3 +1,4 @@
+# Accounts go in ../private/accounts.coffee
 module.exports =
   tom: 'chainsaw'
   scott: 'chainsaw'
