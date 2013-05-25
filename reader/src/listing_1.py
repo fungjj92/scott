@@ -48,7 +48,11 @@ def listing_parse(rawtext):
             continue
 
         # Clean up the permit application number
-        row['PermitApplication No.'] = _clean_permit_application_number(row['PermitApplication No.'])
+        try:
+            row['PermitApplication No.'] = _clean_permit_application_number(row['PermitApplication No.'])
+        except:
+            print [row['PermitApplication No.']]
+            raise
 
         # Dates
         row['Public Notice Date'] = _parsedate(row['Public Notice Date']).strftime('%Y-%m-%d')
@@ -166,7 +170,9 @@ MANUAL_REPLACEMENTS = {
     '1997-3061-9 WB': 'MVN-1997-3061-9-WB',
     'MVN MCM 2013': 'MVN-MCM-2013',
     'MVN-2009-00436-MS_2': 'MVN-2009-00436-MS_2',
-    'MVN-2008-01027WKKNOD25': 'MVN-2008-01027-WKKNOD25',
+    'MVN-2008-01027 WKK NOD-25': 'MVN-2008-01027-WKK-NOD-25',
+#   'MVN-2011-1995-EOO & MVN-2011-1974-EO': 'MVN-2011-1995-EOO_MVN-2011-1974-EO',
+    'MVN-2011-1995-EOO & MVN-2011-1974-EOO': 'MVN-2011-1995-EOO_MVN-2011-1974-EO',
 }
 
 SKIP = {'0'}
@@ -186,7 +192,6 @@ def _clean_permit_application_number(n):
     elif n[:3] == 'CEM':
         return _clean_cem_permit_application_number(n)
     else:
-        print n
         raise AssertionError('Unexpected first block in %s' % n)
 
 def _clean_cem_permit_application_number(n):

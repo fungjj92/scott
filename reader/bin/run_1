@@ -43,7 +43,7 @@ fi
 
     mkdir -p "$READER_ROOT/../documents/$permitApplicationNumber"
     cd "$READER_ROOT/../documents/$permitApplicationNumber"
-    ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
+    ARMY='http://www2.mvn.usace.army.mil/ops/regulatory/'
     publicNoticeExtension=$(echo "$publicNoticeUrl" | sed 's/^.*\.//')
     drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
 
