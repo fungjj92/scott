@@ -5,8 +5,8 @@ export READER_ROOT="$PWD"
 export PORT=8080
 
 # Get the password from the accounts file.
-if test -f ../server/accounts.coffee; then
-  export SCRAPER_PASSWORD=$(cat ../server/accounts.coffee|sed -n s/bot://p|tr -d \'|tr -d \ )
+if test -f ../private/accounts.coffee; then
+  export SCRAPER_PASSWORD=$(cat ../private/accounts.coffee|sed -n s/bot://p|tr -d \'|tr -d \ )
 else
   echo You need to make the accounts.coffee file. Look at ../server/accounts.coffee.example.
 fi
