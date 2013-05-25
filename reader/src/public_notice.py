@@ -3,7 +3,6 @@
 
 import re
 import json
-import dumptruck
 
 def main():
     import os
