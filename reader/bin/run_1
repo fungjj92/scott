@@ -22,14 +22,14 @@ fi
 # Parse the listing
 (
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html web
+  listing_1 publicnotices.asp.html web
 )
 
 # Download the public notices and drawings
 (
   tmp=$(mktemp)
   cd "$READER_ROOT/../listings"
-  listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp
+  listing_1 publicnotices.asp.html terminal | sed '/^$/d' > $tmp
 
   while [ $(cat $tmp | wc -l) -gt 0 ] ; do
     permitApplicationNumber=$(head -n1 $tmp | cut -f1)
