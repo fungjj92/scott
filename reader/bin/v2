@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-cd $READER_ROOT/../listings-2
-wsync 'http://www.mvn.usace.army.mil/Missions/Regulatory/PublicNotices.aspx' PublicNotices.aspx html
-wsync 'http://www.mvn.usace.army.mil/DesktopModules/DigArticle/RSS.ashx?portalid=56&moduleid=23919' RSS.ashx rss

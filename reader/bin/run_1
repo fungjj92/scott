@@ -1,0 +1,102 @@
+#!/bin/sh
+set -e
+
+if [ -z "$READER_ROOT" ]; then
+  echo Activate before running this.
+  exit 1
+fi
+
+# Download and commit the listing
+(
+  LISTING_URL='http://www2.mvn.usace.army.mil/ops/regulatory/publicnotices.asp?ShowLocationOrder=False'
+  cd "$READER_ROOT/../listings"
+  wsync "$LISTING_URL" publicnotices.asp html
+
+  git add publicnotices.asp*
+
+  # This errors and stops if nothing has changed.
+  # I want that; the code below need not run in that case.
+  git commit publicnotices.asp* -m automatic\ download
+)
+
+# Parse the listing
+(
+  cd "$READER_ROOT/../listings"
+  listing publicnotices.asp.html web
+)
+
+# Download the public notices and drawings
+(
+  tmp=$(mktemp)
+  cd "$READER_ROOT/../listings"
+  listing publicnotices.asp.html terminal | sed '/^$/d' > $tmp
+
+  while [ $(cat $tmp | wc -l) -gt 0 ] ; do
+    permitApplicationNumber=$(head -n1 $tmp | cut -f1)
+    publicNoticeUrl=$(head -n1 $tmp | cut -f2)
+    drawingsUrl=$(head -n1 $tmp | cut -f3)
+
+    # For debugging
+    echo "--------------------------------------------------------------"
+    echo "                      $permitApplicationNumber"
+    echo "--------------------------------------------------------------"
+
+    mkdir -p "$READER_ROOT/../documents/$permitApplicationNumber"
+    cd "$READER_ROOT/../documents/$permitApplicationNumber"
+    ARMY='http://www.mvn.usace.army.mil/ops/regulatory/'
+    publicNoticeExtension=$(echo "$publicNoticeUrl" | sed 's/^.*\.//')
+    drawingsExtension=$(echo "$drawingsUrl" | sed 's/^.*\.//')
+
+    # Skip files that we already have; don't worry about whether they've changed.
+    if [ -f "public_notice.$publicNoticeExtension" ]; then
+      echo "public_notice.$publicNoticeExtension already exists, so I'm not downloading it." 
+    else
+      wsync "${ARMY}${publicNoticeUrl}" public_notice "$publicNoticeExtension"
+      sleep 1s
+    fi
+
+    if [ -f "drawings.$drawingsExtension" ]; then
+      echo "drawings.$drawingsExtension already exists, so I'm not downloading it." 
+    else
+      wsync "${ARMY}${drawingsUrl}" drawings "$drawingsExtension"
+      sleep 1s
+    fi
+
+    sed -i 1d $tmp
+  done
+)
+
+# Commit the public notices
+(
+  cd "$READER_ROOT/../documents"
+  git add .
+  # This errors and stops if nothing has changed.
+  # I want that; the code below need not run in that case.
+  git commit . -m automatic\ download
+)
+
+# Parse the public notice
+(
+  cd "$READER_ROOT/../documents"
+  for permitApplicationNumber in *; do
+    (
+      cd $permitApplicationNumber
+      echo $permitApplicationNumber
+
+      # Convert
+      if [ -f public_notice.pdf ]; then
+        sleep 0 # all good
+      elif [ -f public_notice.doc ]; then
+        unoconv -f pdf public_notice.doc
+      elif [ -f public_notice.docx ]; then
+        unoconv -f pdf public_notice.docx
+      fi
+
+      # This is the slow part, so skip it if it's already done.
+      # We won't get automatic updates from changed files, but who cares?
+      [ -f public_notice.pdf.txt ] || translate public_notice.pdf
+
+      public_notice "$permitApplicationNumber" public_notice.pdf.txt
+    )
+  done
+)
