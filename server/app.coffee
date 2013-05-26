@@ -39,6 +39,8 @@ SCHEMA = [
   # Automatically taken from the public notice
   ["CUP", /^.*$/, 'TEXT NOT NULL', ''],
   ["WQC", /^.*$/, 'TEXT NOT NULL', ''],
+  ["HUC", /^.*$/, 'TEXT NOT NULL', ''],
+  ["AI", /^.*$/, 'TEXT NOT NULL', ''],
   ["locationOfWork", /^.*$/, 'TEXT NOT NULL', ''],
   ["characterOfWork", /^.*$/, 'TEXT NOT NULL', ''],
 
