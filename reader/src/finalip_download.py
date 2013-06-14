@@ -33,7 +33,14 @@ def save(meta_session, p_t03, p_t04, next_url = None):
 
     # Save
     filedir = os.path.join(DIR, p_t03, p_t04)
-    filename = html.xpath('//select[@name="X01"]/option[@selected]/text()')[0]
+    option_texts = html.xpath('//select[@name="X01"]/option[@selected]/text()')
+    if len(option_texts) > 0:
+        filename = option_texts[0]
+    else:
+        # May 2012, rows 301 to 330 has trouble.
+        # import pdb
+        # pdb.set_trace()
+        return
 
     try:
         os.makedirs(filedir)
@@ -73,7 +80,11 @@ for p_t03 in l.p_t03s(meta_session[2]):
     for p_t04 in l.p_t04s(meta_session[2]):
         # Skip this month if it is already done
         params = (MONTHS[int(p_t04) - 1], p_t03)
-        print params
+
+        # May 2012, rows 301 to 330 has trouble.
+        if params == ('May', '2012'):
+            continue
+
         if _month_done(p_t03, p_t04):
             print('Skipping %s %s' % params)
             continue
