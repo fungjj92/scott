@@ -1,28 +1,41 @@
 #!/usr/bin/env python2
 
-from lxml.html import fromstring
-import requests
-
 def parse_row(tr):
     row = {unicode(td.xpath('@headers')[0]): unicode(td.text_content()) for td in tr.xpath('td[@headers!="Map"]')}
     row[u'Map'] = unicode(tr.xpath('descendant::td[@headers="Map"]/a/@href')[0])
     return row
 
-def apex_submit(html, p_t02, p_t03, p_t04, X01):
+def apex_submit(meta_session, p_t03, p_t04):
+    session, response, html = meta_session
+    url = 'http://geo.usace.army.mil/egis/wwv_flow.accept'
     data = {
         'p_t02': '2',   # all districts
         'p_t03': p_t03, # year
         'p_t04': p_t04, # month
-        'X01': X01,     # page
     }
     data.update({unicode(i.xpath('@name')[0]): unicode(i.xpath('@value')[0]) for i in html.xpath('//input[@type="hidden"]')})
-    return requests.post(data)
+
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    #   'Accept-Encoding': 'gzip,deflate,sdch',
+        'Accept-Language': 'en-US,en;q=0.8,fr;q=0.6,sv;q=0.4,zh;q=0.2,zh-CN;q=0.2,zh-TW;q=0.2',
+        'Cache-Control': 'max-age=0',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': 'geo.usace.army.mil',
+        'Origin': 'http://geo.usace.army.mil',
+        'Referer': response.url,
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36',
+    }
+
+    print data
+    return session.post(url, data, headers = headers)
 
 def p_t03s(html):
     'List years'
     return map(unicode, html.xpath('//select[@name="p_t03"]/option/@value'))
 
-def p_t03s(html):
+def p_t04s(html):
     'List months'
     return map(unicode, html.xpath('//select[@name="p_t04"]/option/@value'))
 
