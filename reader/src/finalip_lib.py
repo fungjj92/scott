@@ -12,8 +12,38 @@ def apex_submit(meta_session, p_t03, p_t04):
         'p_t02': '2',   # all districts
         'p_t03': p_t03, # year
         'p_t04': p_t04, # month
+        'X01': 'current', # page
     }
     data.update({unicode(i.xpath('@name')[0]): unicode(i.xpath('@value')[0]) for i in html.xpath('//input[@type="hidden"]')})
+
+    p_arg_names = map(unicode, html.xpath('//input[@name="p_arg_names"]/@value'))
+
+    # Maybe order matters
+    keys = ['p_flow_id',
+            'p_flow_step_id',
+            'p_instance',
+            'p_page_submission_id',
+            'p_request',
+            'p_arg_names',
+            'p_t01',
+            'p_arg_names',
+            'p_t02',
+            'p_arg_names',
+            'p_t03',
+            'p_arg_names',
+            'p_t04',
+            'X01',
+            'p_md5_checksum',
+            'p_page_checksum',
+    ]
+    serialized_data = ''
+    for key in keys:
+        if key == 'p_arg_names':
+            value = p_arg_names.pop(0)
+        else:
+            value = data[key]
+        serialized_data += key + '=' + value + '&'
+    serialized_data = serialized_data[:-1] # remove an ampersand
 
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -29,7 +59,8 @@ def apex_submit(meta_session, p_t03, p_t04):
     }
 
     print data
-    return session.post(url, data, headers = headers)
+    print serialized_data
+    return session.post(url, serialized_data, headers = headers)
 
 def p_t03s(html):
     'List years'
