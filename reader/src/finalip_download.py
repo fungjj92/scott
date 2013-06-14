@@ -24,45 +24,59 @@ def save(meta_session, p_t03, p_t04, next_url = None):
         response = session.get(next_url)
 
     # Check whether there's anything on the page
-    if 'Search Criteria Returned No Results.' in response.text:
+    if 'Search Criteria Returned No Results.' in response.text.encode('utf-8'):
         return
 
     # Parse the HTML.
-    html = fromstring(response.text)
+    html = fromstring(response.text.encode('utf-8'))
 
     # Save
     filedir = os.path.join(DIR, p_t03, p_t04)
     filename = html.xpath('//select[@name="X01"]/option[@selected]/text()')[0]
-
-    # Stop if it has already been downloaded
-    if os.path.exists(os.path.join(filedir, filename)):
-        return
 
     try:
         os.makedirs(filedir)
     except OSError:
         pass
     h = open(os.path.join(filedir, filename), 'w')
-    h.write(response.text)
+    h.write(response.text.encode('utf-8'))
     h.close()
 
-    print('Downloading %s %s, page %s' % (MONTHS[int(p_t04) - 1], p_t03, filename))
+    print('Downloaded %s %s, page %s' % (MONTHS[int(p_t04) - 1], p_t03, filename))
 
     # Pass state
     meta_session = session, response, html
     return meta_session
 
+def _month_done(p_t03, p_t04):
+    monthdir = os.path.join(DIR, p_t03, p_t04)
+    if not os.path.isdir(monthdir):
+        return False
+
+    filenames = os.listdir(monthdir)
+    if len(filenames) > 0:
+        total_rows = filenames[0].split(' ')[-1]
+        for filename in filenames:
+            if '%s of %s' % (total_rows, total_rows) in filename:
+                return True
+    return False
+
 session = requests.session()
 response = session.get('http://geo.usace.army.mil/egis/f?p=340:2:1433809126328401::NO:RP::')
-html = fromstring(response.text)
+html = fromstring(response.text.encode('utf-8'))
 meta_session = (session, response, html)
-for p_t03 in l.p_t03s(html):
-    for p_t04 in l.p_t04s(html):
+for p_t04 in l.p_t04s(html):
+    for p_t03 in l.p_t03s(html):
+        # Skip this month if it is already done
+        if _month_done(p_t03, p_t04):
+            print('Skipping %s %s' % (MONTHS[int(p_t04) - 1], p_t03))
+            break
+
         _meta_session = save(meta_session, p_t03, p_t04)
         if _meta_session == None:
             break
         else:
-            meta_session = meta_session
+            meta_session = _meta_session
 
         while True:
             sleep(1)
