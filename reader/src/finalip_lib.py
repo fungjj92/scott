@@ -58,8 +58,6 @@ def apex_submit(meta_session, p_t03, p_t04):
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36',
     }
 
-    print data
-    print serialized_data
     return session.post(url, serialized_data, headers = headers)
 
 def p_t03s(html):
