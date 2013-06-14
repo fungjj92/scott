@@ -16,6 +16,7 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 
 def save(meta_session, p_t03, p_t04, next_url = None):
     'Make the request, save the html of the response, and pass the meta-session along.'
+    session = meta_session[0]
     if next_url == None:
         # First page
         response = l.apex_submit(meta_session, p_t03, p_t04)
@@ -61,20 +62,28 @@ def _month_done(p_t03, p_t04):
                 return True
     return False
 
-session = requests.session()
-response = session.get('http://geo.usace.army.mil/egis/f?p=340:2:1433809126328401::NO:RP::')
-html = fromstring(response.text.encode('utf-8'))
-meta_session = (session, response, html)
-for p_t04 in l.p_t04s(html):
-    for p_t03 in l.p_t03s(html):
+def _get_first_meta_session():
+    session = requests.session()
+    response = session.get('http://geo.usace.army.mil/egis/f?p=340:2:1433809126328401::NO:RP::')
+    html = fromstring(response.text.encode('utf-8'))
+    return (session, response, html)
+meta_session = _get_first_meta_session()
+
+for p_t03 in l.p_t03s(meta_session[2]):
+    for p_t04 in l.p_t04s(meta_session[2]):
         # Skip this month if it is already done
+        params = (MONTHS[int(p_t04) - 1], p_t03)
+        print params
         if _month_done(p_t03, p_t04):
-            print('Skipping %s %s' % (MONTHS[int(p_t04) - 1], p_t03))
-            break
+            print('Skipping %s %s' % params)
+            continue
+        else:
+            print('Working on %s %s' % params)
 
         _meta_session = save(meta_session, p_t03, p_t04)
         if _meta_session == None:
-            break
+            print('No results for %s %s' % params)
+            continue
         else:
             meta_session = _meta_session
 
@@ -83,6 +92,7 @@ for p_t04 in l.p_t04s(html):
             html = meta_session[2]
             nexts = html.xpath('//a[text()="Next >"]/@href')
             if len(nexts) == 0:
+                print('End of %s %s' % params)
                 break
             else:
                 meta_session = save(meta_session, p_t03, p_t04, u'http://geo.usace.army.mil/egis/' + nexts[0])
