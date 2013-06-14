@@ -16,3 +16,6 @@
 [submodule "private"]
 	path = private
 	url = tlevine@secrets.thomaslevine.com:scott-private.git
+[submodule "finalips"]
+	path = finalips
+	url = git@github.com:tlevine/scott-finalips.git
