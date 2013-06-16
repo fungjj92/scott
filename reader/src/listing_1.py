@@ -284,6 +284,7 @@ def main():
         # These fields are required
         doc['type'] = 'impact'
         doc['flagged'] = 0
+        doc['HUC'] = ''
         for k, v in doc.items():
             if v == None:
                 doc[k] = ''
