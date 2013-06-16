@@ -1,9 +1,11 @@
 #!/usr/bin/env python2
+from collections import OrderedDict
 
 def parse_row(tr):
-    row = {unicode(td.xpath('@headers')[0]): unicode(td.text_content()) for td in tr.xpath('td[@headers!="Map"]')}
+    row = OrderedDict([(unicode(td.xpath('@headers')[0]), unicode(td.text_content())) for td in tr.xpath('td[@headers!="Map"]')])
     row[u'Map'] = unicode(tr.xpath('descendant::td[@headers="Map"]/a/@href')[0])
     return row
+
 
 def apex_submit(meta_session, p_t03, p_t04):
     session, response, html = meta_session
