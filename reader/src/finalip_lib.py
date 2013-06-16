@@ -2,8 +2,6 @@
 import datetime
 from collections import OrderedDict
 
-from lxml.html import tostring
-
 def parse_row(tr):
     row = OrderedDict([(unicode(td.xpath('@headers')[0]), unicode(td.text_content())) for td in tr.xpath('td[@headers!="Map"]')])
 
@@ -12,7 +10,10 @@ def parse_row(tr):
     row[u'Map'] = None if map_hrefs == [] else unicode(map_hrefs[0])
 
     for key in [u'Date Issued\\Denied', u'Public Notice Date']:
-        row[key] = datetime.datetime.strptime(row[key], '%d-%b-%Y').date()
+        try:
+            row[key] = datetime.datetime.strptime(row[key], '%d-%b-%Y').date()
+        except:
+            row[key] = None
     return row
 
 

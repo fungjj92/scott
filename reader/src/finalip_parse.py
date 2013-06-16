@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 import os
 
-from lxml.html import parse
+from lxml.html import parse, tostring
 from dumptruck import DumpTruck
 
 import finalip_lib as l
@@ -9,7 +9,13 @@ import finalip_lib as l
 def read_finalip(path):
     html = parse(path)
     trs = html.xpath('//table[@style="border-collapse: collapse; width: 100%;"]/descendant::tr')
-    return map(l.parse_row, trs[2:])
+    def do_row(tr):
+        try:
+            return l.parse_row(tr)
+        except:
+            print tostring(tr)
+            raise
+    return map(do_row, trs[2:])
 
 # Schema
 dt = DumpTruck(dbname = '/tmp/finalip.db')

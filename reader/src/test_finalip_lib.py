@@ -28,3 +28,8 @@ def test_parse_row_empty_map():
     tr = fromstring('''<tr class="ui-widget-content jqgrow ui-row-ltr"><td headers="District">Nashville</td><td headers="DA Number">LRN-2009-00420</td><td headers="Applicant">Nashville District Corps of Engineers, Regulatory Branch</td><td headers="Project Name">Re-Issuance of Regional Permit for Additions to Existing Commercial Marinas in the Tennessee River Basin</td><td headers="Permit Type">Standard Permit</td><td headers="Public Notice Date">09-MAR-2009</td><td headers="Action Taken">Issued With Special Conditions</td><td headers="Date Issued\Denied">22-APR-2009</td><td align="center" headers="Map"> - </td></tr>''')
     observed = l.parse_row(tr)
     n.assert_equal(observed[u'Map'], None)
+
+def test_parse_row_bad_date():
+    tr = fromstring('''<tr class="ui-widget-content jqgrow ui-row-ltr"><td headers="District">Alaska</td><td headers="DA Number">POA-2009-00263</td><td headers="Applicant">Garrett Walker</td><td headers="Project Name">Garrett Walker; Campbell Lake</td><td headers="Permit Type">Letter of Permission</td><td headers="Public Notice Date">N/A</td><td headers="Action Taken">Issued With Special Conditions</td><td headers="Date Issued\Denied">09-APR-2009</td><td align="center" headers="Map"><a href="f?p=340:7:1557729285768601::NO::P7_PROJECT_ID:4386786"><img src="wwv_flow_file_mgr.get_file?p_security_group_id=1211711255363293&amp;p_fname=map_icon.gif" border="0" alt="View on Map"></a></td></tr>''')
+    observed = l.parse_row(tr)
+    n.assert_equal(observed[u'Public Notice Date'], None)
