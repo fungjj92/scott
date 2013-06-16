@@ -285,6 +285,7 @@ def main():
         doc['type'] = 'impact'
         doc['flagged'] = 0
         doc['HUC'] = ''
+        doc['AI'] = ''
         for k, v in doc.items():
             if v == None:
                 doc[k] = ''
