@@ -84,6 +84,7 @@ db = new sqlite3.Database SETTINGS.dbfile
 table = '''
 CREATE TABLE IF NOT EXISTS application (
   permitApplicationNumber TEXT NOT NULL,
+  published INTEGER NOT NULL DEFAULT 0,
   UNIQUE(permitApplicationNumber)
 );'''
 db.run table, (err) ->
@@ -171,16 +172,8 @@ server.post '/applications/:permitApplicationNumber', (req, res, next) ->
         res.send 204
         next()
 
-# Edit an application
-server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
-
-  # Authenticate
-  if not isAuthorized req, res
-    return next(new restify.NotAuthorizedError 'Incorrect username or password')
-  notValidMsg = notValid req, res
-  if notValidMsg
-    return next(new restify.InvalidContentError notValidMsg)
-
+# Access the database to update an application.
+update = (req, res, next) ->
   # Lines of SQL
   sqlExprs = ("#{key[0]} = ?" for key in SCHEMA when req.body[key[0]] != undefined)
 
@@ -206,6 +199,26 @@ server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
 
       res.send 204
       next()
+
+# Edit an application
+server.patch '/applications/:permitApplicationNumber', (req, res, next) ->
+
+  # Authenticate
+  if not isAuthorized req, res
+    return next(new restify.NotAuthorizedError 'Incorrect username or password')
+  notValidMsg = notValid req, res
+  if notValidMsg
+    return next(new restify.InvalidContentError notValidMsg)
+
+  # Only allow the bot to submit if the application is not published.
+  if req.authorization.basic.username == 'bot'
+    db.get 'SELECT published FROM application WHERE permitApplicationNumber = ?', req.body.permitApplicationNumber, (err, row)
+      if err
+        next(new restify.InvalidContentError err)
+      else if row.published == 1
+        next(new restify.NotAuthorizedError 'The bot cannot edit applications once they have been published.')
+      else
+        update req, res, next
 
 # View an application
 server.get '/applications/:permitApplicationNumber', (req, res, next) ->
