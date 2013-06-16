@@ -23,3 +23,8 @@ def test_parse_row():
     n.assert_list_equal(observed.keys(),expected.keys())
     for k in observed.keys():
         n.assert_equal(observed[k], expected[k])
+
+def test_parse_row_empty_map():
+    tr = fromstring('''<tr class="ui-widget-content jqgrow ui-row-ltr"><td headers="District">Nashville</td><td headers="DA Number">LRN-2009-00420</td><td headers="Applicant">Nashville District Corps of Engineers, Regulatory Branch</td><td headers="Project Name">Re-Issuance of Regional Permit for Additions to Existing Commercial Marinas in the Tennessee River Basin</td><td headers="Permit Type">Standard Permit</td><td headers="Public Notice Date">09-MAR-2009</td><td headers="Action Taken">Issued With Special Conditions</td><td headers="Date Issued\Denied">22-APR-2009</td><td align="center" headers="Map"> - </td></tr>''')
+    observed = l.parse_row(tr)
+    n.assert_equal(observed[u'Map'], None)

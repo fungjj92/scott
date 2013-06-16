@@ -12,13 +12,13 @@ def read_finalip(path):
     return map(l.parse_row, trs[2:])
 
 # Schema
-dt = Dumptruck(dbname = '/tmp/finalip.db')
+dt = DumpTruck(dbname = '/tmp/finalip.db')
 dt.create_table({u'DA Number': u'NAE-2009-01067'}, 'finalip', if_not_exists = True)
-dt.create_index(['Da Number'], unique = True, if_not_exists = True)
+dt.create_index(['Da Number'], 'finalip', unique = True, if_not_exists = True)
 
 # Populate
 for dirname, subdirnames, filenames in os.walk(os.path.join(os.environ['READER_ROOT'], '..', 'finalips')):
-    if subdirs != []:
+    if subdirnames != []:
         continue
     for filename in filenames:
         year, month = map(int, dirname.split('/')[-2:])
@@ -28,4 +28,3 @@ for dirname, subdirnames, filenames in os.walk(os.path.join(os.environ['READER_R
             row['Month'] = month
             row['Page'] = filename
         dt.upsert(data, 'finalip')
-

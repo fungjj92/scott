@@ -2,9 +2,15 @@
 import datetime
 from collections import OrderedDict
 
+from lxml.html import tostring
+
 def parse_row(tr):
     row = OrderedDict([(unicode(td.xpath('@headers')[0]), unicode(td.text_content())) for td in tr.xpath('td[@headers!="Map"]')])
-    row[u'Map'] = unicode(tr.xpath('descendant::td[@headers="Map"]/a/@href')[0])
+
+    # Map link
+    map_hrefs = tr.xpath('descendant::td[@headers="Map"]/a/@href')
+    row[u'Map'] = None if map_hrefs == [] else unicode(map_hrefs[0])
+
     for key in [u'Date Issued\\Denied', u'Public Notice Date']:
         row[key] = datetime.datetime.strptime(row[key], '%d-%b-%Y').date()
     return row
