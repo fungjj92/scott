@@ -9,6 +9,7 @@ require.config({
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
     localstorage: 'libs/backbone.localStorage/backbone.localStorage-min', // https://github.com/jeromegn/Backbone.localStorage
     leaflet: 'libs/leaflet/leaflet',
+    d3: 'libs/d3-v3-min',
 
     // Require.js plugins
     text: 'libs/require/text',
@@ -20,6 +21,9 @@ require.config({
   shim: {
     'leaflet': {
         exports: 'L'
+    },
+    'd3': {
+        exports: 'd3'
     },
     'backbone': {
       require: ['jquery', 'lodash'],
