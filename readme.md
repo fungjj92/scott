@@ -74,3 +74,7 @@ becomes
 You can also download them all at once
 [here](https://github.com/tlevine/mvn-www2-backup/archive/master.zip)
 
+## contributors
+
+* Thomas Levine
+* Daniel Schneiderman
