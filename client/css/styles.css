@@ -31,11 +31,13 @@ a.download {
   position: absolute;
   left: 0;
   font-size: 0.5em;
+  height: 0;
 }
 #barplot .tick .line {
+  vertical-align: top;
   height: 1px;
-  width: 80px;
-  margin-right: 1em;
+  width: 120px;
+  margin-right: -40px;
   display: inline-block;
   background-color: rgba(0,0,0,0.3);
 }

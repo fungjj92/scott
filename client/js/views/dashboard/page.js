@@ -41,11 +41,11 @@ function createMap(){
       .attr("href", function(permitApplication) { return '#/applications/' + permitApplication.permitApplicationNumber })
       .style("width", (100 / permitApplications.length) + '%')
       .style("height", function(permitApplication) {
-          var barHeight = Math.max(1, permitApplication.acreage / 10);
+          var barHeight = Math.max(3, permitApplication.acreage / 10);
           return Math.round(barHeight) + "px";
       })
       .style("margin-top", function(permitApplication) {
-          var barHeight = Math.max(1, permitApplication.acreage / 10);
+          var barHeight = Math.max(3, permitApplication.acreage / 10);
           return (240 - Math.round(barHeight)) + "px";
       });
 
