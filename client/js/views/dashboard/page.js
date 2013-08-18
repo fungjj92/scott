@@ -22,18 +22,30 @@ function createMap(){
       .attr("transform", function(d) { return "translate(-527, -360)"})
 
   d3.json("/impacts.json", function(collection){
-    collection.features = collection.features.sort(function(a, b) { return a.properties.impacted_acres > b.properties.impacted_acres })
+    collection.features.sort(function(a, b) { return b.properties.impacted_acres_prop_max - a.properties.impacted_acres_prop_max })
     data = collection;
 
+    var permitApplications = collection.features.map(function(a){
+      return a.properties.applications
+    }).reduce(function(a, b){
+      return a.concat(b)
+    })
+    permitApplications.sort(function(a, b) { return b.acreage - a.acreage })
+
     d3.select("#barplot").selectAll('div.bar')
-      .data(collection.features)
+      .data(permitApplications)
       .enter()
       .append("div")
       .attr("class", "bar")
-      .attr("title", function(parish) { return parish.properties.COUNTY })
-      .style("height", function(parish) {
-          var barHeight = parish.properties.impacted_acres / 10;
-          return barHeight + "px";
+      .attr("title", function(permitApplication) { return permitApplication.projectDescription })
+      .style("width", (100 / permitApplications.length) + '%')
+      .style("height", function(permitApplication) {
+          var barHeight = Math.max(1, permitApplication.acreage / 10);
+          return Math.round(barHeight) + "px";
+      })
+      .style("margin-top", function(permitApplication) {
+          var barHeight = Math.max(1, permitApplication.acreage / 10);
+          return (240 - Math.round(barHeight)) + "px";
       });
 
     parishes.selectAll("path")

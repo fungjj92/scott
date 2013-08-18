@@ -18,7 +18,7 @@ a.download {
 
 div.bar {
   display: inline-block;
-  width: 10px;
-  margin-right: 1px;
-  background-color: teal;
+  margin: 0px;
+  padding: 0px;
+  background-color: #F66;
 }
