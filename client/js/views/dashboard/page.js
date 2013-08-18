@@ -24,7 +24,7 @@ function createMap(){
   d3.json("/impacts.json", function(collection){
     d3.select('#map > .loading').style('display', 'none')
     d3.select('#barplot').style('display', 'block')
-    d3.select('.caption').style('display', 'block')
+    d3.selectAll('p.caption').style('display', 'block')
 
     collection.features.sort(function(a, b) { return b.properties.impacted_acres_prop_max - a.properties.impacted_acres_prop_max })
     data = collection;
@@ -62,8 +62,7 @@ function createMap(){
       .on('click', function(parish,i) {
         d3.select('#barplot').selectAll('a.bar')
           .style('display', 'none')
-        d3.select('#barplot').selectAll('.parish-name')
-          .text(parish.properties.COUNTY)
+        document.getElementById('parish-name').innerText = 'Permit Application Acreages for ' + parish.properties.COUNTY
 
         var count = permitApplications.filter(function(a){
           return a.parish === parish.properties.COUNTY
