@@ -37,6 +37,7 @@ function createMap(){
       .enter()
       .append("a")
       .attr("class", "bar")
+      .attr("data-parish", function(permitApplication) { return permitApplication.parish })
       .attr("title", function(permitApplication) { return permitApplication.projectDescription })
       .attr("href", function(permitApplication) { return '#/applications/' + permitApplication.permitApplicationNumber })
       .style("width", (100 / permitApplications.length) + '%')
