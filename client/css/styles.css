@@ -16,9 +16,26 @@ a.download {
     margin-top: 20px;
 }
 
-a.bar {
+#barplot {
+  position: relative;
+}
+
+#barplot a.bar {
   display: inline-block;
   margin: 0px;
   padding: 0px;
   background-color: #F66;
+}
+
+#barplot .tick {
+  position: absolute;
+  left: 0;
+  font-size: 0.5em;
+}
+#barplot .tick .line {
+  height: 1px;
+  width: 80px;
+  margin-right: 1em;
+  display: inline-block;
+  background-color: rgba(0,0,0,0.3);
 }
