@@ -62,6 +62,8 @@ function createMap(){
       .on('click', function(parish,i) {
         d3.select('#barplot').selectAll('a.bar')
           .style('display', 'none')
+        d3.select('#barplot').selectAll('.parish-name')
+          .text(parish.properties.COUNTY)
 
         var count = permitApplications.filter(function(a){
           return a.parish === parish.properties.COUNTY

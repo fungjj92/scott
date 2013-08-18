@@ -45,3 +45,9 @@ a.download {
   display: inline-block;
   background-color: rgba(0,0,0,0.3);
 }
+
+#barplot .parish-name {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+}
