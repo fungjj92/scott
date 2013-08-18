@@ -22,12 +22,26 @@ function createMap(){
       .attr("transform", function(d) { return "translate(-527, -360)"})
 
   d3.json("/impacts.json", function(collection){
-      data = collection;
-      parishes.selectAll("path")
-        .data(collection.features)
-        .enter().append("path")
-        .attr("d", d3.geo.path().projection(xy))
-        .attr("fill", colorPicker)
+    collection.features = collection.features.sort(function(a, b) { return a.properties.impacted_acres > b.properties.impacted_acres })
+    data = collection;
+
+    d3.select("#barplot").selectAll('div.bar')
+      .data(collection.features)
+      .enter()
+      .append("div")
+      .attr("class", "bar")
+      .attr("title", function(parish) { return parish.properties.COUNTY })
+      .style("height", function(parish) {
+          var barHeight = parish.properties.impacted_acres / 10;
+          return barHeight + "px";
+      });
+
+    parishes.selectAll("path")
+      .data(collection.features)
+      .enter().append("path")
+      .attr("d", d3.geo.path().projection(xy))
+      .attr("fill", colorPicker)
+
   });
 
 }

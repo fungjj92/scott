@@ -15,3 +15,10 @@
 a.download {
     margin-top: 20px;
 }
+
+div.bar {
+  display: inline-block;
+  width: 10px;
+  margin-right: 1px;
+  background-color: teal;
+}
