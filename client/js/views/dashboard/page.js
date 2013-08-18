@@ -12,18 +12,18 @@ function createMap(){
   var xy = d3.geo.albersUsa();
   var svg = d3.select("#map").append("svg");
   svg.attr("id", "mainSVG")
-    .attr("width", 460)
+    .attr("width", '100%')
     .attr("height", 400)
 
-  var perishes = svg.append("g")
-    .attr("transform", function(d) { return "scale(5)"})
+  var parishes = svg.append("g")
+    .attr("transform", function(d) { return "scale(8.5)"})
     .append('g')
-      .attr("id", "perishes")
-      .attr("transform", function(d) { return "translate(-532, -325)"})
+      .attr("id", "parishes")
+      .attr("transform", function(d) { return "translate(-527, -360)"})
 
   d3.json("/impacts.json", function(collection){
       data = collection;
-      perishes.selectAll("path")
+      parishes.selectAll("path")
         .data(collection.features)
         .enter().append("path")
         .attr("d", d3.geo.path().projection(xy))
@@ -32,7 +32,7 @@ function createMap(){
 
 }
 
-//Figures out the color of the perish
+//Figures out the color of the parish
 function colorPicker(parish){
   var prop = parish.properties.impacted_acres_prop_max
   var adj = 1.5
