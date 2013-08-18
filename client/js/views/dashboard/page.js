@@ -24,7 +24,7 @@ function createMap(){
   d3.json("/impacts.json", function(collection){
     d3.select('#map > .loading').style('display', 'none')
     d3.select('#barplot').style('display', 'block')
-    d3.selectAll('p.caption').style('display', 'block')
+    d3.selectAll('.caption').style('display', 'block')
 
     collection.features.sort(function(a, b) { return b.properties.impacted_acres_prop_max - a.properties.impacted_acres_prop_max })
     data = collection;

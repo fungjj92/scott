@@ -49,3 +49,7 @@ a.download {
 #parish-name {
   height: 1em;
 }
+
+.caption {
+  display: none;
+}
