@@ -32,12 +32,13 @@ function createMap(){
     })
     permitApplications.sort(function(a, b) { return b.acreage - a.acreage })
 
-    d3.select("#barplot").selectAll('div.bar')
+    d3.select("#barplot").selectAll('a.bar')
       .data(permitApplications)
       .enter()
-      .append("div")
+      .append("a")
       .attr("class", "bar")
       .attr("title", function(permitApplication) { return permitApplication.projectDescription })
+      .attr("href", function(permitApplication) { return '#/applications/' + permitApplication.permitApplicationNumber })
       .style("width", (100 / permitApplications.length) + '%')
       .style("height", function(permitApplication) {
           var barHeight = Math.max(1, permitApplication.acreage / 10);
