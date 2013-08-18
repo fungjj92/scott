@@ -55,6 +55,18 @@ function createMap(){
       .enter().append("path")
       .attr("d", d3.geo.path().projection(xy))
       .attr("fill", colorPicker)
+      .on('click', function(parish,i) {
+        d3.select('#barplot').selectAll('a.bar')
+          .style('display', 'none')
+
+        var count = permitApplications.filter(function(a){
+          return a.parish === parish.properties.COUNTY
+        }).length
+        var width = (100 / count) + '%'
+        d3.select('#barplot').selectAll('a.bar[data-parish="' + parish.properties.COUNTY + '"]')
+          .style('display', 'inline-block')
+          .style('width', width)
+      })
 
   });
 
