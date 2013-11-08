@@ -1,12 +1,10 @@
-define([
-  'jquery',
-  'lodash',
-  'backbone',
-  'leaflet',
-  'collections/applications',
-  'text!templates/dashboard/page.html',
-  'd3'
-], function($, _, Backbone, L, ApplicationsCollection, dashboardPageTemplate, d3){
+var $        = require('jquery')
+  , _        = require('lodash')
+  , Backbone = require('backbone')
+  , L        = require('leaflet')
+  , ApplicationsCollection = 'collections/applications'
+  , dashboardPageTemplate = 'text!templates/dashboard/page.html'
+  , d3 = require('d3')
 
 function createMap(){
   var xy = d3.geo.albersUsa();

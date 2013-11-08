@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+var $ = require('jquery')
   , _ = require('underscore')
   , Backbone = require('backbone')
   , Vm = require('vm')
