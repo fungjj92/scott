@@ -12,4 +12,4 @@ var applicationsCollection = Backbone.Collection.extend({
 
 });
 
-return applicationsCollection;
+module.exports = applicationsCollection;
