@@ -43,6 +43,6 @@ var initialize = function(options){
   })
   Backbone.history.start()
 }
-return {
+module.exports = {
   initialize: initialize
 }

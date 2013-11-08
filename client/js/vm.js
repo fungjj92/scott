@@ -26,6 +26,6 @@ var create = function (context, name, View, options) {
 };
 
 
-return {
+module.exports = {
   create: create
 };
