@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Compile the client
+(
+  cd client/js
+  browserify -t brfs index.js > ../compiled.js
+)
+
 # Serve the website
 (
   cd server
