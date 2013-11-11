@@ -1,4 +1,4 @@
-var _        = require('lodash'),
+var _        = require('lodash')
   , Backbone = require('backbone')
 
 var applicationModel = Backbone.Model.extend({
