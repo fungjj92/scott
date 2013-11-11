@@ -10,8 +10,8 @@ var $ = require('browserify-jquery')
   , applicationStatusTemplate = fs.readFileSync('../templates/application/status.html')
   , ApplicationModel = require('../../models/application')
   , SessionModel = require('../../models/session')
-  , auth = require('./helpers/auth')
-  , parishes = require('./helpers/parishes')
+  , auth = require('../../helpers/auth')
+  , parishes = require('../../helpers/parishes')
   , mailto = require('../../private/secrets/mailto.js')
 
 var ApplicationPage = Backbone.View.extend({
