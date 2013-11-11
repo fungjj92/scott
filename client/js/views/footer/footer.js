@@ -1,18 +1,16 @@
-define([
-  'jquery',
-  'lodash',
-  'backbone',
-  'events',
-  'text!templates/footer/footer.html',
-], function($, _, Backbone, Events, footerTemplate){
-  var FooterView = Backbone.View.extend({
-    el: '.footer',
-    intialize: function () {
-    },
-    render: function () {
-      $(this.el).html(footerTemplate);
-    },
-  });
+var $ = require('jquery')
+  , _ = require('lodash')
+  , Backbone = require('backbone')
+  , Events = require('events')
+  , footerTemplate = 'text!templates/footer/footer.html'
 
-  return FooterView;
+var FooterView = Backbone.View.extend({
+  el: '.footer',
+  intialize: function () {
+  },
+  render: function () {
+    $(this.el).html(footerTemplate);
+  },
 });
+
+module.exports = FooterView;

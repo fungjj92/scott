@@ -1,29 +1,27 @@
-define([
-  'jquery',
-  'lodash',
-  'backbone',
-  'views/header/session',
-  'text!templates/header/menu.html'
-], function($, _, Backbone, SessionView, headerMenuTemplate){
-  var HeaderMenuView = Backbone.View.extend({
-    el: '.main-menu-container',
-    initialize: function () {
-    },
-    render: function () {
-      $(this.el).html(headerMenuTemplate)
-      $('a[href="' + window.location.hash + '"]').addClass('active');
+var $ = require('jquery')
+  , _ = require('lodash')
+  , Backbone = require('backbone')
+  , SessionView = require('views/header/session',
+  , headerMenuTemplate = 'text!templates/header/menu.html'
 
-      var sessionView = new SessionView()
-      sessionView.render()
-    },
-    events: {
-      'click a': 'highlightMenuItem'
-    },
-    highlightMenuItem: function (ev) {
-      $('.active').removeClass('active');
-      $(ev.currentTarget).addClass('active');
-    }
-  })
+var HeaderMenuView = Backbone.View.extend({
+  el: '.main-menu-container',
+  initialize: function () {
+  },
+  render: function () {
+    $(this.el).html(headerMenuTemplate)
+    $('a[href="' + window.location.hash + '"]').addClass('active');
 
-  return HeaderMenuView;
-});
+    var sessionView = new SessionView()
+    sessionView.render()
+  },
+  events: {
+    'click a': 'highlightMenuItem'
+  },
+  highlightMenuItem: function (ev) {
+    $('.active').removeClass('active');
+    $(ev.currentTarget).addClass('active');
+  }
+})
+
+module.exports = HeaderMenuView;
