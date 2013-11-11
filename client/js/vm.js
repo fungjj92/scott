@@ -1,4 +1,4 @@
-var $ = require('jquery')
+var $ = require('browserify-jquery')
   , _ = require('underscore')
   , Backbone = require('backbone')
   , Events = require('events')
