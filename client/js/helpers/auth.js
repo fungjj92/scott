@@ -1,5 +1,5 @@
 // Set this as the beforeSend argument to $.ajax to do HTTP basic authentication.
-var SessionModel = require('./models/session.js')
+var SessionModel = require('../models/session.js')
 
 module.exports = function(xhr) {
   sessionModel = new SessionModel()

@@ -3,7 +3,7 @@ var fs = require('fs')
 var $ = require('browserify-jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
-  , SessionModel = require('./models/session')
+  , SessionModel = require('../../models/session.js')
   , sessionTemplate = fs.readFileSync('../templates/header/session.html')
 
 var SessionView = Backbone.View.extend({
