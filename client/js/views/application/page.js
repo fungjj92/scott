@@ -1,6 +1,6 @@
 var fs = require('fs')
 
-var $ = require('browserify-jquery')
+var $ = require('jquery-browserify')
   , _ = require('lodash')
   , Backbone = require('backbone')
   , L = require('leaflet')
