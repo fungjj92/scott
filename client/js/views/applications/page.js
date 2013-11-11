@@ -4,8 +4,8 @@ var $ = require('jquery-browserify')
   , _ = require('lodash')
   , Backbone = require('backbone')
   , ApplicationsCollection = require('../../collections/applications')
-  , applicationsPageTemplate = fs.readFileSync('../templates/applications/page.html')
-  , applicationsRecordTemplate = fs.readFileSync('../templates/applications/record.html')
+  , applicationsPageTemplate = fs.readFileSync('../templates/applications/page.html', 'utf-8')
+  , applicationsRecordTemplate = fs.readFileSync('../templates/applications/record.html', 'utf-8')
 
 var ApplicationsPage = Backbone.View.extend({
   el: '.page',

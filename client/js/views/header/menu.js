@@ -4,7 +4,7 @@ var $ = require('jquery-browserify')
   , _ = require('lodash')
   , Backbone = require('backbone')
   , SessionView = require('./views/header/session')
-  , headerMenuTemplate = fs.readFileSync('../templates/header/menu.html')
+  , headerMenuTemplate = fs.readFileSync('../templates/header/menu.html', 'utf-8')
 
 var HeaderMenuView = Backbone.View.extend({
   el: '.main-menu-container',

@@ -5,7 +5,7 @@ var $ = require('jquery-browserify')
   , Backbone = require('backbone')
   , Vm = require('../vm')
   , Events = require('events')
-  , layoutTemplate = fs.readFileSync('../templates/layout.html')
+  , layoutTemplate = fs.readFileSync('../templates/layout.html', 'utf-8')
 
 var AppView = Backbone.View.extend({
   el: '.container',

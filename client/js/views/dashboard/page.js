@@ -4,8 +4,8 @@ var $ = require('jquery-browserify')
   , _        = require('lodash')
   , Backbone = require('backbone')
   , L        = require('leaflet')
-  , ApplicationsCollection = require('../../collections/applications')
-  , dashboardPageTemplate = fs.readFileSync('../templates/dashboard/page.html')
+  , ApplicationsCollection = require('../../collections/applications', 'utf-8')
+  , dashboardPageTemplate = fs.readFileSync('../templates/dashboard/page.html', 'utf-8')
   , d3 = require('d3')
 
 function createMap(){
