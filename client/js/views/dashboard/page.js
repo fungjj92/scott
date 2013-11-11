@@ -4,7 +4,7 @@ var $ = require('browserify-jquery')
   , _        = require('lodash')
   , Backbone = require('backbone')
   , L        = require('leaflet')
-  , ApplicationsCollection = require('./collections/applications')
+  , ApplicationsCollection = require('../../collections/applications')
   , dashboardPageTemplate = fs.readFileSync('../templates/dashboard/page.html')
   , d3 = require('d3')
 

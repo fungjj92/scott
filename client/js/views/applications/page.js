@@ -3,7 +3,7 @@ var fs = require('fs')
 var $ = require('browserify-jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
-  , ApplicationsCollection = require('collections/applications')
+  , ApplicationsCollection = require('../../collections/applications')
   , applicationsPageTemplate = fs.readFileSync('../templates/applications/page.html')
   , applicationsRecordTemplate = fs.readFileSync('../templates/applications/record.html')
 

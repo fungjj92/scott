@@ -12,6 +12,6 @@ var AppView = require('./views/app.js')
   , Router  = require('./router.js')
   , Vm      = require('./vm.js')
 
-var appView = Vm.create({}, 'AppView', AppView)
+var appView = Vm.create({}, 'AppView', AppView, {})
 appView.render()
 Router.initialize({appView: appView})  // The router now has a copy of all main appview
