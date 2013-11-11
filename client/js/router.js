@@ -1,7 +1,7 @@
 var $ = require('jquery-browserify')
   , _ = require('underscore')
   , Backbone = require('backbone')
-  , Vm = require('vm')
+  , Vm = require('./vm')
 
 var AppRouter = Backbone.Router.extend({
   routes: {

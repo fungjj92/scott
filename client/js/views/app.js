@@ -3,7 +3,7 @@ var fs = require('fs')
 var $ = require('jquery-browserify')
   , _ = require('lodash')
   , Backbone = require('backbone')
-  , Vm = require('vm')
+  , Vm = require('../vm')
   , Events = require('events')
   , layoutTemplate = fs.readFileSync('../templates/layout.html')
 
