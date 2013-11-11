@@ -9,9 +9,9 @@ var jquery       = require('jquery')
 */
 
 var AppView = require('./views/app.js')
-  , router  = require('./router.js')
-  , vm      = require('./vm.js')
+  , Router  = require('./router.js')
+  , Vm      = require('./vm.js')
 
-var appView = vm.create({}, 'AppView', AppView)
+var appView = Vm.create({}, 'AppView', AppView)
 appView.render()
 Router.initialize({appView: appView})  // The router now has a copy of all main appview
