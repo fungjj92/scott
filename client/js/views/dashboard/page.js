@@ -1,3 +1,5 @@
+var fs = require('fs')
+
 var $        = require('jquery')
   , _        = require('lodash')
   , Backbone = require('backbone')
