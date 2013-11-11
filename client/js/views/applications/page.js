@@ -1,6 +1,6 @@
 var fs = require('fs')
 
-var $ = require('jquery')
+var $ = require('browserify-jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
   , ApplicationsCollection = require('collections/applications')
