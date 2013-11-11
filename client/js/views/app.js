@@ -3,7 +3,7 @@ var $ = require('jquery')
   , Backbone = require('backbone')
   , Vm = require('vm')
   , Events = require('events')
-  , layoutTemplate = require('text!templates/layout.html'
+  , layoutTemplate = fs.readFileSync('../templates/layout.html')
 
 var AppView = Backbone.View.extend({
   el: '.container',

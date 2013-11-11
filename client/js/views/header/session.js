@@ -1,8 +1,8 @@
 var $ = require('jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
-  , SessionModel = require('models/session')
-  , sessionTemplate = 'text!templates/header/session.html'
+  , SessionModel = require('./models/session')
+  , sessionTemplate = fs.readFileSync('../templates/header/session.html')
 
 var SessionView = Backbone.View.extend({
   el: '#session',

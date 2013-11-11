@@ -1,8 +1,8 @@
 var $ = require('jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
-  , SessionView = require('views/header/session',
-  , headerMenuTemplate = 'text!templates/header/menu.html'
+  , SessionView = require('./views/header/session')
+  , headerMenuTemplate = fs.readFileSync('../templates/header/menu.html')
 
 var HeaderMenuView = Backbone.View.extend({
   el: '.main-menu-container',

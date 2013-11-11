@@ -2,8 +2,8 @@ var $ = require('jquery')
   , _ = require('lodash')
   , Backbone = require('backbone')
   , ApplicationsCollection = require('collections/applications')
-  , applicationsPageTemplate = require('text!templates/applications/page.html')
-  , applicationsRecordTemplate = require('text!templates/applications/record.html'
+  , applicationsPageTemplate = fs.readFileSync('../templates/applications/page.html')
+  , applicationsRecordTemplate = fs.readFileSync('../templates/applications/record.html')
 
 var ApplicationsPage = Backbone.View.extend({
   el: '.page',

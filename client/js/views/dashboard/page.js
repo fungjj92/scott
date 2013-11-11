@@ -2,8 +2,8 @@ var $        = require('jquery')
   , _        = require('lodash')
   , Backbone = require('backbone')
   , L        = require('leaflet')
-  , ApplicationsCollection = 'collections/applications'
-  , dashboardPageTemplate = 'text!templates/dashboard/page.html'
+  , ApplicationsCollection = require('./collections/applications')
+  , dashboardPageTemplate = fs.readFileSync('../templates/dashboard/page.html')
   , d3 = require('d3')
 
 function createMap(){
